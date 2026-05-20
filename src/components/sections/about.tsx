@@ -4,11 +4,13 @@ import { personal } from '@/data/personal'
 
 function CodeLine({ n, children }: { n: number; children: React.ReactNode }) {
   return (
-    <div className="flex items-start gap-4">
-      <span className="select-none font-mono text-[11px] leading-[1.9] text-muted/50">
+    <div className="flex items-start gap-3 sm:gap-4">
+      <span className="select-none pt-px font-mono text-[10.5px] leading-[1.9] text-muted/50">
         {String(n).padStart(2, '0')}
       </span>
-      <div className="flex-1 font-mono text-[13px] leading-[1.9] text-paper/90">{children}</div>
+      <div className="min-w-0 flex-1 break-words font-mono text-[12.5px] leading-[1.9] text-paper/90 sm:text-[13px]">
+        {children}
+      </div>
     </div>
   )
 }
@@ -28,11 +30,11 @@ export function About() {
   return (
     <section
       id="about"
-      className="relative border-t border-line px-6 py-20 md:px-12 md:py-28"
+      className="relative overflow-hidden border-t border-line px-6 py-20 md:px-12 md:py-28"
     >
       {/* Decorative giant section number */}
       <div
-        className="pointer-events-none absolute right-4 top-8 font-display text-[140px] font-extrabold leading-none text-accent opacity-[0.025] md:right-12 md:top-12 md:text-[260px]"
+        className="pointer-events-none absolute right-2 top-8 font-display text-[100px] font-extrabold leading-none text-accent opacity-[0.025] md:right-12 md:top-12 md:text-[260px]"
         aria-hidden
       >
         01
@@ -46,7 +48,7 @@ export function About() {
           <span className="text-muted">/</span>
           <span className="text-muted">about.md</span>
         </div>
-        <h2 className="heading mt-3 text-[clamp(36px,6vw,68px)]">
+        <h2 className="heading mt-3 text-[clamp(28px,6vw,68px)]">
           Qui code derrière
           <br />
           <em>la machine</em>
@@ -139,22 +141,22 @@ export function About() {
 
         {/* RIGHT — profile.json editor card */}
         <Reveal delay={0.15}>
-          <div className="border border-line bg-ink2 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]">
+          <div className="min-w-0 overflow-hidden border border-line bg-ink2 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]">
             {/* Editor chrome */}
             <header className="flex items-center justify-between gap-4 border-b border-line bg-surface/40 px-4 py-3">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-red-400/60" />
-                <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/60" />
-                <span className="h-2.5 w-2.5 rounded-full bg-green-400/60" />
-                <span className="ml-3 font-mono text-[11px] text-muted">profile.ts</span>
+              <div className="flex min-w-0 items-center gap-2">
+                <span className="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-red-400/60" />
+                <span className="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-yellow-400/60" />
+                <span className="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-green-400/60" />
+                <span className="ml-3 truncate font-mono text-[11px] text-muted">profile.ts</span>
               </div>
-              <span className="font-mono text-[10px] tracking-wider text-muted">
+              <span className="flex-shrink-0 font-mono text-[10px] tracking-wider text-muted">
                 MASTER
               </span>
             </header>
 
-            {/* Code body */}
-            <div className="px-5 py-6 md:px-6 md:py-7">
+            {/* Code body — horizontal scroll on small viewports for long lines */}
+            <div className="overflow-x-auto px-4 py-5 md:px-6 md:py-7">
               <CodeLine n={1}>
                 <span className="text-muted">{`// who I am — runtime config`}</span>
               </CodeLine>

@@ -65,7 +65,7 @@ export function Hero() {
         className="relative z-10 grid grid-cols-1 gap-0 md:grid-cols-2"
       >
         {/* LEFT */}
-        <div className="@container flex min-w-0 flex-col justify-center pb-12 md:pr-12">
+        <div className="@container flex min-w-0 flex-col justify-center overflow-hidden pb-12 md:pr-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -77,13 +77,13 @@ export function Hero() {
           </motion.div>
 
           <h1 className="heading mb-6 leading-[1.02]">
-            <span className="block text-[clamp(40px,12cqi,72px)]">
+            <span className="block text-[clamp(30px,11cqi,72px)]">
               <SplitText text="N'Guessan" delay={0.15} />
             </span>
-            <span className="block text-[clamp(48px,14cqi,84px)]">
+            <span className="block text-[clamp(34px,13cqi,84px)]">
               <SplitText text="Marcel" delay={0.25} className="font-serif italic text-accent" />
             </span>
-            <span className="block text-[clamp(36px,11cqi,64px)]">
+            <span className="block text-[clamp(26px,10cqi,64px)]">
               <SplitText text="DJEDJE-LI" delay={0.35} />
             </span>
           </h1>
@@ -137,9 +137,9 @@ export function Hero() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.7 + i * 0.08 }}
-                className="group relative bg-ink p-6 transition-colors hover:bg-ink2 md:p-7"
+                className="group relative min-w-0 bg-ink p-4 transition-colors hover:bg-ink2 sm:p-5 md:p-6 lg:p-7"
               >
-                <div className="font-display text-3xl font-extrabold text-accent md:text-4xl">
+                <div className="whitespace-nowrap font-display text-2xl font-extrabold leading-none text-accent sm:text-3xl lg:text-4xl">
                   {s.value}
                 </div>
                 <div className="mono-caps mt-1.5 text-muted">{s.label}</div>

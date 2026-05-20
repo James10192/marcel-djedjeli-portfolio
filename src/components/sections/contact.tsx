@@ -24,11 +24,11 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="relative border-t border-line px-6 py-20 md:px-12 md:py-28"
+      className="relative overflow-hidden border-t border-line px-6 py-20 md:px-12 md:py-28"
     >
       {/* Decorative giant number */}
       <div
-        className="pointer-events-none absolute right-4 top-8 font-display text-[140px] font-extrabold leading-none text-accent opacity-[0.025] md:right-12 md:top-12 md:text-[260px]"
+        className="pointer-events-none absolute right-2 top-8 font-display text-[100px] font-extrabold leading-none text-accent opacity-[0.025] md:right-12 md:top-12 md:text-[260px]"
         aria-hidden
       >
         06
@@ -47,8 +47,8 @@ export function Contact() {
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-20">
         {/* LEFT — Massive outlined heading */}
         <Reveal>
-          <div className="@container min-w-0">
-            <h2 className="heading mb-6 max-w-full text-[clamp(36px,11cqi,72px)] leading-[0.9] tracking-[-0.03em]">
+          <div className="@container min-w-0 overflow-hidden">
+            <h2 className="heading mb-6 w-full max-w-full text-[clamp(28px,9cqi,72px)] leading-[0.92] tracking-[-0.03em]">
               <span
                 className="block"
                 style={{
@@ -102,18 +102,18 @@ export function Contact() {
 
         {/* RIGHT — Terminal contact card */}
         <Reveal delay={0.15}>
-          <div className="border border-line bg-ink2 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]">
+          <div className="min-w-0 overflow-hidden border border-line bg-ink2 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]">
             {/* Terminal header */}
-            <header className="flex items-center justify-between gap-4 border-b border-line bg-surface/40 px-4 py-3">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-red-400/60" />
-                <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/60" />
-                <span className="h-2.5 w-2.5 rounded-full bg-green-400/60" />
-                <span className="ml-3 font-mono text-[11px] text-muted">
+            <header className="flex items-center justify-between gap-3 border-b border-line bg-surface/40 px-3 py-3 sm:px-4">
+              <div className="flex min-w-0 items-center gap-2">
+                <span className="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-red-400/60" />
+                <span className="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-yellow-400/60" />
+                <span className="h-2.5 w-2.5 flex-shrink-0 rounded-full bg-green-400/60" />
+                <span className="ml-2 truncate font-mono text-[10.5px] text-muted sm:ml-3 sm:text-[11px]">
                   marcel @ portfolio : ~/contact
                 </span>
               </div>
-              <span className="font-mono text-[10px] tracking-wider text-muted">zsh</span>
+              <span className="flex-shrink-0 font-mono text-[10px] tracking-wider text-muted">zsh</span>
             </header>
 
             {/* Body — contact commands */}
@@ -133,13 +133,15 @@ export function Contact() {
                         link.href ? 'hover:bg-surface/60' : ''
                       }`}
                     >
-                      <div className="flex min-w-0 items-center gap-3">
-                        <span className="font-mono text-accent">▸</span>
+                      <div className="flex min-w-0 flex-1 items-center gap-2.5 sm:gap-3">
+                        <span className="flex-shrink-0 font-mono text-accent">▸</span>
                         <Icon className="h-3.5 w-3.5 flex-shrink-0 text-accent/80" strokeWidth={2} />
-                        <span className="w-12 flex-shrink-0 font-mono text-[12px] text-muted">
+                        <span className="w-10 flex-shrink-0 font-mono text-[11.5px] text-muted sm:w-12 sm:text-[12px]">
                           {link.cmd}
                         </span>
-                        <span className="truncate text-paper">{link.value}</span>
+                        <span className="min-w-0 truncate text-[12.5px] text-paper sm:text-[13px]">
+                          {link.value}
+                        </span>
                       </div>
                       {link.href && (
                         <ArrowUpRight className="h-4 w-4 flex-shrink-0 text-muted transition-colors group-hover:text-accent" />

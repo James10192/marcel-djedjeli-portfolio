@@ -34,9 +34,11 @@ export function Projects() {
             >
               <div className="tilt-content relative z-10 flex h-full flex-col">
                 {/* Type + Year */}
-                <div className="mb-5 flex items-start justify-between gap-4">
+                <div className={cn('mb-5 flex flex-wrap items-start justify-between gap-x-4 gap-y-2', p.featured && 'pr-24 sm:pr-32')}>
                   <span className="mono-caps text-accent">{p.type}</span>
-                  <span className="mono-caps text-muted">{p.year}</span>
+                  {!p.featured && (
+                    <span className="mono-caps whitespace-nowrap text-muted">{p.year}</span>
+                  )}
                 </div>
 
                 {/* Title */}

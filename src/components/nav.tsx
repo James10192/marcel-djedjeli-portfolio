@@ -70,13 +70,13 @@ export function Nav() {
           LeVraiMD_DEV
         </a>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="hidden items-center gap-6 lg:flex xl:gap-8">
           {links.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
                 className={cn(
-                  'mono-caps transition-colors duration-200',
+                  'mono-caps whitespace-nowrap transition-colors duration-200',
                   activeSection === l.href.slice(1)
                     ? 'text-paper'
                     : 'text-muted hover:text-paper'
@@ -89,7 +89,7 @@ export function Nav() {
           <li>
             <a
               href="#contact"
-              className="bg-accent px-5 py-2 font-mono text-xs font-medium text-ink transition-colors hover:bg-accent-soft"
+              className="whitespace-nowrap bg-accent px-5 py-2 font-mono text-xs font-medium text-ink transition-colors hover:bg-accent-soft"
             >
               Me contacter
             </a>
@@ -97,7 +97,7 @@ export function Nav() {
         </ul>
 
         <button
-          className="relative z-50 flex h-11 w-11 flex-col items-center justify-center gap-1.5 md:hidden"
+          className="relative z-50 flex h-11 w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
           aria-label="Menu"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
@@ -130,7 +130,7 @@ export function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-ink/97 backdrop-blur-2xl md:hidden"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-ink/97 backdrop-blur-2xl lg:hidden"
             style={{
               paddingTop: 'max(0px, env(safe-area-inset-top))',
               paddingBottom: 'max(0px, env(safe-area-inset-bottom))',
