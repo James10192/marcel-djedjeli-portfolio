@@ -65,7 +65,7 @@ export function Hero() {
         className="relative z-10 grid grid-cols-1 gap-0 md:grid-cols-2"
       >
         {/* LEFT */}
-        <div className="flex flex-col justify-center pb-12 md:pr-12">
+        <div className="@container flex min-w-0 flex-col justify-center pb-12 md:pr-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -77,13 +77,13 @@ export function Hero() {
           </motion.div>
 
           <h1 className="heading mb-6 leading-[1.02]">
-            <span className="block text-[clamp(40px,7vw,72px)]">
+            <span className="block text-[clamp(40px,12cqi,72px)]">
               <SplitText text="N'Guessan" delay={0.15} />
             </span>
-            <span className="block text-[clamp(48px,8vw,84px)]">
+            <span className="block text-[clamp(48px,14cqi,84px)]">
               <SplitText text="Marcel" delay={0.25} className="font-serif italic text-accent" />
             </span>
-            <span className="block text-[clamp(36px,6.2vw,64px)]">
+            <span className="block text-[clamp(36px,11cqi,64px)]">
               <SplitText text="DJEDJE-LI" delay={0.35} />
             </span>
           </h1>
