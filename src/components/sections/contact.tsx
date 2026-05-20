@@ -56,7 +56,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="border-t border-border px-6 py-20 md:px-12 md:py-28"
+      className="border-t border-line px-6 py-20 md:px-12 md:py-28"
     >
       <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-20">
         <Reveal>
@@ -73,7 +73,7 @@ export function Contact() {
               <Magnetic strength={0.25}>
                 <a
                   href={`mailto:${personal.email}`}
-                  className="inline-flex h-12 items-center bg-accent px-7 font-mono text-sm font-medium text-bg transition-colors hover:bg-accent-soft"
+                  className="inline-flex h-12 items-center bg-accent px-7 font-mono text-sm font-medium text-ink transition-colors hover:bg-accent-soft"
                 >
                   Envoyer un email →
                 </a>
@@ -82,7 +82,7 @@ export function Contact() {
                 <a
                   href={personal.cvPdf}
                   download
-                  className="inline-flex h-12 items-center border border-border px-7 font-mono text-sm text-text transition-colors hover:border-accent hover:text-accent"
+                  className="inline-flex h-12 items-center border border-line px-7 font-mono text-sm text-paper transition-colors hover:border-accent hover:text-accent"
                 >
                   Télécharger le CV
                 </a>
@@ -92,14 +92,14 @@ export function Contact() {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <div className="border border-border">
+          <div className="border border-line">
             {contactLinks.map((link, i) => {
               const Icon = link.icon
               const Content = (
                 <motion.div
                   whileHover={{ x: link.href ? 4 : 0 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                  className={`flex items-center justify-between gap-4 border-border px-5 py-5 transition-colors ${
+                  className={`flex items-center justify-between gap-4 border-line px-5 py-5 transition-colors ${
                     i < contactLinks.length - 1 ? 'border-b' : ''
                   } ${link.href ? 'hover:bg-surface' : ''}`}
                 >
@@ -115,7 +115,7 @@ export function Contact() {
                         )}
                       </div>
                       <div
-                        className={`mt-1 text-sm ${link.accent ? 'text-accent' : 'text-text'} break-all`}
+                        className={`mt-1 text-sm ${link.accent ? 'text-accent' : 'text-paper'} break-all`}
                       >
                         {link.value}
                       </div>

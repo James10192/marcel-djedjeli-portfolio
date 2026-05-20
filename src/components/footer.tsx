@@ -2,7 +2,7 @@ import { personal } from '@/data/personal'
 
 export function Footer() {
   return (
-    <footer className="flex flex-col items-center justify-between gap-4 border-t border-border px-6 py-8 text-center md:flex-row md:px-12 md:text-left">
+    <footer className="flex flex-col items-center justify-between gap-4 border-t border-line px-6 py-8 text-center md:flex-row md:px-12 md:text-left">
       <span className="font-display text-sm font-extrabold text-accent">
         {personal.shortName}
       </span>

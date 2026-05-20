@@ -1,5 +1,6 @@
-import { motion, type Variants } from 'motion/react'
+import { motion, type Variants, useScroll, useTransform } from 'motion/react'
 import type { ReactNode } from 'react'
+import { useRef } from 'react'
 
 type RevealProps = {
   children: ReactNode
@@ -8,20 +9,17 @@ type RevealProps = {
   className?: string
   as?: 'div' | 'section' | 'article' | 'header'
   once?: boolean
-}
-
-const baseVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
+  duration?: number
 }
 
 export function Reveal({
   children,
   delay = 0,
-  y = 30,
+  y = 50,
   className,
   as = 'div',
   once = true,
+  duration = 0.9,
 }: RevealProps) {
   const MotionTag = motion[as] as typeof motion.div
   return (
@@ -29,13 +27,13 @@ export function Reveal({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, amount: 0.2 }}
+      viewport={{ once, amount: 0.15 }}
       variants={{
-        hidden: { opacity: 0, y },
-        visible: { opacity: 1, y: 0 },
+        hidden: { opacity: 0, y, filter: 'blur(10px)' },
+        visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
       }}
       transition={{
-        duration: 0.7,
+        duration,
         delay,
         ease: [0.16, 1, 0.3, 1],
       }}
@@ -54,7 +52,7 @@ type RevealStaggerProps = {
 
 export function RevealStagger({
   children,
-  stagger = 0.08,
+  stagger = 0.1,
   delay = 0,
   className,
 }: RevealStaggerProps) {
@@ -63,7 +61,7 @@ export function RevealStagger({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.1 }}
       variants={{
         hidden: {},
         visible: {
@@ -80,12 +78,32 @@ export function RevealStagger({
 }
 
 export const staggerItem: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+    filter: 'blur(0px)',
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
   },
 }
 
-export { baseVariants }
+type ParallaxProps = {
+  children: ReactNode
+  speed?: number
+  className?: string
+}
+
+export function Parallax({ children, speed = 50, className }: ParallaxProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  })
+  const y = useTransform(scrollYProgress, [0, 1], [speed, -speed])
+
+  return (
+    <div ref={ref} className={className}>
+      <motion.div style={{ y }}>{children}</motion.div>
+    </div>
+  )
+}

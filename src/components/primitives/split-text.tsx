@@ -32,12 +32,16 @@ export function SplitText({
       aria-label={text}
     >
       {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden align-baseline" aria-hidden>
+        <span
+          key={i}
+          className="inline-block overflow-hidden align-baseline pb-[0.18em] -mb-[0.18em] pr-[0.08em]"
+          aria-hidden
+        >
           <motion.span
             className="inline-block"
             variants={{
               hidden: { y: '110%', opacity: 0 },
-              visible: { y: '0%', opacity: 1, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+              visible: { y: '0%', opacity: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
             }}
           >
             {word}

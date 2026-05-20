@@ -61,13 +61,13 @@ export function Nav() {
           'fixed inset-x-0 top-0 z-50 border-b transition-all duration-300',
           'flex items-center justify-between px-6 py-4 md:px-12',
           scrolled
-            ? 'border-border bg-bg/95 backdrop-blur-xl'
-            : 'border-transparent bg-bg/70 backdrop-blur-md'
+            ? 'border-line bg-ink/95 backdrop-blur-xl'
+            : 'border-transparent bg-ink/70 backdrop-blur-md'
         )}
         style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}
       >
         <a href="#" className="font-display text-lg font-extrabold tracking-tight text-accent">
-          LeVraiMD<span className="text-text">_DEV</span>
+          LeVraiMD_DEV
         </a>
 
         <ul className="hidden items-center gap-8 md:flex">
@@ -78,8 +78,8 @@ export function Nav() {
                 className={cn(
                   'mono-caps transition-colors duration-200',
                   activeSection === l.href.slice(1)
-                    ? 'text-text'
-                    : 'text-muted hover:text-text'
+                    ? 'text-paper'
+                    : 'text-muted hover:text-paper'
                 )}
               >
                 {l.label}
@@ -89,7 +89,7 @@ export function Nav() {
           <li>
             <a
               href="#contact"
-              className="bg-accent px-5 py-2 font-mono text-xs font-medium text-bg transition-colors hover:bg-accent-soft"
+              className="bg-accent px-5 py-2 font-mono text-xs font-medium text-ink transition-colors hover:bg-accent-soft"
             >
               Me contacter
             </a>
@@ -130,7 +130,7 @@ export function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-bg/97 backdrop-blur-2xl md:hidden"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-ink/97 backdrop-blur-2xl md:hidden"
             style={{
               paddingTop: 'max(0px, env(safe-area-inset-top))',
               paddingBottom: 'max(0px, env(safe-area-inset-bottom))',
@@ -152,7 +152,7 @@ export function Nav() {
                     hidden: { opacity: 0, y: 16 },
                     visible: { opacity: 1, y: 0 },
                   }}
-                  className="border-b border-border first:border-t"
+                  className="border-b border-line first:border-t"
                 >
                   <a
                     href={l.href}
@@ -173,7 +173,7 @@ export function Nav() {
                 <a
                   href="#contact"
                   onClick={() => setOpen(false)}
-                  className="bg-accent px-10 py-3.5 font-mono text-sm font-medium text-bg"
+                  className="bg-accent px-10 py-3.5 font-mono text-sm font-medium text-ink"
                 >
                   Me contacter
                 </a>

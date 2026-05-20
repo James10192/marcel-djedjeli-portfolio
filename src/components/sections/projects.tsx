@@ -10,7 +10,7 @@ export function Projects() {
   return (
     <section
       id="projects"
-      className="border-t border-border px-6 py-20 md:px-12 md:py-28"
+      className="border-t border-line px-6 py-20 md:px-12 md:py-28"
     >
       <SectionHeader
         num="04 —"
@@ -18,19 +18,19 @@ export function Projects() {
         caption="Quelques produits que j'ai conçus, codés et déployés. La plupart tournent en prod aujourd'hui."
       />
 
-      <RevealStagger className="grid grid-cols-1 gap-px border border-border bg-border md:grid-cols-2">
+      <RevealStagger className="grid grid-cols-1 gap-px border border-line bg-line md:grid-cols-2">
         {projects.map((p) => (
           <motion.div
             key={p.slug}
             variants={staggerItem}
             className={cn(
-              'bg-bg',
+              'bg-ink',
               p.featured && 'md:col-span-2'
             )}
           >
             <TiltCard
               intensity={p.featured ? 4 : 7}
-              className="group relative h-full overflow-hidden p-8 transition-colors duration-300 hover:bg-bg-2 md:p-12"
+              className="group relative h-full overflow-hidden p-8 transition-colors duration-300 hover:bg-ink-2 md:p-12"
             >
               <div className="tilt-content relative z-10 flex h-full flex-col">
                 {/* Type + Year */}
@@ -52,7 +52,7 @@ export function Projects() {
                 {/* Tagline */}
                 <p
                   className={cn(
-                    'mt-3 text-text',
+                    'mt-3 text-paper',
                     p.featured ? 'text-base md:text-lg' : 'text-sm md:text-base'
                   )}
                 >
@@ -61,7 +61,7 @@ export function Projects() {
 
                 {/* Metrics for featured */}
                 {p.metrics && (
-                  <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2 border-y border-border py-4">
+                  <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2 border-y border-line py-4">
                     {p.metrics.map((m) => (
                       <div key={m.label}>
                         <div className="font-display text-2xl font-extrabold text-accent">
@@ -83,7 +83,7 @@ export function Projects() {
                   {p.tech.map((t) => (
                     <span
                       key={t}
-                      className="border border-border px-2.5 py-1 text-[10.5px] uppercase tracking-wider text-muted"
+                      className="border border-line px-2.5 py-1 text-[10.5px] uppercase tracking-wider text-muted"
                     >
                       {t}
                     </span>
@@ -97,7 +97,7 @@ export function Projects() {
                       href={p.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex h-9 items-center gap-1.5 bg-accent px-4 font-mono text-[11px] font-medium text-bg transition-colors hover:bg-accent-soft"
+                      className="inline-flex h-9 items-center gap-1.5 bg-accent px-4 font-mono text-[11px] font-medium text-ink transition-colors hover:bg-accent-soft"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
                       Voir le projet
@@ -108,7 +108,7 @@ export function Projects() {
                       href={p.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex h-9 items-center gap-1.5 border border-border px-4 font-mono text-[11px] text-muted transition-colors hover:border-accent hover:text-accent"
+                      className="inline-flex h-9 items-center gap-1.5 border border-line px-4 font-mono text-[11px] text-muted transition-colors hover:border-accent hover:text-accent"
                     >
                       <Github className="h-3.5 w-3.5" />
                       GitHub
@@ -119,7 +119,7 @@ export function Projects() {
                       href={p.docsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex h-9 items-center gap-1.5 border border-border px-4 font-mono text-[11px] text-muted transition-colors hover:border-accent hover:text-accent"
+                      className="inline-flex h-9 items-center gap-1.5 border border-line px-4 font-mono text-[11px] text-muted transition-colors hover:border-accent hover:text-accent"
                     >
                       <BookOpen className="h-3.5 w-3.5" />
                       Docs
@@ -129,7 +129,7 @@ export function Projects() {
 
                 {/* Featured ribbon */}
                 {p.featured && (
-                  <div className="absolute right-0 top-0 bg-accent px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-wider text-bg">
+                  <div className="absolute right-0 top-0 bg-accent px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-wider text-ink">
                     ★ Flagship
                   </div>
                 )}

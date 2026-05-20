@@ -19,13 +19,13 @@ export const Route = createFileRoute('/cv')({
 
 function CVPage() {
   return (
-    <div className="min-h-dvh bg-bg px-6 py-12 md:px-12 md:py-20">
+    <div className="min-h-dvh bg-ink px-6 py-12 md:px-12 md:py-20">
       <div className="mx-auto max-w-3xl">
         {/* Header bar */}
         <div className="mb-8 flex items-center justify-between gap-4 print:hidden">
           <Link
             to="/"
-            className="inline-flex h-10 items-center gap-2 border border-border px-4 font-mono text-xs text-muted transition-colors hover:border-accent hover:text-accent"
+            className="inline-flex h-10 items-center gap-2 border border-line px-4 font-mono text-xs text-muted transition-colors hover:border-accent hover:text-accent"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Retour
@@ -33,7 +33,7 @@ function CVPage() {
           <a
             href={personal.cvPdf}
             download
-            className="inline-flex h-10 items-center gap-2 bg-accent px-5 font-mono text-xs font-medium text-bg transition-colors hover:bg-accent-soft"
+            className="inline-flex h-10 items-center gap-2 bg-accent px-5 font-mono text-xs font-medium text-ink transition-colors hover:bg-accent-soft"
           >
             <Download className="h-3.5 w-3.5" />
             Télécharger le PDF
@@ -41,8 +41,8 @@ function CVPage() {
         </div>
 
         {/* CV content */}
-        <article className="border border-border bg-bg-2 p-8 md:p-12">
-          <header className="border-b border-border pb-6">
+        <article className="border border-line bg-ink-2 p-8 md:p-12">
+          <header className="border-b border-line pb-6">
             <h1 className="heading text-3xl md:text-4xl">
               {personal.name.split(' ').slice(0, 2).join(' ')}
               <br />
@@ -61,7 +61,7 @@ function CVPage() {
           {/* Summary */}
           <section className="mt-8">
             <h2 className="mono-caps mb-3 text-accent">Profil</h2>
-            <p className="text-sm leading-relaxed text-text">
+            <p className="text-sm leading-relaxed text-paper">
               {personal.shortBio}
             </p>
           </section>
@@ -132,7 +132,7 @@ function CVPage() {
           {/* Languages */}
           <section className="mt-8">
             <h2 className="mono-caps mb-3 text-accent">Langues</h2>
-            <p className="text-sm text-text">{personal.languages}</p>
+            <p className="text-sm text-paper">{personal.languages}</p>
           </section>
         </article>
 

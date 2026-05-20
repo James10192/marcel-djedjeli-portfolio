@@ -15,7 +15,7 @@ export function Experience() {
   return (
     <section
       id="experience"
-      className="border-t border-border px-6 py-20 md:px-12 md:py-28"
+      className="border-t border-line px-6 py-20 md:px-12 md:py-28"
     >
       <SectionHeader
         num="03 —"
@@ -25,7 +25,7 @@ export function Experience() {
 
       <div ref={ref} className="relative">
         {/* Animated timeline line */}
-        <div className="absolute left-[5px] top-0 hidden h-full w-px bg-border md:block md:left-[199px]" aria-hidden>
+        <div className="absolute left-[5px] top-0 hidden h-full w-px bg-line md:block md:left-[199px]" aria-hidden>
           <motion.div
             style={{ height: lineHeight }}
             className="w-px origin-top bg-accent"
@@ -37,17 +37,17 @@ export function Experience() {
             <motion.div
               key={exp.company + exp.date}
               variants={staggerItem}
-              className="group relative grid grid-cols-1 gap-3 border-b border-border py-10 last:border-b-0 md:grid-cols-[200px_1fr] md:gap-12"
+              className="group relative grid grid-cols-1 gap-3 border-b border-line py-10 last:border-b-0 md:grid-cols-[200px_1fr] md:gap-12"
             >
               {/* Date column */}
               <div className="relative">
-                <div className="absolute -left-px top-2 hidden h-2.5 w-2.5 rounded-full border border-accent bg-bg transition-colors duration-300 group-hover:bg-accent md:left-[193px] md:block" aria-hidden />
+                <div className="absolute -left-px top-2 hidden h-2.5 w-2.5 rounded-full border border-accent bg-ink transition-colors duration-300 group-hover:bg-accent md:left-[193px] md:block" aria-hidden />
                 {exp.status === 'active' ? (
-                  <span className="mb-2 inline-block bg-accent px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-wider text-bg">
+                  <span className="mb-2 inline-block bg-accent px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-wider text-ink">
                     En poste
                   </span>
                 ) : (
-                  <span className="mb-2 inline-block border border-border bg-surface px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-wider text-muted">
+                  <span className="mb-2 inline-block border border-line bg-surface px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-wider text-muted">
                     Terminé
                   </span>
                 )}
@@ -86,7 +86,7 @@ export function Experience() {
       <Reveal delay={0.1} className="mt-12 flex justify-center">
         <a
           href="/cv"
-          className="inline-flex h-12 items-center gap-2 border border-border px-6 font-mono text-sm text-muted transition-colors hover:border-accent hover:text-accent"
+          className="inline-flex h-12 items-center gap-2 border border-line px-6 font-mono text-sm text-muted transition-colors hover:border-accent hover:text-accent"
         >
           Voir le CV complet →
         </a>

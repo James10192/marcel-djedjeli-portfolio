@@ -18,7 +18,7 @@ export function Skills() {
   return (
     <section
       id="skills"
-      className="border-t border-border px-6 py-20 md:px-12 md:py-28"
+      className="border-t border-line px-6 py-20 md:px-12 md:py-28"
     >
       <SectionHeader
         num="02 —"
@@ -26,16 +26,16 @@ export function Skills() {
         caption="La stack que j'utilise au quotidien, du proto à la production."
       />
 
-      <RevealStagger className="grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+      <RevealStagger className="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
         {skillGroups.map((group) => {
           const Icon = iconMap[group.icon]
           return (
             <motion.div
               key={group.title}
               variants={staggerItem}
-              className="group relative bg-bg p-8 transition-colors duration-300 hover:bg-bg-2 md:p-9"
+              className="group relative bg-ink p-8 transition-colors duration-300 hover:bg-ink-2 md:p-9"
             >
-              <div className="mb-5 inline-flex h-11 w-11 items-center justify-center border border-border text-accent transition-all duration-300 group-hover:border-accent group-hover:shadow-lime-glow">
+              <div className="mb-5 inline-flex h-11 w-11 items-center justify-center border border-line text-accent transition-all duration-300 group-hover:border-accent group-hover:shadow-lime-glow">
                 <Icon className="h-5 w-5" strokeWidth={1.5} />
               </div>
               <h3 className="font-display text-lg font-bold tracking-tight">
@@ -58,12 +58,12 @@ export function Skills() {
 
       {/* Tech marquee */}
       <Reveal delay={0.2}>
-        <div className="mt-16 border-y border-border py-6">
+        <div className="mt-16 border-y border-line py-6">
           <Marquee
             items={techMarquee.map((t) => (
               <span
                 key={t}
-                className="font-display text-xl font-extrabold uppercase tracking-tight text-text/80"
+                className="font-display text-xl font-extrabold uppercase tracking-tight text-paper/80"
               >
                 {t}
                 <span className="ml-12 inline-block text-accent">◆</span>

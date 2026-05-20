@@ -26,14 +26,14 @@ export function Formation() {
   return (
     <section
       id="formation"
-      className="border-t border-border px-6 py-20 md:px-12 md:py-28"
+      className="border-t border-line px-6 py-20 md:px-12 md:py-28"
     >
       <SectionHeader num="05 —" title="Formation" />
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2">
         {formations.map((f, i) => (
-          <Reveal key={f.degree} delay={i * 0.1}>
-            <div className="group relative overflow-hidden border border-border bg-bg-2 p-8 transition-colors duration-300 hover:bg-surface md:p-10">
+          <Reveal key={f.degree} delay={i * 0.1} className="flex">
+            <div className="group relative flex h-full w-full flex-col overflow-hidden border border-line bg-ink-2 p-8 transition-colors duration-300 hover:bg-surface md:p-10">
               <div
                 className="pointer-events-none absolute -right-5 top-1/2 -translate-y-1/2 rotate-90 font-display text-6xl font-extrabold opacity-[0.04] transition-opacity duration-300 group-hover:opacity-[0.06] md:text-7xl"
                 aria-hidden
@@ -54,7 +54,7 @@ export function Formation() {
                 {f.degree}
               </h3>
 
-              <p className="mt-4 text-[13px] leading-[1.7] text-muted">
+              <p className="mt-4 flex-1 text-[13px] leading-[1.7] text-muted">
                 {f.description}
               </p>
             </div>

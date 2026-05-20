@@ -7,7 +7,7 @@ function renderRichText(text: string) {
   return parts.map((p, i) => {
     if (p.startsWith('**') && p.endsWith('**')) {
       return (
-        <strong key={i} className="text-text">
+        <strong key={i} className="text-paper">
           {p.slice(2, -2)}
         </strong>
       )
@@ -31,7 +31,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="border-t border-border px-6 py-20 md:px-12 md:py-28"
+      className="border-t border-line px-6 py-20 md:px-12 md:py-28"
     >
       <SectionHeader num="01 —" title="À propos" />
 
@@ -51,11 +51,11 @@ export function About() {
             {infoRows.map((row) => (
               <div
                 key={row.key}
-                className="flex items-center justify-between border-b border-border pb-3"
+                className="flex items-center justify-between border-b border-line pb-3"
               >
                 <span className="mono-caps text-muted">{row.key}</span>
                 <span
-                  className={`text-right text-[13px] ${row.accent ? 'text-accent' : 'text-text'}`}
+                  className={`text-right text-[13px] ${row.accent ? 'text-accent' : 'text-paper'}`}
                 >
                   {row.val}
                 </span>

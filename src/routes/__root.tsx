@@ -1,4 +1,5 @@
 import { HeadContent, Scripts, createRootRoute, Outlet } from '@tanstack/react-router'
+import { ScrollProgress } from '@/components/scroll-progress'
 import appCss from '../styles.css?url'
 
 export const Route = createRootRoute({
@@ -87,6 +88,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="noise-overlay">
+        <ScrollProgress />
         {children}
         <Scripts />
       </body>
