@@ -99,7 +99,8 @@ export function Projects() {
                       href={p.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex h-9 items-center gap-1.5 bg-accent px-4 font-mono text-[11px] font-medium text-ink transition-colors hover:bg-accent-soft"
+                      className="inline-flex h-9 items-center gap-1.5 bg-accent px-4 font-mono text-[11px] font-medium transition-colors hover:bg-accent-soft"
+                      style={{ color: '#0a0a08' }}
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
                       Voir le projet
@@ -131,7 +132,10 @@ export function Projects() {
 
                 {/* Featured ribbon */}
                 {p.featured && (
-                  <div className="absolute right-0 top-0 bg-accent px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-wider text-ink">
+                  <div
+                    className="absolute right-0 top-0 bg-accent px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-wider"
+                    style={{ color: '#0a0a08' }}
+                  >
                     ★ Flagship
                   </div>
                 )}

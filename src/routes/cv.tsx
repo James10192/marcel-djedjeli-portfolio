@@ -33,7 +33,8 @@ function CVPage() {
           <a
             href={personal.cvPdf}
             download
-            className="inline-flex h-10 items-center gap-2 bg-accent px-5 font-mono text-xs font-medium text-ink transition-colors hover:bg-accent-soft"
+            className="inline-flex h-10 items-center gap-2 bg-accent px-5 font-mono text-xs font-medium transition-colors hover:bg-accent-soft"
+            style={{ color: '#0a0a08' }}
           >
             <Download className="h-3.5 w-3.5" />
             Télécharger le PDF

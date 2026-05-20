@@ -89,7 +89,8 @@ export function Nav() {
           <li>
             <a
               href="#contact"
-              className="whitespace-nowrap bg-accent px-5 py-2 font-mono text-xs font-medium text-ink transition-colors hover:bg-accent-soft"
+              className="whitespace-nowrap bg-accent px-5 py-2 font-mono text-xs font-medium transition-colors hover:bg-accent-soft"
+              style={{ color: '#0a0a08' }}
             >
               Me contacter
             </a>
@@ -173,7 +174,8 @@ export function Nav() {
                 <a
                   href="#contact"
                   onClick={() => setOpen(false)}
-                  className="bg-accent px-10 py-3.5 font-mono text-sm font-medium text-ink"
+                  className="bg-accent px-10 py-3.5 font-mono text-sm font-medium"
+                  style={{ color: '#0a0a08' }}
                 >
                   Me contacter
                 </a>

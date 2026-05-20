@@ -43,7 +43,7 @@ export function Experience() {
               <div className="relative">
                 <div className="absolute -left-px top-2 hidden h-2.5 w-2.5 rounded-full border border-accent bg-ink transition-colors duration-300 group-hover:bg-accent md:left-[193px] md:block" aria-hidden />
                 {exp.status === 'active' ? (
-                  <span className="mb-2 inline-block bg-accent px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-wider text-ink">
+                  <span className="mb-2 inline-block bg-accent px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-wider" style={{ color: '#0a0a08' }}>
                     En poste
                   </span>
                 ) : (
