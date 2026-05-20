@@ -3,7 +3,7 @@
 
 @theme {
   --color-ink: #0a0a08;
-  --color-ink-2: #111110;
+  --color-ink2: #111110;
   --color-surface: #1a1a17;
   --color-surface-2: #232320;
   --color-accent: #d4f03c;
@@ -12,7 +12,7 @@
   --color-paper: #f0ede8;
   --color-muted: #888880;
   --color-line: #2a2a26;
-  --color-line-strong: #3a3a34;
+  --color-line2: #3a3a34;
 
   --font-display: 'Syne', sans-serif;
   --font-mono: 'DM Mono', ui-monospace, monospace;

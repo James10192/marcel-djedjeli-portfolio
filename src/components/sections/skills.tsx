@@ -33,7 +33,7 @@ export function Skills() {
             <motion.div
               key={group.title}
               variants={staggerItem}
-              className="group relative bg-ink p-8 transition-colors duration-300 hover:bg-ink-2 md:p-9"
+              className="group relative bg-ink p-8 transition-colors duration-300 hover:bg-ink2 md:p-9"
             >
               <div className="mb-5 inline-flex h-11 w-11 items-center justify-center border border-line text-accent transition-all duration-300 group-hover:border-accent group-hover:shadow-lime-glow">
                 <Icon className="h-5 w-5" strokeWidth={1.5} />

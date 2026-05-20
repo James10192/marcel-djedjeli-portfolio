@@ -137,7 +137,7 @@ export function Hero() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.7 + i * 0.08 }}
-                className="group relative bg-ink p-6 transition-colors hover:bg-ink-2 md:p-7"
+                className="group relative bg-ink p-6 transition-colors hover:bg-ink2 md:p-7"
               >
                 <div className="font-display text-3xl font-extrabold text-accent md:text-4xl">
                   {s.value}
@@ -154,7 +154,7 @@ export function Hero() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.85 + i * 0.04 }}
-                className="border border-line bg-ink-2 px-3 py-1.5 text-[10.5px] uppercase tracking-wider text-muted backdrop-blur-sm transition-colors hover:border-accent hover:bg-surface hover:text-accent"
+                className="border border-line bg-ink2 px-3 py-1.5 text-[10.5px] uppercase tracking-wider text-muted backdrop-blur-sm transition-colors hover:border-accent hover:bg-surface hover:text-accent"
               >
                 {t}
               </motion.span>

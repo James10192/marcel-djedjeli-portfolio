@@ -30,7 +30,7 @@ export function Projects() {
           >
             <TiltCard
               intensity={p.featured ? 4 : 7}
-              className="group relative h-full overflow-hidden p-8 transition-colors duration-300 hover:bg-ink-2 md:p-12"
+              className="group relative h-full overflow-hidden p-8 transition-colors duration-300 hover:bg-ink2 md:p-12"
             >
               <div className="tilt-content relative z-10 flex h-full flex-col">
                 {/* Type + Year */}

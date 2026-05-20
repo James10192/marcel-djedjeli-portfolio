@@ -41,7 +41,7 @@ function CVPage() {
         </div>
 
         {/* CV content */}
-        <article className="border border-line bg-ink-2 p-8 md:p-12">
+        <article className="border border-line bg-ink2 p-8 md:p-12">
           <header className="border-b border-line pb-6">
             <h1 className="heading text-3xl md:text-4xl">
               {personal.name.split(' ').slice(0, 2).join(' ')}
