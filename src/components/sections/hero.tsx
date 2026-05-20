@@ -48,12 +48,15 @@ export function Hero() {
         <HeroBgFallback />
       </motion.div>
 
-      <div className="pointer-events-none absolute right-0 top-0 z-0 hidden h-full w-1/2 md:block">
+      {/* 3D scene: constrained to upper-right quadrant so it doesn't bleed onto stats/chips */}
+      <div className="pointer-events-none absolute right-0 top-0 z-0 hidden h-[60%] w-[45%] md:block lg:h-[65%]">
         {show3D && (
           <Suspense fallback={null}>
             <HeroScene />
           </Suspense>
         )}
+        {/* Bottom fade so sphere blends into solid bg before chips */}
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-ink" aria-hidden />
       </div>
 
       {/* Foreground grid */}
@@ -144,14 +147,14 @@ export function Hero() {
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="relative flex flex-wrap gap-2">
             {personal.techHighlights.map((t, i) => (
               <motion.span
                 key={t}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.85 + i * 0.04 }}
-                className="border border-line px-3 py-1.5 text-[10.5px] uppercase tracking-wider text-muted transition-colors hover:border-accent hover:text-accent"
+                className="border border-line bg-ink-2 px-3 py-1.5 text-[10.5px] uppercase tracking-wider text-muted backdrop-blur-sm transition-colors hover:border-accent hover:bg-surface hover:text-accent"
               >
                 {t}
               </motion.span>
