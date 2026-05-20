@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://marcel-djedjeli.vercel.app/sitemap.xml

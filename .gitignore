@@ -1,0 +1,24 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+.env
+.env.*
+!.env.example
+.nitro
+.tanstack
+.wrangler
+.output
+.vinxi
+.vercel
+__unconfig*
+todos.json
+_legacy
+src/routeTree.gen.ts
+*.log
+.cta.json
+.cta-*.json
+.claude/
+"Djedje-li N'Guessan Marcel Jacques Patrick.pdf"
+

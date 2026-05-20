@@ -1,0 +1,9 @@
+node_modules
+dist
+.tanstack
+.nitro
+.output
+_legacy
+*.log
+.env
+.env.*

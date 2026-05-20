@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Instrument+Serif:ital@0;1&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0a0a08;
+  --color-bg-2: #111110;
+  --color-surface: #1a1a17;
+  --color-surface-2: #232320;
+  --color-accent: #d4f03c;
+  --color-accent-soft: #c8e230;
+  --color-accent-2: #f0a03c;
+  --color-text: #f0ede8;
+  --color-muted: #888880;
+  --color-border: #2a2a26;
+  --color-border-strong: #3a3a34;
+
+  --font-display: 'Syne', sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, monospace;
+  --font-serif: 'Instrument Serif', serif;
+
+  --shadow-lime-glow: 0 0 60px -10px rgba(212, 240, 60, 0.35);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-bg);
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app { min-height: 100dvh; }
+
+/* Selection */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+
+/* Noise texture overlay */
+.noise-overlay::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Display heading utility */
+.heading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+.heading em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--color-accent);
+  font-weight: 400;
+}
+
+/* Mono caps utility for labels */
+.mono-caps {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+}
+
+/* Magnetic & 3D tilt base */
+.tilt-card {
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.15s var(--ease-out-expo);
+  will-change: transform;
+}
+
+.tilt-card > .tilt-content {
+  transform: translateZ(20px);
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.marquee-track:hover { animation-play-state: paused; }
+
+/* Glow utility for hero blob */
+.lime-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(212,240,60,0.18) 0%, rgba(212,240,60,0.04) 35%, transparent 70%);
+}
+
+/* Section anchor offset for sticky nav */
+section[id] { scroll-margin-top: 80px; }
+
+/* Reduced motion gate */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track { animation: none !important; }
+  .tilt-card { transform: none !important; }
+}
+
+/* Focus-visible */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+button { font-family: inherit; }
+a { color: inherit; text-decoration: none; }
+
+/* iOS scroll lock helper */
+body.scroll-locked {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+}
