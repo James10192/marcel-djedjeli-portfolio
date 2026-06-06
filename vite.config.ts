@@ -5,10 +5,13 @@ import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 
 import viteReact from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { nitro } from 'nitro/vite'
 
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
-  plugins: [devtools(), tailwindcss(), tanstackStart(), viteReact()],
+  // nitro génère la sortie serverless Vercel (.vercel/output) que la plateforme
+  // sait router. Sans lui, le build sort en preset node et Vercel renvoie 404.
+  plugins: [devtools(), nitro(), tailwindcss(), tanstackStart(), viteReact()],
 })
 
 export default config
