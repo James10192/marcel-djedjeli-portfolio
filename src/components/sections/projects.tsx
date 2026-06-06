@@ -1,10 +1,15 @@
 import { motion } from 'motion/react'
-import { ExternalLink, Github, BookOpen } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { ExternalLink, Github, BookOpen, ArrowUpRight, ArrowRight } from 'lucide-react'
 import { SectionHeader } from '@/components/section-header'
 import { TiltCard } from '@/components/primitives/tilt-card'
 import { RevealStagger, staggerItem } from '@/components/primitives/reveal'
 import { projects } from '@/data/projects'
+import { publicCaseStudies } from '@/data/case-studies'
 import { cn } from '@/lib/utils'
+
+// Slugs disposant d'une étude de cas publique (pour afficher le lien dédié).
+const caseStudySlugs = new Set(publicCaseStudies.map((c) => c.slug))
 
 export function Projects() {
   return (
@@ -94,13 +99,29 @@ export function Projects() {
 
                 {/* Links */}
                 <div className="mt-6 flex flex-wrap gap-2">
+                  {caseStudySlugs.has(p.slug) && (
+                    <Link
+                      to="/projets/$slug"
+                      params={{ slug: p.slug }}
+                      className="inline-flex h-9 items-center gap-1.5 bg-accent px-4 font-mono text-[11px] font-medium transition-colors hover:bg-accent-soft"
+                      style={{ color: '#0a0a08' }}
+                    >
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                      Étude de cas
+                    </Link>
+                  )}
                   {p.liveUrl && (
                     <a
                       href={p.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex h-9 items-center gap-1.5 bg-accent px-4 font-mono text-[11px] font-medium transition-colors hover:bg-accent-soft"
-                      style={{ color: '#0a0a08' }}
+                      className={cn(
+                        'inline-flex h-9 items-center gap-1.5 px-4 font-mono text-[11px] font-medium transition-colors',
+                        caseStudySlugs.has(p.slug)
+                          ? 'border border-line text-muted hover:border-accent hover:text-accent'
+                          : 'bg-accent hover:bg-accent-soft',
+                      )}
+                      style={caseStudySlugs.has(p.slug) ? undefined : { color: '#0a0a08' }}
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
                       Voir le projet
@@ -144,6 +165,17 @@ export function Projects() {
           </motion.div>
         ))}
       </RevealStagger>
+
+      {/* Vers l'index des études de cas */}
+      <div className="mt-10 flex justify-center">
+        <Link
+          to="/projets"
+          className="group inline-flex h-12 items-center gap-2.5 border border-line px-6 font-mono text-xs uppercase tracking-wider text-paper transition-colors hover:border-accent hover:text-accent"
+        >
+          Voir toutes les études de cas
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </Link>
+      </div>
     </section>
   )
 }

@@ -24,3 +24,10 @@ src/routeTree.gen.ts
 
 
 .vercel
+
+# Études de cas confidentielles (produits non lancés) — jamais commit/bundle
+src/data/case-studies.private.ts
+
+# Captures d'écran de travail (dev) à la racine
+/*.png
+.playwright-mcp/

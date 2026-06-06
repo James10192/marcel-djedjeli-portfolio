@@ -1,6 +1,5 @@
 import { motion } from 'motion/react'
 import { Reveal } from '@/components/primitives/reveal'
-import { personal } from '@/data/personal'
 
 function CodeLine({ n, children }: { n: number; children: React.ReactNode }) {
   return (
@@ -15,7 +14,15 @@ function CodeLine({ n, children }: { n: number; children: React.ReactNode }) {
   )
 }
 
-const profileLines = [
+type ProfileLine = {
+  k: string
+  v: string
+  comment?: string
+  link?: string
+  highlight?: boolean
+}
+
+const profileLines: ProfileLine[] = [
   { k: 'role', v: '"Head of Development"', comment: 'leading the dev team @ ADC' },
   { k: 'company', v: '"African Digit Consulting"', link: 'https://africandigitconsulting.com' },
   { k: 'shipping', v: '"Klassci"', comment: '5 écoles · 7 600+ étudiants', link: 'https://klassci.com' },
@@ -24,7 +31,7 @@ const profileLines = [
   { k: 'graduate', v: '"BSc Hons · UCLan"' },
   { k: 'stack', v: '["Laravel","React","Next","TanStack"]' },
   { k: 'status', v: '"open to opportunities"', highlight: true },
-] as const
+]
 
 export function About() {
   return (
