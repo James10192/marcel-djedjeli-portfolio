@@ -4,6 +4,7 @@ import { motion } from 'motion/react'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { publicCaseStudies } from '@/data/case-studies'
 import { FAMILY_LABEL, STATUS_META, familyOf, type Family } from '@/components/case-study/meta'
+import { ProjectLogo } from '@/components/case-study/project-logo'
 import { RevealStagger, staggerItem } from '@/components/primitives/reveal'
 import { cn } from '@/lib/utils'
 
@@ -121,7 +122,9 @@ function ProjectsIndex() {
                     </span>
                   </div>
 
-                  <h2 className="mt-5 font-display text-xl font-extrabold leading-tight tracking-tight">
+                  <ProjectLogo slug={c.slug} title={c.title} className="mt-5 h-11 w-11" />
+
+                  <h2 className="mt-4 font-display text-xl font-extrabold leading-tight tracking-tight">
                     {c.title.split(',')[0]}
                   </h2>
                   <p className="mt-2.5 flex-1 text-[13px] leading-relaxed text-muted">

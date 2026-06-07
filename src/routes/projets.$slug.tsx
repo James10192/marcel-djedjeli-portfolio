@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import { caseStudyBySlug, publicCaseStudies } from '@/data/case-studies'
 import { STATUS_META, familyOf, FAMILY_LABEL } from '@/components/case-study/meta'
+import { ProjectLogo } from '@/components/case-study/project-logo'
 import { ArchDiagram } from '@/components/case-study/arch-diagram'
 import { Reveal } from '@/components/primitives/reveal'
 import { cn } from '@/lib/utils'
@@ -88,7 +89,10 @@ function CaseStudyPage() {
             </span>
           </div>
 
-          <h1 className="heading mt-6 text-[clamp(30px,6vw,60px)]">{cs.title.split(',')[0]}</h1>
+          <div className="mt-6 flex items-center gap-4">
+            <ProjectLogo slug={cs.slug} title={cs.title} className="h-16 w-16" />
+            <h1 className="heading text-[clamp(30px,6vw,60px)]">{cs.title.split(',')[0]}</h1>
+          </div>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-paper md:text-lg">
             {cs.oneLiner}
           </p>

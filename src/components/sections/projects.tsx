@@ -6,6 +6,7 @@ import { TiltCard } from '@/components/primitives/tilt-card'
 import { RevealStagger, staggerItem } from '@/components/primitives/reveal'
 import { projects } from '@/data/projects'
 import { publicCaseStudies } from '@/data/case-studies'
+import { ProjectLogo } from '@/components/case-study/project-logo'
 import { cn } from '@/lib/utils'
 
 // Slugs disposant d'une étude de cas publique (pour afficher le lien dédié).
@@ -45,6 +46,13 @@ export function Projects() {
                     <span className="mono-caps whitespace-nowrap text-muted">{p.year}</span>
                   )}
                 </div>
+
+                {/* Logo + Title */}
+                <ProjectLogo
+                  slug={p.slug}
+                  title={p.title}
+                  className={cn('mb-4', p.featured ? 'h-14 w-14' : 'h-11 w-11')}
+                />
 
                 {/* Title */}
                 <h3
