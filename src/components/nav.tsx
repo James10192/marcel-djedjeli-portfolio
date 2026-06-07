@@ -1,19 +1,26 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from '@tanstack/react-router'
 import { motion, AnimatePresence } from 'motion/react'
 import { cn } from '@/lib/utils'
 
 const links = [
-  { href: '#about', label: 'À propos' },
-  { href: '#skills', label: 'Compétences' },
-  { href: '#experience', label: 'Expérience' },
-  { href: '#projects', label: 'Projets' },
-  { href: '#formation', label: 'Formation' },
+  { hash: 'about', label: 'À propos' },
+  { hash: 'skills', label: 'Compétences' },
+  { hash: 'experience', label: 'Expérience' },
+  { hash: 'projects', label: 'Projets' },
+  { hash: 'formation', label: 'Formation' },
 ]
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('')
+  // Sur l'accueil, les liens sont des ancres locales (#about). Ailleurs (/projets,
+  // etudes de cas), ils ramenent a l'accueil puis scrollent (/#about).
+  const { pathname } = useLocation()
+  const onHome = pathname === '/'
+  const hrefFor = (hash: string) => (onHome ? `#${hash}` : `/#${hash}`)
+  const contactHref = onHome ? '#contact' : '/#contact'
 
   useEffect(() => {
     let scrollY = 0
@@ -66,18 +73,18 @@ export function Nav() {
         )}
         style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}
       >
-        <a href="#" className="font-display text-lg font-extrabold tracking-tight text-accent">
+        <a href={onHome ? '#' : '/'} className="font-display text-lg font-extrabold tracking-tight text-accent">
           LeVraiMD_DEV
         </a>
 
         <ul className="hidden items-center gap-6 lg:flex xl:gap-8">
           {links.map((l) => (
-            <li key={l.href}>
+            <li key={l.hash}>
               <a
-                href={l.href}
+                href={hrefFor(l.hash)}
                 className={cn(
                   'mono-caps whitespace-nowrap transition-colors duration-200',
-                  activeSection === l.href.slice(1)
+                  onHome && activeSection === l.hash
                     ? 'text-paper'
                     : 'text-muted hover:text-paper'
                 )}
@@ -88,7 +95,7 @@ export function Nav() {
           ))}
           <li>
             <a
-              href="#contact"
+              href={contactHref}
               className="whitespace-nowrap bg-accent px-5 py-2 font-mono text-xs font-medium transition-colors hover:bg-accent-soft"
               style={{ color: '#0a0a08' }}
             >
@@ -148,7 +155,7 @@ export function Nav() {
             >
               {links.map((l) => (
                 <motion.li
-                  key={l.href}
+                  key={l.hash}
                   variants={{
                     hidden: { opacity: 0, y: 16 },
                     visible: { opacity: 1, y: 0 },
@@ -156,7 +163,7 @@ export function Nav() {
                   className="border-b border-line first:border-t"
                 >
                   <a
-                    href={l.href}
+                    href={hrefFor(l.hash)}
                     onClick={() => setOpen(false)}
                     className="block px-10 py-5 text-center font-display text-2xl font-bold text-muted transition-colors hover:text-accent"
                   >
@@ -172,7 +179,7 @@ export function Nav() {
                 className="mt-8 flex justify-center"
               >
                 <a
-                  href="#contact"
+                  href={contactHref}
                   onClick={() => setOpen(false)}
                   className="bg-accent px-10 py-3.5 font-mono text-sm font-medium"
                   style={{ color: '#0a0a08' }}

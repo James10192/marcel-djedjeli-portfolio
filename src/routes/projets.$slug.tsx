@@ -12,6 +12,7 @@ import {
 import { caseStudyBySlug, publicCaseStudies } from '@/data/case-studies'
 import { STATUS_META, familyOf, FAMILY_LABEL } from '@/components/case-study/meta'
 import { ProjectLogo } from '@/components/case-study/project-logo'
+import { Nav } from '@/components/nav'
 import { ArchDiagram } from '@/components/case-study/arch-diagram'
 import { Reveal } from '@/components/primitives/reveal'
 import { cn } from '@/lib/utils'
@@ -47,9 +48,11 @@ function CaseStudyPage() {
   const next = idx >= 0 && idx < publicCaseStudies.length - 1 ? publicCaseStudies[idx + 1] : null
 
   return (
+    <>
+    <Nav />
     <div className="min-h-dvh bg-ink">
       {/* Barre de retour */}
-      <div className="px-6 pt-12 md:px-12 md:pt-16">
+      <div className="px-6 pt-28 md:px-12 md:pt-32">
         <div className="mx-auto max-w-4xl">
           <Link
             to="/projets"
@@ -309,6 +312,7 @@ function CaseStudyPage() {
         </Link>
       </div>
     </div>
+    </>
   )
 }
 

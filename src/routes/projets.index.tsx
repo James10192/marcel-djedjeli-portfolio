@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { publicCaseStudies } from '@/data/case-studies'
 import { FAMILY_LABEL, STATUS_META, familyOf, type Family } from '@/components/case-study/meta'
 import { ProjectLogo } from '@/components/case-study/project-logo'
+import { Nav } from '@/components/nav'
 import { RevealStagger, staggerItem } from '@/components/primitives/reveal'
 import { cn } from '@/lib/utils'
 
@@ -42,7 +43,9 @@ function ProjectsIndex() {
   }, [])
 
   return (
-    <div className="min-h-dvh bg-ink px-6 py-12 md:px-12 md:py-20">
+    <>
+    <Nav />
+    <div className="min-h-dvh bg-ink px-6 pb-12 pt-28 md:px-12 md:pb-20 md:pt-32">
       <div className="mx-auto max-w-6xl">
         <Link
           to="/"
@@ -169,5 +172,6 @@ function ProjectsIndex() {
         </RevealStagger>
       </div>
     </div>
+    </>
   )
 }
