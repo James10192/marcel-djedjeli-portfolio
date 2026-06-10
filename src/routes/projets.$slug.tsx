@@ -50,7 +50,7 @@ function CaseStudyPage() {
   return (
     <>
     <Nav />
-    <div className="min-h-dvh bg-ink">
+    <div className="min-h-dvh">
       {/* Barre de retour */}
       <div className="px-6 pt-28 md:px-12 md:pt-32">
         <div className="mx-auto max-w-4xl">
@@ -173,7 +173,7 @@ function CaseStudyPage() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-4xl space-y-px bg-line">
+      <div className="mx-auto max-w-4xl">
         {/* Contexte */}
         <Block num="01" title="Contexte &amp; problème">
           <p className="text-[15px] leading-[1.8] text-paper">{cs.context}</p>
@@ -182,7 +182,7 @@ function CaseStudyPage() {
         {/* Architecture */}
         <Block num="02" title="Architecture">
           <p className="text-[15px] leading-[1.8] text-paper">{cs.architectureSummary}</p>
-          <div className="mt-8 border border-line bg-ink p-4 md:p-6">
+          <div className="mt-8 rounded-xl border border-line bg-ink p-4 md:p-6">
             <ArchDiagram
               nodes={cs.architectureDiagram.nodes}
               edges={cs.architectureDiagram.edges}
@@ -193,9 +193,9 @@ function CaseStudyPage() {
         {/* Décisions */}
         {cs.decisions.length > 0 ? (
           <Block num="03" title="Décisions techniques">
-            <div className="space-y-px bg-line">
+            <div className="space-y-3">
               {cs.decisions.map((d, i) => (
-                <div key={i} className="bg-ink2 p-6 md:p-7">
+                <div key={i} className="surface p-6 md:p-7">
                   <div className="flex items-start gap-3">
                     <Scale className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                     <h3 className="font-display text-lg font-bold leading-snug">{d.title}</h3>
@@ -245,9 +245,9 @@ function CaseStudyPage() {
         {/* Résultats */}
         {cs.results.length > 0 ? (
           <Block num="05" title="Résultats &amp; impact">
-            <div className="grid grid-cols-2 gap-px bg-line md:grid-cols-3">
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
               {cs.results.map((m, i) => (
-                <div key={i} className="bg-ink2 p-6">
+                <div key={i} className="surface p-6">
                   <div className="font-display text-3xl font-extrabold text-accent">{m.value}</div>
                   <div className="mt-1.5 font-mono text-[10.5px] uppercase tracking-wider text-muted">
                     {m.label}
@@ -326,7 +326,7 @@ function Block({
   children: React.ReactNode
 }) {
   return (
-    <Reveal as="section" className="bg-ink px-6 py-12 md:px-12 md:py-16" y={30}>
+    <Reveal as="section" className="px-6 py-12 md:px-12 md:py-16" y={30}>
       <div className="mx-auto max-w-4xl">
         <div className="mb-7 flex items-baseline gap-4">
           <span className="font-mono text-[11px] tracking-widest text-accent">{num} —</span>

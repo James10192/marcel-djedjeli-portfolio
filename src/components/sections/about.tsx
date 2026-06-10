@@ -148,7 +148,7 @@ export function About() {
 
         {/* RIGHT — profile.json editor card */}
         <Reveal delay={0.15}>
-          <div className="min-w-0 overflow-hidden border border-line bg-ink2 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]">
+          <div className="min-w-0 overflow-hidden rounded-2xl border border-line bg-ink2 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]">
             {/* Editor chrome */}
             <header className="flex items-center justify-between gap-4 border-b border-line bg-surface/40 px-4 py-3">
               <div className="flex min-w-0 items-center gap-2">

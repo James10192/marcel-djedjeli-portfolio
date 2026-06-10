@@ -213,7 +213,7 @@ export const caseStudies: CaseStudy[] = [
       "value": "6"
     },
     "links": {
-      "live": "https://klassci.com",
+      "live": "https://presentation.klassci.com",
       "github": "https://github.com/James10192/KLASSCIv2"
     }
   },
@@ -238,7 +238,7 @@ export const caseStudies: CaseStudy[] = [
       "Vercel"
     ],
     "context": "KLASSCI est un SaaS de gestion scolaire (notes, bulletins, paiements, présences, LMD) servi par une application Laravel multi-tenant sur des sous-domaines `<ecole>.klassci.com` hébergés en cpanel. Le besoin métier : sortir la vitrine commerciale et la documentation de cette application Laravel monolithique pour les faire vivre à part, sur un apex rapide et internationalisable, sans toucher au SaaS authentifié qui reste en place. La contrainte terrain est explicite dans le produit lui-même : cibles écoles supérieures d'Afrique francophone, tarifs et offres en FCFA, conformité LMD/UEMOA, support via WhatsApp et Telegram, et une formule Partenaire pensée pour les établissements sans trésorerie cash (installation plus montant par élève payés via les frais de scolarité parents). La page d'accueil reprend fidèlement le `welcome.blade.php` canonique de KLASSCIv2.",
-    "architectureSummary": "Architecture découplée par responsabilité. Le site est une application Next.js 14 (App Router) déployée sur Vercel, et accessible aujourd'hui sur l'URL de déploiement `klassci-landing.vercel.app` ; la bascule DNS de l'apex `klassci.com` vers Vercel est planifiée (Phase 5 du plan de mise en production) mais pas encore effectuée, l'apex résolvant toujours vers l'application Laravel en cpanel qui continue de servir le SaaS authentifié sur les sous-domaines tenant. Le site Next.js est entièrement statique au build (generateStaticParams par locale et par page de docs) : la home assemble une quinzaine de sections React (hero, piliers, fonctionnalités, témoignages, tarifs, FAQ, contact) et la documentation est rendue depuis des fichiers MDX via Fumadocs. L'internationalisation FR/EN passe par next-intl (FR par défaut sans préfixe, EN sous `/en`, stratégie `as-needed`) et un middleware de routing. La recherche docs s'appuie sur Fumadocs avec une API `/api/search` qui crée un index Orama par langue (createI18nSearchAPI) pour éviter la fuite de résultats entre locales. La télémétrie repose sur PostHog (catalogue d'événements typé) plus Vercel Analytics et Speed Insights. Le formulaire de contact poste vers `/api/contact`, route encore à livrer (TODO assumé dans le code), avec un état d'erreur propre côté client en attendant.",
+    "architectureSummary": "Architecture découplée par responsabilité. Le site est une application Next.js 14 (App Router) déployée sur Vercel et servie directement sur l'apex `klassci.com` ; les instances applicatives authentifiées restent, elles, sur les sous-domaines `<ecole>.klassci.com` (par exemple `presentation.klassci.com` pour le compte de présentation), servies par l'application Laravel multi-instance hébergée en cpanel. La vitrine et la doc sont donc bien séparées du SaaS. Le site Next.js est entièrement statique au build (generateStaticParams par locale et par page de docs) : la home assemble une quinzaine de sections React (hero, piliers, fonctionnalités, témoignages, tarifs, FAQ, contact) et la documentation est rendue depuis des fichiers MDX via Fumadocs. L'internationalisation FR/EN passe par next-intl (FR par défaut sans préfixe, EN sous `/en`, stratégie `as-needed`) et un middleware de routing. La recherche docs s'appuie sur Fumadocs avec une API `/api/search` qui crée un index Orama par langue (createI18nSearchAPI) pour éviter la fuite de résultats entre locales. La télémétrie repose sur PostHog (catalogue d'événements typé) plus Vercel Analytics et Speed Insights. Le formulaire de contact poste vers `/api/contact`, route encore à livrer (TODO assumé dans le code), avec un état d'erreur propre côté client en attendant.",
     "architectureDiagram": {
       "nodes": [
         {
@@ -248,7 +248,7 @@ export const caseStudies: CaseStudy[] = [
         },
         {
           "id": "vercel",
-          "label": "Next.js 14 sur Vercel (klassci-landing.vercel.app, cutover apex planifié)",
+          "label": "Next.js 14 sur Vercel (apex klassci.com)",
           "kind": "server"
         },
         {
@@ -268,7 +268,7 @@ export const caseStudies: CaseStudy[] = [
         },
         {
           "id": "laravel",
-          "label": "SaaS Laravel multi-tenant (cpanel, sert encore l'apex)",
+          "label": "SaaS Laravel multi-instance (cpanel, sous-domaines <ecole>.klassci.com)",
           "kind": "external"
         },
         {
@@ -320,7 +320,7 @@ export const caseStudies: CaseStudy[] = [
         "title": "Sortir la vitrine du monolithe Laravel vers Next.js sur Vercel",
         "choice": "Reconstruire uniquement la vitrine et la doc en Next.js 14, en laissant le SaaS authentifié sur Laravel/cpanel inchangé.",
         "rationale": "La vitrine est la page la plus visitée et la plus sensible au SEO et à la performance ; la sortir du monolithe permet un rendu statique, un CDN global et des déploiements rapides sans risquer la stabilité du SaaS en production chez des écoles payantes.",
-        "tradeoff": "On gagne vitesse, isolation et itération marketing libre ; on sacrifie l'unicité du codebase et on introduit deux environnements à maintenir (Next sur Vercel, Laravel sur cpanel) plus une bascule DNS de l'apex encore à orchestrer."
+        "tradeoff": "On gagne vitesse, isolation et itération marketing libre ; on sacrifie l'unicité du codebase et on maintient deux environnements (Next sur Vercel pour l'apex klassci.com, Laravel sur cpanel pour les instances <ecole>.klassci.com)."
       },
       {
         "title": "next-intl avec FR par défaut sans préfixe et EN sous /en",
@@ -369,8 +369,102 @@ export const caseStudies: CaseStudy[] = [
     "confidential": false,
     "headlineMetric": null,
     "links": {
-      "live": "https://klassci-landing.vercel.app",
+      "live": "https://klassci.com",
       "github": "https://github.com/James10192/klassci-landing"
+    }
+  },
+  {
+    "slug": "esbtp",
+    "title": "ESBTP — refonte proposée du site institutionnel, en TanStack Start déployée en SPA statique",
+    "oneLiner": "Une refonte spontanée du site de l'École Spéciale du Bâtiment et des Travaux Publics, proposée de ma propre initiative à un établissement déjà client de Klassci, avec un langage visuel \"plan d'ingénieur\" thématisé par filière.",
+    "role": "Initiative personnelle — proposition non commandée. Conception, design et développement intégral (architecture SPA, design system, contenus, déploiement) en tant que Head of Development chez African Digit Consulting.",
+    "year": "2026",
+    "status": "livre",
+    "stack": [
+      "TanStack Start",
+      "React 19",
+      "Vite 8",
+      "Tailwind CSS v4",
+      "Motion",
+      "lucide-react",
+      "Vercel (SPA statique)"
+    ],
+    "context": "L'ESBTP (École Spéciale du Bâtiment et des Travaux Publics) est déjà cliente de Klassci, qui administre ses inscriptions et sa scolarité sur ses instances d'Abidjan et de Yamoussoukro. En revanche, sa présence web institutionnelle reposait encore sur un site template daté (esbtp-ci.net), peu lisible, non responsive, au branding faible et aux contenus obsolètes. Personne ne m'a demandé de le refaire : j'ai choisi, de ma propre initiative, de concevoir et déployer une refonte complète pour démontrer à un client existant la valeur d'une vitrine moderne — une proposition commerciale concrète plutôt qu'un argumentaire. La contrainte assumée : reprendre fidèlement l'identité ESBTP (vert et orange, logo, photographies) et livrer un site rapide, crédible et mobile-first, sans aucun backend à maintenir côté école.",
+    "architectureSummary": "Le site est une application TanStack Start compilée en SPA purement statique : le plugin émet un shell unique (_shell.html) plus les assets, sans runtime serveur. Sur Vercel, des rewrites renvoient toutes les routes vers ce shell, et tout le rendu se fait côté client — ce qui supprime par construction tout risque de désynchronisation d'hydratation en production. Le contenu (filières, formations, contacts, statistiques, navigation) est centralisé dans un seul module de données typé, ce qui rend chaque page cohérente et maintenable. Les pages couvrent l'accueil, cinq filières du génie civil (routes dynamiques), quatre modes de formation, l'admission (parcours guidé), les coûts, les résultats, l'historique, la pédagogie, les campus et le contact (avec cartes Google Maps embarquées sans clé). Le langage visuel est un système \"blueprint\" : grilles d'ingénieur, lignes de cote, équerres d'angle et annotations monospace, intégrés au contenu et thématisés par spécialité (ossature pour le bâtiment, axe routier pour les travaux publics, plan de blocs pour l'urbanisme, courbes de niveau pour le géomètre, strates pour les mines). Les animations (entrée et parallax du hero, reveals au scroll) sont rendues sûres pour le SSR via un gate de montage et un filet de sécurité, et désactivées sous prefers-reduced-motion.",
+    "architectureDiagram": {
+      "nodes": [
+        { "id": "visitor", "label": "Visiteur (mobile-first, Côte d'Ivoire)", "kind": "client" },
+        { "id": "vercel", "label": "Vercel CDN — rewrites vers _shell.html", "kind": "server" },
+        { "id": "spa", "label": "SPA TanStack Start (rendu 100% client)", "kind": "client" },
+        { "id": "data", "label": "Module de données central (filières, contacts, stats)", "kind": "db" },
+        { "id": "maps", "label": "Google Maps Embed (sans clé)", "kind": "external" },
+        { "id": "build", "label": "Build Vite (émet _shell.html + assets)", "kind": "job" }
+      ],
+      "edges": [
+        { "from": "visitor", "to": "vercel", "label": "HTTPS" },
+        { "from": "vercel", "to": "spa", "label": "sert le shell + assets" },
+        { "from": "spa", "to": "data", "label": "contenu importé au build" },
+        { "from": "spa", "to": "maps", "label": "iframe par campus" },
+        { "from": "build", "to": "vercel", "label": "déploiement statique" }
+      ]
+    },
+    "decisions": [
+      {
+        "title": "SPA statique plutôt que SSR",
+        "choice": "Activer le mode SPA de TanStack Start (shell unique, rewrites Vercel) au lieu d'un rendu serveur Nitro.",
+        "rationale": "Le site est une vitrine sans donnée dynamique ni authentification : un rendu 100% client servi depuis le CDN est le plus rapide, le moins cher et le plus simple à exploiter, sans serveur à maintenir pour l'école.",
+        "tradeoff": "Pas de HTML pré-rendu par route pour le SEO de premier chargement ; compensé par des métadonnées soignées et un contenu indexable après hydratation, suffisant pour une vitrine."
+      },
+      {
+        "title": "Préserver l'identité ESBTP, ne pas la réinventer",
+        "choice": "Extraire les couleurs réelles (vert #006738, orange #F37122), le logo et les photographies du site existant, et composer autour.",
+        "rationale": "Sur une proposition non sollicitée, la reconnaissance immédiate de la marque est ce qui rend la démonstration crédible et adoptable par le décideur.",
+        "tradeoff": "Moins de liberté créative qu'une refonte de marque complète, au profit d'une continuité visuelle qui rassure."
+      },
+      {
+        "title": "Une géométrie \"plan d'ingénieur\" intégrée au contenu",
+        "choice": "Construire un système de motifs (grilles, lignes de cote, équerres, annotations mono) tissé dans les sections et thématisé par filière, plutôt que de simples fonds décoratifs.",
+        "rationale": "Le sujet est le génie civil : un vocabulaire visuel de dessin technique donne au site une personnalité cohérente avec le métier, loin du template générique d'origine.",
+        "tradeoff": "Plus de composants sur mesure à maintenir qu'une grille de cartes standard."
+      },
+      {
+        "title": "Animations sûres pour l'hydratation",
+        "choice": "Gater les animations d'entrée derrière un état de montage et révéler le contenu via IntersectionObserver avec filet de sécurité, contenu visible par défaut.",
+        "rationale": "Le serveur de dev (SSR) exposait une race d'hydratation avec les états initiaux de Motion ; en garantissant un contenu visible par défaut, on évite tout écran blanc quel que soit le contexte de rendu.",
+        "tradeoff": "Un peu plus de logique côté composant que des animations naïves, en échange d'une robustesse totale."
+      }
+    ],
+    "challenges": [
+      {
+        "problem": "Le contenu apparaissait par intermittence en blanc sur le serveur de dev (race d'hydratation SSR avec les états initiaux d'animation).",
+        "solution": "Diagnostic prouvant que la production (SPA pure, sans SSR) rend correctement, puis durcissement du code (gate de montage, reveals avec filet de sécurité) pour que le contenu soit toujours visible, dev comme prod. Vérifié au navigateur sur le build de production."
+      },
+      {
+        "problem": "Le menu mobile se retrouvait coupé à la hauteur du header une fois la page scrollée.",
+        "solution": "Le header sticky applique un backdrop-filter au scroll, ce qui piège les enfants position:fixed dans sa boîte. Le tiroir et l'overlay sont désormais rendus via un portal vers le body pour échapper à ce contexte d'empilement."
+      },
+      {
+        "problem": "Garantir un affichage sans débordement et lisible sur tous les écrans (chaînes longues, pastilles flottantes).",
+        "solution": "Refonte responsive vérifiée par captures à 390px : pastilles repositionnées à l'intérieur des images, chaîne BTS→Licence→Master compactée pour tenir sur une ligne, hauteurs et tailles de police adaptatives, zéro overflow horizontal."
+      },
+      {
+        "problem": "Donner des informations institutionnelles exactes plutôt que reprendre des données obsolètes.",
+        "solution": "Recherche et vérification des implantations réelles : trois villes (Abidjan avec plusieurs campus — Yopougon, Plateau, Treichville, Riviera —, Yamoussoukro siège, Bouaké), reflétées dans les statistiques, le pied de page et la page contact."
+      }
+    ],
+    "results": [
+      { "value": "en ligne", "label": "Proposition livrée et déployée (esbtp.vercel.app)" },
+      { "value": "3", "label": "villes d'implantation couvertes" },
+      { "value": "5", "label": "filières du génie civil présentées" }
+    ],
+    "confidential": false,
+    "headlineMetric": {
+      "label": "Proposition spontanée livrée à un client Klassci",
+      "value": "en ligne"
+    },
+    "links": {
+      "live": "https://esbtp.vercel.app",
+      "github": "https://github.com/James10192/esbtp-ci"
     }
   },
   {

@@ -102,7 +102,7 @@ export function Contact() {
 
         {/* RIGHT — Terminal contact card */}
         <Reveal delay={0.15}>
-          <div className="min-w-0 overflow-hidden border border-line bg-ink2 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]">
+          <div className="min-w-0 overflow-hidden rounded-2xl border border-line bg-ink2 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]">
             {/* Terminal header */}
             <header className="flex items-center justify-between gap-3 border-b border-line bg-surface/40 px-3 py-3 sm:px-4">
               <div className="flex min-w-0 items-center gap-2">

@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils'
 const LOGO_BY_SLUG: Record<string, string> = {
   klassci: '/logos/klassci.png',
   'klassci-landing': '/logos/klassci.png',
+  esbtp: '/logos/esbtp.png',
   smartlink: '/logos/smartlink.png',
   itm: '/logos/itm.png',
   fejeci: '/logos/fejeci.png',

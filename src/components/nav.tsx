@@ -112,19 +112,19 @@ export function Nav() {
         >
           <span
             className={cn(
-              'block h-px w-7 bg-text transition-transform duration-300',
+              'block h-0.5 w-7 rounded-full bg-paper transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
               open && 'translate-y-[7px] rotate-45'
             )}
           />
           <span
             className={cn(
-              'block h-px w-7 bg-text transition-all duration-300',
+              'block h-0.5 w-7 rounded-full bg-paper transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
               open && 'scale-x-0 opacity-0'
             )}
           />
           <span
             className={cn(
-              'block h-px w-7 bg-text transition-transform duration-300',
+              'block h-0.5 w-7 rounded-full bg-paper transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
               open && '-translate-y-[7px] -rotate-45'
             )}
           />

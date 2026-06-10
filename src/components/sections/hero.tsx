@@ -130,14 +130,14 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="flex flex-col justify-end pb-12 pt-12 md:border-l md:border-line md:pl-12 md:pt-28"
         >
-          <div className="mb-10 grid grid-cols-2 gap-px border border-line bg-line">
+          <div className="mb-10 grid grid-cols-2 gap-3">
             {personal.stats.map((s, i) => (
               <motion.div
                 key={s.label}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.7 + i * 0.08 }}
-                className="group relative min-w-0 bg-ink p-4 transition-colors hover:bg-ink2 sm:p-5 md:p-6 lg:p-7"
+                className="surface group relative min-w-0 p-4 sm:p-5 md:p-6 lg:p-7"
               >
                 <div className="whitespace-nowrap font-display text-2xl font-extrabold leading-none text-accent sm:text-3xl lg:text-4xl">
                   {s.value}

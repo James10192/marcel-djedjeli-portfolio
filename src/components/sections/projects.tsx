@@ -24,19 +24,16 @@ export function Projects() {
         caption="Quelques produits que j'ai conçus, codés et déployés. La plupart tournent en prod aujourd'hui."
       />
 
-      <RevealStagger className="grid grid-cols-1 gap-px border border-line bg-line md:grid-cols-2">
+      <RevealStagger className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
         {projects.map((p) => (
           <motion.div
             key={p.slug}
             variants={staggerItem}
-            className={cn(
-              'bg-ink',
-              p.featured && 'md:col-span-2'
-            )}
+            className={cn(p.featured && 'md:col-span-2')}
           >
             <TiltCard
               intensity={p.featured ? 4 : 7}
-              className="group relative h-full overflow-hidden p-8 transition-colors duration-300 hover:bg-ink2 md:p-12"
+              className="surface group relative h-full overflow-hidden p-8 md:p-12"
             >
               <div className="tilt-content relative z-10 flex h-full flex-col">
                 {/* Type + Year */}

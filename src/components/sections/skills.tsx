@@ -26,14 +26,14 @@ export function Skills() {
         caption="La stack que j'utilise au quotidien, du proto à la production."
       />
 
-      <RevealStagger className="grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+      <RevealStagger className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {skillGroups.map((group) => {
           const Icon = iconMap[group.icon]
           return (
             <motion.div
               key={group.title}
               variants={staggerItem}
-              className="group relative bg-ink p-8 transition-colors duration-300 hover:bg-ink2 md:p-9"
+              className="surface group relative p-8 md:p-9"
             >
               <div className="mb-5 inline-flex h-11 w-11 items-center justify-center border border-line text-accent transition-all duration-300 group-hover:border-accent group-hover:shadow-lime-glow">
                 <Icon className="h-5 w-5" strokeWidth={1.5} />
