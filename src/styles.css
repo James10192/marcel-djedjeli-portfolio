@@ -51,7 +51,10 @@ body {
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
 }
+
+a, button, [role="button"] { touch-action: manipulation; }
 
 html { overflow-x: clip; }
 

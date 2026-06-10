@@ -1,4 +1,4 @@
-import { motion, type Variants, useScroll, useTransform } from 'motion/react'
+import { motion, type Variants, useScroll, useTransform, useReducedMotion } from 'motion/react'
 import type { ReactNode } from 'react'
 import { useRef } from 'react'
 
@@ -22,6 +22,16 @@ export function Reveal({
   duration = 0.9,
 }: RevealProps) {
   const MotionTag = motion[as] as typeof motion.div
+  const reduceMotion = useReducedMotion()
+
+  if (reduceMotion) {
+    return (
+      <MotionTag className={className} initial={false} animate={{ opacity: 1, y: 0 }}>
+        {children}
+      </MotionTag>
+    )
+  }
+
   return (
     <MotionTag
       className={className}
@@ -29,8 +39,8 @@ export function Reveal({
       whileInView="visible"
       viewport={{ once, amount: 0.15 }}
       variants={{
-        hidden: { opacity: 0, y, filter: 'blur(10px)' },
-        visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
+        hidden: { opacity: 0, y },
+        visible: { opacity: 1, y: 0 },
       }}
       transition={{
         duration,
@@ -56,6 +66,16 @@ export function RevealStagger({
   delay = 0,
   className,
 }: RevealStaggerProps) {
+  const reduceMotion = useReducedMotion()
+
+  if (reduceMotion) {
+    return (
+      <motion.div className={className} initial={false} animate="visible">
+        {children}
+      </motion.div>
+    )
+  }
+
   return (
     <motion.div
       className={className}
@@ -78,11 +98,10 @@ export function RevealStagger({
 }
 
 export const staggerItem: Variants = {
-  hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
+  hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
     transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
   },
 }

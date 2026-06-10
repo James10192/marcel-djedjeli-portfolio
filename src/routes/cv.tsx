@@ -19,7 +19,7 @@ export const Route = createFileRoute('/cv')({
 
 function CVPage() {
   return (
-    <div className="min-h-dvh bg-ink px-6 py-12 md:px-12 md:py-20">
+    <main className="min-h-dvh px-6 py-12 md:px-12 md:py-20">
       <div className="mx-auto max-w-3xl">
         {/* Header bar */}
         <div className="mb-8 flex items-center justify-between gap-4 print:hidden">
@@ -42,7 +42,7 @@ function CVPage() {
         </div>
 
         {/* CV content */}
-        <article className="border border-line bg-ink2 p-8 md:p-12">
+        <article className="surface p-8 md:p-12">
           <header className="border-b border-line pb-6">
             <h1 className="heading text-3xl md:text-4xl">
               {personal.name.split(' ').slice(0, 2).join(' ')}
@@ -141,6 +141,6 @@ function CVPage() {
           Version PDF originale disponible via le bouton « Télécharger »
         </div>
       </div>
-    </div>
+    </main>
   )
 }

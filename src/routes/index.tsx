@@ -15,7 +15,7 @@ function Home() {
   return (
     <>
       <Nav />
-      <main>
+      <main id="main">
         <Hero />
         <About />
         <Skills />

@@ -49,6 +49,8 @@ export function ProjectLogo({
           src={src}
           alt={`Logo ${title.split(/[·,]/)[0].trim()}`}
           loading="lazy"
+          width={64}
+          height={64}
           className="h-full w-full object-contain p-1"
         />
       </span>

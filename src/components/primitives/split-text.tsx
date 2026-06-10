@@ -1,4 +1,4 @@
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { cn } from '@/lib/utils'
 
 type SplitTextProps = {
@@ -18,6 +18,28 @@ export function SplitText({
 }: SplitTextProps) {
   const words = text.split(' ')
   const MotionTag = as === 'div' ? motion.div : motion.span
+  const reduceMotion = useReducedMotion()
+
+  if (reduceMotion) {
+    const Tag = as === 'div' ? 'div' : 'span'
+    return (
+      <Tag className={cn('inline-block', className)} aria-label={text}>
+        {words.map((word, i) => (
+          <span
+            key={i}
+            className="inline-block max-w-full overflow-hidden align-baseline pb-[0.18em] -mb-[0.18em]"
+            aria-hidden
+          >
+            <span className="inline-block">
+              {word}
+              {i < words.length - 1 && ' '}
+            </span>
+          </span>
+        ))}
+      </Tag>
+    )
+  }
+
   return (
     <MotionTag
       className={cn('inline-block', className)}

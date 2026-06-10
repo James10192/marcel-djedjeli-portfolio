@@ -7,7 +7,8 @@ export function Footer() {
         {personal.shortName}
       </span>
       <p className="text-xs text-muted">
-        Full Stack Developer · Abidjan, Côte d'Ivoire · {new Date().getFullYear()}
+        Full Stack Developer · Abidjan, Côte d'Ivoire ·{' '}
+        <span suppressHydrationWarning>{new Date().getFullYear()}</span>
       </p>
       <p className="text-xs text-accent">Laravel · React · Next.js · TanStack</p>
     </footer>

@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { useMemo } from 'react'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { motion } from 'motion/react'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { publicCaseStudies } from '@/data/case-studies'
@@ -9,8 +9,17 @@ import { Nav } from '@/components/nav'
 import { RevealStagger, staggerItem } from '@/components/primitives/reveal'
 import { cn } from '@/lib/utils'
 
+type FamilyFilter = Family | 'all'
+
+const FAMILIES: Array<FamilyFilter> = ['all', 'saas', 'vitrine', 'oss', 'interne']
+
 export const Route = createFileRoute('/projets/')({
   component: ProjectsIndex,
+  validateSearch: (search: Record<string, unknown>): { famille: FamilyFilter } => {
+    const raw = search.famille
+    const famille = FAMILIES.includes(raw as FamilyFilter) ? (raw as FamilyFilter) : 'all'
+    return { famille }
+  },
   head: () => ({
     meta: [
       { title: 'Études de cas — Marcel DJEDJE-LI' },
@@ -23,10 +32,9 @@ export const Route = createFileRoute('/projets/')({
   }),
 })
 
-const FAMILIES: Array<Family | 'all'> = ['all', 'saas', 'vitrine', 'oss', 'interne']
-
 function ProjectsIndex() {
-  const [family, setFamily] = useState<Family | 'all'>('all')
+  const { famille: family } = Route.useSearch()
+  const navigate = useNavigate({ from: Route.fullPath })
 
   const items = useMemo(() => {
     const withFamily = publicCaseStudies.map((c) => ({ ...c, family: familyOf(c.slug) }))
@@ -45,7 +53,7 @@ function ProjectsIndex() {
   return (
     <>
     <Nav />
-    <div className="min-h-dvh bg-ink px-6 pb-12 pt-28 md:px-12 md:pb-20 md:pt-32">
+    <main className="min-h-dvh px-6 pb-12 pt-28 md:px-12 md:pb-20 md:pt-32">
       <div className="mx-auto max-w-6xl">
         <Link
           to="/"
@@ -76,7 +84,7 @@ function ProjectsIndex() {
               <button
                 key={f}
                 type="button"
-                onClick={() => setFamily(f)}
+                onClick={() => navigate({ search: { famille: f } })}
                 className={cn(
                   'inline-flex h-10 items-center gap-2 border px-4 font-mono text-[11px] uppercase tracking-wider transition-colors',
                   active
@@ -95,15 +103,20 @@ function ProjectsIndex() {
         </div>
 
         {/* Grille */}
-        <RevealStagger className="mt-8 grid grid-cols-1 gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
+        {items.length === 0 ? (
+          <p className="mt-12 font-mono text-sm text-muted">
+            Aucune étude de cas dans cette famille pour le moment.
+          </p>
+        ) : (
+        <RevealStagger className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
           {items.map((c) => {
             const st = STATUS_META[c.status]
             return (
-              <motion.div key={c.slug} variants={staggerItem} className="bg-ink">
+              <motion.div key={c.slug} variants={staggerItem} className="surface">
                 <Link
                   to="/projets/$slug"
                   params={{ slug: c.slug }}
-                  className="group flex h-full flex-col p-7 transition-colors duration-300 hover:bg-ink2"
+                  className="group flex h-full flex-col p-7"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <span className="font-mono text-[10.5px] uppercase tracking-wider text-accent">
@@ -170,8 +183,9 @@ function ProjectsIndex() {
             )
           })}
         </RevealStagger>
+        )}
       </div>
-    </div>
+    </main>
     </>
   )
 }

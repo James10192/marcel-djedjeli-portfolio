@@ -88,6 +88,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="noise-overlay">
+        <a
+          href="#main"
+          className="absolute left-2 -top-20 z-[100] rounded bg-accent px-3 py-2 font-mono text-xs text-ink focus:top-2"
+          style={{ color: 'var(--color-ink)' }}
+        >
+          Aller au contenu
+        </a>
         <ScrollProgress />
         {children}
         <Scripts />

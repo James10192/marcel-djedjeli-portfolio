@@ -139,7 +139,7 @@ export function Hero() {
                 transition={{ duration: 0.5, delay: 0.7 + i * 0.08 }}
                 className="surface group relative min-w-0 p-4 sm:p-5 md:p-6 lg:p-7"
               >
-                <div className="whitespace-nowrap font-display text-2xl font-extrabold leading-none text-accent sm:text-3xl lg:text-4xl">
+                <div className="whitespace-nowrap font-display text-2xl font-extrabold leading-none text-accent tabular-nums sm:text-3xl lg:text-4xl">
                   {s.value}
                 </div>
                 <div className="mono-caps mt-1.5 text-muted">{s.label}</div>

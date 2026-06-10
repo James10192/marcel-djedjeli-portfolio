@@ -1,4 +1,4 @@
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { Reveal } from '@/components/primitives/reveal'
 
 function CodeLine({ n, children }: { n: number; children: React.ReactNode }) {
@@ -34,6 +34,7 @@ const profileLines: ProfileLine[] = [
 ]
 
 export function About() {
+  const prefersReducedMotion = useReducedMotion()
   return (
     <section
       id="about"
@@ -79,8 +80,12 @@ export function About() {
                 </span>
               </div>
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 24, repeat: Infinity, ease: 'linear' }}
+                animate={prefersReducedMotion ? undefined : { rotate: 360 }}
+                transition={
+                  prefersReducedMotion
+                    ? undefined
+                    : { duration: 24, repeat: Infinity, ease: 'linear' }
+                }
                 className="pointer-events-none absolute -inset-3 border border-dashed border-accent/30"
               />
             </div>

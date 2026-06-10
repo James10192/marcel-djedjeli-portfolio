@@ -1,5 +1,5 @@
 import { useRef, type ReactNode } from 'react'
-import { motion, useMotionValue, useSpring } from 'motion/react'
+import { motion, useMotionValue, useSpring, useReducedMotion } from 'motion/react'
 import { cn } from '@/lib/utils'
 
 type MagneticProps = {
@@ -14,8 +14,10 @@ export function Magnetic({ children, className, strength = 0.25 }: MagneticProps
   const y = useMotionValue(0)
   const springX = useSpring(x, { stiffness: 300, damping: 22, mass: 0.5 })
   const springY = useSpring(y, { stiffness: 300, damping: 22, mass: 0.5 })
+  const reduceMotion = useReducedMotion()
 
   function handleMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (reduceMotion) return
     const el = ref.current
     if (!el) return
     const rect = el.getBoundingClientRect()

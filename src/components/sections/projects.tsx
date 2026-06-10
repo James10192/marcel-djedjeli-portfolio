@@ -76,7 +76,7 @@ export function Projects() {
                   <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2 border-y border-line py-4">
                     {p.metrics.map((m) => (
                       <div key={m.label}>
-                        <div className="font-display text-2xl font-extrabold text-accent">
+                        <div className="font-display text-2xl font-extrabold text-accent tabular-nums">
                           {m.value}
                         </div>
                         <div className="mono-caps text-muted">{m.label}</div>
