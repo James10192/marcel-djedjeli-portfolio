@@ -31,3 +31,5 @@ src/data/case-studies.private.ts
 # Captures d'écran de travail (dev) à la racine
 /*.png
 .playwright-mcp/
+
+package-lock.json
