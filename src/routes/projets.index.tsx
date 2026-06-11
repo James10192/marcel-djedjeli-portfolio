@@ -141,7 +141,7 @@ function ProjectsIndex() {
                   <ProjectLogo slug={c.slug} title={c.title} className="mt-5 h-11 w-11" />
 
                   <h2 className="mt-4 font-display text-xl font-extrabold leading-tight tracking-tight">
-                    {c.title.split(',')[0]}
+                    {c.title.split(/[,:]|\s[—–-]\s/)[0].trim()}
                   </h2>
                   <p className="mt-2.5 flex-1 text-[13px] leading-relaxed text-muted">
                     {c.oneLiner}

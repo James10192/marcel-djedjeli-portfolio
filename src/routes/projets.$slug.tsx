@@ -31,7 +31,7 @@ export const Route = createFileRoute('/projets/$slug')({
     return {
       meta: cs
         ? [
-            { title: `${cs.title.split(',')[0]} — Étude de cas · Marcel DJEDJE-LI` },
+            { title: `${cs.title.split(/[,:]|\s[—–-]\s/)[0].trim()} — Étude de cas · Marcel DJEDJE-LI` },
             { name: 'description', content: cs.oneLiner },
           ]
         : [{ title: 'Étude de cas' }],
@@ -94,9 +94,9 @@ function CaseStudyPage() {
             </span>
           </div>
 
-          <div className="mt-6 flex items-center gap-4">
-            <ProjectLogo slug={cs.slug} title={cs.title} className="h-16 w-16" />
-            <h1 className="heading text-[clamp(30px,6vw,60px)]">{cs.title.split(',')[0]}</h1>
+          <div className="mt-6 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+            <ProjectLogo slug={cs.slug} title={cs.title} className="h-14 w-14 shrink-0 sm:h-16 sm:w-16" />
+            <h1 className="heading min-w-0 text-[clamp(26px,6vw,56px)]">{cs.title.split(/[,:]|\s[—–-]\s/)[0].trim()}</h1>
           </div>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-paper md:text-lg">
             {cs.oneLiner}
@@ -277,7 +277,7 @@ function CaseStudyPage() {
                 Précédent
               </span>
               <span className="mt-1 block font-display font-bold text-paper transition-colors group-hover:text-accent">
-                {prev.title.split(',')[0]}
+                {prev.title.split(/[,:]|\s[—–-]\s/)[0].trim()}
               </span>
             </span>
           </Link>
@@ -295,7 +295,7 @@ function CaseStudyPage() {
                 Suivant
               </span>
               <span className="mt-1 block font-display font-bold text-paper transition-colors group-hover:text-accent">
-                {next.title.split(',')[0]}
+                {next.title.split(/[,:]|\s[—–-]\s/)[0].trim()}
               </span>
             </span>
             <ArrowRight className="h-4 w-4 shrink-0 text-muted transition-colors group-hover:text-accent" />
