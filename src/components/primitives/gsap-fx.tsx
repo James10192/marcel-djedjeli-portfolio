@@ -61,16 +61,20 @@ export function Parallax({
   const ref = useRef<HTMLDivElement>(null)
   useGSAP(
     () => {
-      if (reduced() || !ref.current) return
-      gsap.fromTo(
-        ref.current,
-        { yPercent: speed },
-        {
-          yPercent: -speed,
-          ease: 'none',
-          scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: true },
-        },
-      )
+      // Parallaxe = desktop uniquement (perf mobile). transform-only (compositor).
+      const mm = gsap.matchMedia()
+      mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+        if (!ref.current) return
+        gsap.fromTo(
+          ref.current,
+          { yPercent: speed },
+          {
+            yPercent: -speed,
+            ease: 'none',
+            scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: true },
+          },
+        )
+      })
     },
     { scope: ref },
   )

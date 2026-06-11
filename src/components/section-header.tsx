@@ -35,13 +35,14 @@ export function SectionHeader({ num, title, caption }: SectionHeaderProps) {
       // fromTo + immediateRender:false => si le trigger ne se déclenche jamais,
       // le titre reste visible (jamais de contenu masqué).
       if (titleRef.current) {
+        // opacity + y uniquement (compositor-friendly) : pas de filter blur
+        // qui repeint à chaque frame de scrub — gain net sur mobile.
         gsap.fromTo(
           titleRef.current,
-          { opacity: 0, y: 44, filter: 'blur(8px)' },
+          { autoAlpha: 0, y: 44 },
           {
-            opacity: 1,
+            autoAlpha: 1,
             y: 0,
-            filter: 'blur(0px)',
             ease: 'none',
             immediateRender: false,
             scrollTrigger: { trigger: ref.current, start: 'top 88%', end: 'top 50%', scrub: 0.6 },
