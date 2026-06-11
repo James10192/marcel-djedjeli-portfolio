@@ -76,14 +76,14 @@ export function SectionHeader({ num, title, caption }: SectionHeaderProps) {
 
   return (
     <div ref={ref} className="mb-12 md:mb-16">
-      <div className="flex items-baseline gap-5">
+      <div className="flex items-baseline gap-3 sm:gap-5">
         <Parallax speed={18} className="shrink-0">
           <span className="font-mono text-[11px] tracking-widest text-accent">
             <span ref={numRef}>{String(target).padStart(pad, '0')}</span>
             {suffix}
           </span>
         </Parallax>
-        <h2 ref={titleRef} className="heading text-[clamp(28px,5vw,52px)]">
+        <h2 ref={titleRef} className="heading min-w-0 text-[clamp(23px,6vw,52px)] [overflow-wrap:anywhere]">
           {title}
         </h2>
       </div>
