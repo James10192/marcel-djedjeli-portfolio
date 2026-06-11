@@ -4,6 +4,7 @@ import { ExternalLink, Github, BookOpen, ArrowUpRight, ArrowRight } from 'lucide
 import { SectionHeader } from '@/components/section-header'
 import { TiltCard } from '@/components/primitives/tilt-card'
 import { RevealStagger, staggerItem } from '@/components/primitives/reveal'
+import { CountUp } from '@/components/primitives/count-up'
 import { projects } from '@/data/projects'
 import { publicCaseStudies } from '@/data/case-studies'
 import { ProjectLogo } from '@/components/case-study/project-logo'
@@ -77,7 +78,7 @@ export function Projects() {
                     {p.metrics.map((m) => (
                       <div key={m.label}>
                         <div className="font-display text-2xl font-extrabold text-accent tabular-nums">
-                          {m.value}
+                          <CountUp value={m.value} />
                         </div>
                         <div className="mono-caps text-muted">{m.label}</div>
                       </div>
@@ -175,6 +176,7 @@ export function Projects() {
       <div className="mt-10 flex justify-center">
         <Link
           to="/projets"
+          search={{ famille: 'all' }}
           className="group inline-flex h-12 items-center gap-2.5 border border-line px-6 font-mono text-xs uppercase tracking-wider text-paper transition-colors hover:border-accent hover:text-accent"
         >
           Voir toutes les études de cas

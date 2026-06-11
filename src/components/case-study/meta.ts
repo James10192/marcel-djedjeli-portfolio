@@ -34,6 +34,7 @@ const FAMILY_BY_SLUG: Record<string, Family> = {
   'la-victoire': 'vitrine',
   wouri: 'vitrine',
   sopremi: 'vitrine',
+  byoma: 'vitrine',
   iroko: 'oss',
   sdai: 'interne',
 }

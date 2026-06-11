@@ -17,6 +17,7 @@ const LOGO_BY_SLUG: Record<string, string> = {
   'adc-website': '/logos/adc-website.png',
   akwaba: '/logos/akwaba.svg',
   'la-victoire': '/logos/la-victoire.png',
+  byoma: '/logos/byoma.png',
 }
 
 /** Initiales de repli depuis le titre (1 à 2 lettres). */

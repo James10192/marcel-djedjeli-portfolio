@@ -15,6 +15,7 @@ import { ProjectLogo } from '@/components/case-study/project-logo'
 import { Nav } from '@/components/nav'
 import { ArchDiagram } from '@/components/case-study/arch-diagram'
 import { Reveal } from '@/components/primitives/reveal'
+import { CountUp } from '@/components/primitives/count-up'
 import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/projets/$slug')({
@@ -56,6 +57,7 @@ function CaseStudyPage() {
         <div className="mx-auto max-w-4xl">
           <Link
             to="/projets"
+            search={{ famille: 'all' }}
             className="inline-flex h-10 items-center gap-2 border border-line px-4 font-mono text-xs text-muted transition-colors hover:border-accent hover:text-accent"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
@@ -105,7 +107,7 @@ function CaseStudyPage() {
             {cs.headlineMetric ? (
               <div>
                 <div className="font-display text-4xl font-extrabold text-accent md:text-5xl">
-                  {cs.headlineMetric.value}
+                  <CountUp value={cs.headlineMetric.value} />
                 </div>
                 <div className="mt-1 font-mono text-[11px] uppercase tracking-wider text-muted">
                   {cs.headlineMetric.label}
@@ -248,7 +250,9 @@ function CaseStudyPage() {
             <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
               {cs.results.map((m, i) => (
                 <div key={i} className="surface p-6">
-                  <div className="font-display text-3xl font-extrabold text-accent">{m.value}</div>
+                  <div className="font-display text-3xl font-extrabold text-accent">
+                    <CountUp value={m.value} />
+                  </div>
                   <div className="mt-1.5 font-mono text-[10.5px] uppercase tracking-wider text-muted">
                     {m.label}
                   </div>

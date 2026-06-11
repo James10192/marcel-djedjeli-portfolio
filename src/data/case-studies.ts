@@ -2242,6 +2242,148 @@ export const caseStudies: CaseStudy[] = [
       "live": "https://wouri-ashen.vercel.app",
       "github": ""
     }
+  },
+  {
+    "slug": "byoma",
+    "title": "Les Résidences BYOMA, plateforme de réservation en temps réel pour résidences meublées à Abidjan",
+    "oneLiner": "Une proposition spontanée : un site de réservation premium pour des résidences meublées de Cocody, où la disponibilité de chaque studio est calculée en temps réel et où un moteur anti-chevauchement rend la double-réservation impossible par construction.",
+    "role": "Proposition spontanée conçue et développée de bout en bout chez African Digit Consulting : modèle de données Convex, moteur de disponibilité temps réel, workflow de réservation et de validation, design system de marque (serif de luxe, doré).",
+    "year": "2026",
+    "status": "dev",
+    "stack": [
+      "TanStack Start v1.121",
+      "React 19",
+      "Vite 7",
+      "Convex (DB temps réel)",
+      "Better Auth (admin uniquement)",
+      "Tailwind v4",
+      "TypeScript",
+      "Vercel"
+    ],
+    "context": "Les Résidences BYOMA sont des résidences meublées situées à Angré Djomi (Cocody, Abidjan), louées à la nuitée en trois catégories (Studio Standard à 25 000 FCFA, Studio Premium à 45 000 FCFA, Appartement 2 pièces Premium à 60 000 FCFA par tranche de 24 h). Comme beaucoup d'acteurs de l'hôtellerie de proximité en Côte d'Ivoire, l'établissement n'avait pas de présence digitale dédiée : la réservation se faisait par téléphone, WhatsApp et Facebook, sans visibilité publique des disponibilités et avec un risque permanent de double-réservation géré de tête. La proposition spontanée vise à transformer cette présence en un site premium qui rassure une clientèle exigeante (cadres en déplacement, diaspora de passage), expose les disponibilités en temps réel et capte les demandes de réservation, tout en restant léger sur des connexions mobiles contraintes.",
+    "architectureSummary": "L'application est un monolithe SSR TanStack Start (React 19, Vite 7) déployé sur Vercel, adossé à un backend unique Convex qui sert à la fois de base de données et de couche temps réel. Le modèle métier tient en quatre tables : studios (catégorie, prix à la nuitée, équipements, photos, ordre d'affichage), reservations (client, dates d'arrivée et de départ, nombre de nuits, prix total, statut pending / confirmed / refused / cancelled), blockedPeriods (indisponibilités commerciales hors réservation : entretien, mise hors-ligne) et admins. La pièce centrale est une query de disponibilité, checkAvailability, qui détecte tout chevauchement de dates pour un studio donné via la condition d'intersection d'intervalles (checkIn < checkOut demandé ET checkOut > checkIn demandé), en ignorant les réservations refusées ou annulées et en croisant les périodes bloquées ; getBookedDates alimente un calendrier côté client. Les abonnements temps réel de Convex propagent instantanément à tous les visiteurs la prise d'un créneau ou la confirmation d'une réservation par l'admin, sans rafraîchissement. Better Auth est réservé à l'authentification de l'administrateur (validation des demandes, blocage de périodes) : la réservation publique reste sans compte, pour ne pas ajouter de friction à la conversion. À ce stade, le socle backend (schéma, moteur de disponibilité, CRUD réservations) et le design system de marque sont en place ; les pages publiques de réservation et la console d'administration sont la prochaine étape de la proposition.",
+    "architectureDiagram": {
+      "nodes": [
+        {
+          "id": "visitor",
+          "label": "Visiteur (mobile-first, Abidjan / diaspora)",
+          "kind": "client"
+        },
+        {
+          "id": "start",
+          "label": "App TanStack Start SSR (Vercel)",
+          "kind": "server"
+        },
+        {
+          "id": "availability",
+          "label": "checkAvailability (moteur anti-chevauchement)",
+          "kind": "service"
+        },
+        {
+          "id": "convex",
+          "label": "Convex (studios, reservations, blockedPeriods, temps réel)",
+          "kind": "db"
+        },
+        {
+          "id": "admin",
+          "label": "Console admin (validation, blocage de périodes)",
+          "kind": "client"
+        },
+        {
+          "id": "auth",
+          "label": "Better Auth (admin uniquement)",
+          "kind": "service"
+        },
+        {
+          "id": "contact",
+          "label": "Téléphone / WhatsApp / Facebook (canaux existants)",
+          "kind": "external"
+        }
+      ],
+      "edges": [
+        {
+          "from": "visitor",
+          "to": "start",
+          "label": "HTTP/SSR"
+        },
+        {
+          "from": "start",
+          "to": "convex",
+          "label": "useQuery temps réel (studios, dispo)"
+        },
+        {
+          "from": "start",
+          "to": "availability",
+          "label": "vérifie les dates demandées"
+        },
+        {
+          "from": "availability",
+          "to": "convex",
+          "label": "détection de chevauchement"
+        },
+        {
+          "from": "visitor",
+          "to": "convex",
+          "label": "demande de réservation (pending)"
+        },
+        {
+          "from": "admin",
+          "to": "auth",
+          "label": "connexion admin"
+        },
+        {
+          "from": "admin",
+          "to": "convex",
+          "label": "confirme / refuse / bloque"
+        },
+        {
+          "from": "visitor",
+          "to": "contact",
+          "label": "repli WhatsApp / appel"
+        }
+      ]
+    },
+    "decisions": [
+      {
+        "title": "Disponibilité en temps réel via Convex plutôt qu'un formulaire e-mail",
+        "choice": "Modéliser les réservations et les indisponibilités dans Convex et exposer les disponibilités en direct, au lieu d'un simple formulaire de contact qui laisse l'arbitrage des dates entièrement à l'humain.",
+        "rationale": "La valeur perçue par une clientèle premium tient à la promesse « ce que vous voyez est réservable » : afficher des créneaux réellement libres et synchronisés évite les allers-retours et les déceptions. Les abonnements temps réel de Convex donnent ce comportement nativement, sans WebSocket à câbler.",
+        "tradeoff": "On introduit un backend stateful et un modèle de données à maintenir là où une page vitrine statique aurait suffi pour une simple présence ; en contrepartie, le site devient un vrai outil de réservation et non une plaquette."
+      },
+      {
+        "title": "Périodes bloquées séparées des réservations",
+        "choice": "Une table blockedPeriods dédiée aux indisponibilités commerciales (entretien, mise hors-ligne), distincte des reservations client.",
+        "rationale": "Une indisponibilité d'entretien n'est pas une réservation : la séparer évite de polluer l'historique commercial et les statistiques, tout en étant prise en compte de la même façon dans le calcul de disponibilité.",
+        "tradeoff": "Le moteur de disponibilité doit interroger et fusionner deux sources de chevauchement au lieu d'une, au profit d'une sémantique métier claire."
+      },
+      {
+        "title": "Réservation publique sans compte, Better Auth réservé à l'admin",
+        "choice": "Les visiteurs réservent sans création de compte (demande en statut pending) ; seul l'administrateur s'authentifie via Better Auth pour valider, refuser ou bloquer.",
+        "rationale": "Chaque champ et chaque étape d'inscription réduit la conversion ; pour une résidence, la friction doit être minimale côté client, la sécurité ne concernant que le back-office.",
+        "tradeoff": "Pas de compte client signifie pas d'historique self-service ni de réservation instantanément confirmée : toute demande passe par une validation humaine (workflow pending → confirmed / refused)."
+      }
+    ],
+    "challenges": [
+      {
+        "problem": "Rendre la double-réservation d'un même studio sur des dates qui se chevauchent impossible, alors que les demandes arrivent de façon concurrente.",
+        "solution": "Une query de disponibilité fondée sur la condition d'intersection d'intervalles (checkIn < checkOut ET checkOut > checkIn), excluant les statuts refused et cancelled et croisant les périodes bloquées, doublée d'une revérification du chevauchement à l'intérieur de la mutation de création pour fermer la fenêtre de concurrence entre l'affichage et la confirmation."
+      },
+      {
+        "problem": "Distinguer une indisponibilité d'entretien d'une vraie réservation tout en les traitant uniformément côté calendrier.",
+        "solution": "Modèle à deux tables (reservations et blockedPeriods) avec un calcul de disponibilité qui agrège les deux sources de chevauchement, et un endpoint getBookedDates qui renvoie au client une vue unifiée des dates indisponibles pour le calendrier."
+      },
+      {
+        "problem": "Projeter une image premium crédible sur des connexions mobiles contraintes, pour une clientèle exigeante.",
+        "solution": "Design system de marque sobre (serif de luxe Cormorant Garamond pour les titres, DM Sans pour le texte, palette dorée sur fond crème) servi en SSR par TanStack Start, avec photos optimisées par catégorie de studio et mise en page mobile-first."
+      }
+    ],
+    "results": [],
+    "confidential": false,
+    "headlineMetric": {
+      "label": "catégories de résidences modélisées (25 000 à 60 000 FCFA/24 h)",
+      "value": "3"
+    },
+    "links": {}
   }
 ]
 
