@@ -2257,11 +2257,14 @@ export const caseStudies: CaseStudy[] = [
       "Convex (DB temps réel)",
       "Better Auth (admin uniquement)",
       "Tailwind v4",
+      "GSAP 3.15 + @gsap/react",
+      "ScrollTrigger",
+      "Fraunces + Hanken Grotesk",
       "TypeScript",
       "Vercel"
     ],
     "context": "Les Résidences BYOMA sont des résidences meublées situées à Angré Djomi (Cocody, Abidjan), louées à la nuitée en trois catégories (Studio Standard à 25 000 FCFA, Studio Premium à 45 000 FCFA, Appartement 2 pièces Premium à 60 000 FCFA par tranche de 24 h). Comme beaucoup d'acteurs de l'hôtellerie de proximité en Côte d'Ivoire, l'établissement n'avait pas de présence digitale dédiée : la réservation se faisait par téléphone, WhatsApp et Facebook, sans visibilité publique des disponibilités et avec un risque permanent de double-réservation géré de tête. La proposition spontanée vise à transformer cette présence en un site premium qui rassure une clientèle exigeante (cadres en déplacement, diaspora de passage), expose les disponibilités en temps réel et capte les demandes de réservation, tout en restant léger sur des connexions mobiles contraintes.",
-    "architectureSummary": "L'application est un monolithe SSR TanStack Start (React 19, Vite 7) déployé sur Vercel, adossé à un backend unique Convex qui sert à la fois de base de données et de couche temps réel. Le modèle métier tient en quatre tables : studios (catégorie, prix à la nuitée, équipements, photos, ordre d'affichage), reservations (client, dates d'arrivée et de départ, nombre de nuits, prix total, statut pending / confirmed / refused / cancelled), blockedPeriods (indisponibilités commerciales hors réservation : entretien, mise hors-ligne) et admins. La pièce centrale est une query de disponibilité, checkAvailability, qui détecte tout chevauchement de dates pour un studio donné via la condition d'intersection d'intervalles (checkIn < checkOut demandé ET checkOut > checkIn demandé), en ignorant les réservations refusées ou annulées et en croisant les périodes bloquées ; getBookedDates alimente un calendrier côté client. Les abonnements temps réel de Convex propagent instantanément à tous les visiteurs la prise d'un créneau ou la confirmation d'une réservation par l'admin, sans rafraîchissement. Better Auth est réservé à l'authentification de l'administrateur (validation des demandes, blocage de périodes) : la réservation publique reste sans compte, pour ne pas ajouter de friction à la conversion. À ce stade, le socle backend (schéma, moteur de disponibilité, CRUD réservations) et le design system de marque sont en place ; les pages publiques de réservation et la console d'administration sont la prochaine étape de la proposition.",
+    "architectureSummary": "L'application est un monolithe SSR TanStack Start (React 19, Vite 7) déployé sur Vercel, adossé à un backend unique Convex qui sert à la fois de base de données et de couche temps réel. Le modèle métier tient en quatre tables : studios (catégorie, prix à la nuitée, équipements, photos, ordre d'affichage), reservations (client, dates d'arrivée et de départ, nombre de nuits, prix total, statut pending / confirmed / refused / cancelled), blockedPeriods (indisponibilités commerciales hors réservation : entretien, mise hors-ligne) et admins. La pièce centrale est une query de disponibilité, checkAvailability, qui détecte tout chevauchement de dates pour un studio donné via la condition d'intersection d'intervalles (checkIn < checkOut demandé ET checkOut > checkIn demandé), en ignorant les réservations refusées ou annulées et en croisant les périodes bloquées ; getBookedDates alimente un calendrier côté client. Les abonnements temps réel de Convex propagent instantanément à tous les visiteurs la prise d'un créneau ou la confirmation d'une réservation par l'admin, sans rafraîchissement. Better Auth est réservé à l'authentification de l'administrateur (validation des demandes, blocage de périodes) : la réservation publique reste sans compte, pour ne pas ajouter de friction à la conversion. Au-dessus de ce socle, le site public est entièrement composé dans un langage de marque éditorial (Fraunces en titrage, Hanken Grotesk en texte, palette espresso / ivoire / doré, navbar flottante qui se condense au scroll, hero en fondu enchaîné) et habillé d'une couche de mouvement GSAP réglée pour rester sobre : un petit module de primitives (Reveal, Stagger, Parallax) appuyé sur ScrollTrigger pilote des révélations à l'apparition, une cascade des cartes de résidences et une parallaxe légère limitée au desktop, chaque effet partant d'un état de base visible pour rester lisible sans JavaScript et sous prefers-reduced-motion.",
     "architectureDiagram": {
       "nodes": [
         {
@@ -2361,6 +2364,18 @@ export const caseStudies: CaseStudy[] = [
         "choice": "Les visiteurs réservent sans création de compte (demande en statut pending) ; seul l'administrateur s'authentifie via Better Auth pour valider, refuser ou bloquer.",
         "rationale": "Chaque champ et chaque étape d'inscription réduit la conversion ; pour une résidence, la friction doit être minimale côté client, la sécurité ne concernant que le back-office.",
         "tradeoff": "Pas de compte client signifie pas d'historique self-service ni de réservation instantanément confirmée : toute demande passe par une validation humaine (workflow pending → confirmed / refused)."
+      },
+      {
+        "title": "Mouvement GSAP fail-safe, sous-jacent au design plutôt que décoratif",
+        "choice": "Centraliser toute l'animation dans un module de trois primitives (Reveal, Stagger, Parallax) sur ScrollTrigger, où chaque effet anime uniquement transform et opacity à partir d'un état de base déjà visible (fromTo avec immediateRender:false), au lieu de cacher le contenu en attendant le scroll.",
+        "rationale": "Sur des connexions mobiles contraintes et en SSR, un contenu masqué par défaut qui dépend d'un trigger JavaScript est un risque d'écran vide ; partir d'un état visible garantit que la page reste lisible sans JavaScript, sous prefers-reduced-motion, et même si un ScrollTrigger ne se déclenche pas. Animer seulement transform et opacity garde l'effet sur le compositeur, sans reflow.",
+        "tradeoff": "Le module ajoute une dépendance (GSAP) et de la discipline d'intégration (retirer toute classe .reveal du markup interne pour éviter la double animation) là où de simples transitions CSS auraient suffi ; en échange, le mouvement est cohérent, testable et toujours dégradable proprement."
+      },
+      {
+        "title": "Parallaxe limitée au desktop, grille d'atouts laissée statique",
+        "choice": "Réserver la parallaxe (sur la citation du bandeau cinéma uniquement, pas le fond) au desktop via matchMedia, n'animer en cascade que les cartes de résidences, et laisser volontairement statiques la grille des huit atouts et les blocs déjà au-dessus de la ligne de flottaison.",
+        "rationale": "Une parallaxe sur mobile est coûteuse et souvent saccadée, et tout animer vire à l'effet catalogue générique ; restreindre le mouvement aux moments à fort impact (révélation des sections, cascade des cartes, titre éditorial du pied de page) donne une signature premium sobre plutôt qu'un empilement d'animations.",
+        "tradeoff": "Le comportement diffère entre desktop et mobile, ce qui demande de raisonner par point de rupture (gate matchMedia min-width 768px) plutôt qu'un effet unique partout."
       }
     ],
     "challenges": [
@@ -2374,7 +2389,11 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         "problem": "Projeter une image premium crédible sur des connexions mobiles contraintes, pour une clientèle exigeante.",
-        "solution": "Design system de marque sobre (serif de luxe Cormorant Garamond pour les titres, DM Sans pour le texte, palette dorée sur fond crème) servi en SSR par TanStack Start, avec photos optimisées par catégorie de studio et mise en page mobile-first."
+        "solution": "Design system de marque sobre (Fraunces en titrage éditorial, Hanken Grotesk en texte, palette espresso / ivoire / doré, navbar flottante qui se condense au scroll, hero en fondu enchaîné) servi en SSR par TanStack Start, avec photos optimisées par catégorie de studio et mise en page mobile-first."
+      },
+      {
+        "problem": "Ajouter une couche d'animation premium sans risquer l'écran blanc en SSR ni dégrader l'expérience sur mobile et sous prefers-reduced-motion.",
+        "solution": "Un module de primitives GSAP (Reveal, Stagger, Parallax) enregistré une seule fois, posé sur le hook useGSAP qui n'évalue le mouvement qu'après l'hydratation. Chaque animation part d'un état de base visible (fromTo, immediateRender:false) et n'agit que sur transform et opacity ; la parallaxe est encapsulée dans un matchMedia desktop, donc rien n'est posé sur mobile ni en mouvement réduit. Les classes de révélation du markup interne ont été retirées pour éviter toute double animation, le build SSR passant sans erreur."
       }
     ],
     "results": [],
@@ -2383,7 +2402,9 @@ export const caseStudies: CaseStudy[] = [
       "label": "catégories de résidences modélisées (25 000 à 60 000 FCFA/24 h)",
       "value": "3"
     },
-    "links": {}
+    "links": {
+      "github": "https://github.com/James10192/byoma-website"
+    }
   }
 ]
 

@@ -117,7 +117,8 @@ export const projects: Project[] = [
     title: 'Les Résidences BYOMA',
     tagline: 'Réserver une résidence meublée à Abidjan, en temps réel.',
     description: "Proposition spontanée pour Les Résidences BYOMA (résidences meublées à Cocody) : site de réservation premium avec disponibilité en temps réel par studio, moteur anti-chevauchement, demandes de réservation et back-office admin (validation, blocage de périodes). Stack temps réel Convex, identité visuelle dorée et serif de luxe.",
-    tech: ['TanStack Start', 'React 19', 'Convex', 'Better Auth', 'Tailwind v4', 'Vite 7', 'Vercel'],
+    tech: ['TanStack Start', 'React 19', 'Convex', 'Better Auth', 'Tailwind v4', 'Vite 7', 'GSAP', 'Vercel'],
+    githubUrl: 'https://github.com/James10192/byoma-website',
     year: '2026',
   },
   {
