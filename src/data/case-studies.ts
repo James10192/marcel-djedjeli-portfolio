@@ -2403,6 +2403,7 @@ export const caseStudies: CaseStudy[] = [
       "value": "3"
     },
     "links": {
+      "live": "https://byoma-website.vercel.app",
       "github": "https://github.com/James10192/byoma-website"
     }
   }
