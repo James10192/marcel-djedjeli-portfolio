@@ -31,14 +31,14 @@ export function Contact() {
         className="pointer-events-none absolute right-2 top-8 font-display text-[100px] font-extrabold leading-none text-accent opacity-[0.025] md:right-12 md:top-12 md:text-[260px]"
         aria-hidden
       >
-        06
+        07
       </div>
 
       {/* Code-comment section header */}
       <Reveal className="mb-10 md:mb-14">
         <div className="flex items-baseline gap-3 font-mono text-[12px] tracking-wider text-accent">
           <span>{`//`}</span>
-          <span>SECTION_06</span>
+          <span>SECTION_07</span>
           <span className="text-muted">/</span>
           <span className="text-muted">contact.sh</span>
         </div>

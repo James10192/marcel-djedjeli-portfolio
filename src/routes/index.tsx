@@ -7,6 +7,7 @@ import { Skills } from '@/components/sections/skills'
 import { Experience } from '@/components/sections/experience'
 import { Projects } from '@/components/sections/projects'
 import { Formation } from '@/components/sections/formation'
+import { Services } from '@/components/sections/services'
 import { Contact } from '@/components/sections/contact'
 
 export const Route = createFileRoute('/')({ component: Home })
@@ -22,6 +23,7 @@ function Home() {
         <Experience />
         <Projects />
         <Formation />
+        <Services />
         <Contact />
       </main>
       <Footer />

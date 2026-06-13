@@ -9,6 +9,7 @@ const links = [
   { hash: 'experience', label: 'Expérience' },
   { hash: 'projects', label: 'Projets' },
   { hash: 'formation', label: 'Formation' },
+  { hash: 'services', label: 'Services' },
 ]
 
 export function Nav() {

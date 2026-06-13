@@ -13,6 +13,7 @@ export const personal = {
   github: 'James10192',
   githubUrl: 'https://github.com/James10192',
   cvPdf: '/cv-djedje-li-marcel.pdf',
+  servicesPdf: '/offre-services-marcel.pdf',
   tagline: "Je conçois des plateformes SaaS robustes pour l'Afrique francophone. Laravel, Next.js, React, et une obsession pour les détails.",
   shortBio: "Développeur Fullstack et Head of Development chez African Digit Consulting (Abidjan). Je conçois et livre des plateformes SaaS de bout en bout, dont Klassci, déjà déployée dans plus de 5 établissements supérieurs et utilisée par 7 600+ étudiants.",
   longBio: [
