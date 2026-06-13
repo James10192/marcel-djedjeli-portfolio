@@ -183,7 +183,8 @@ export function Services() {
             </p>
           </div>
           <div
-            className="inline-flex w-max items-center gap-2 border border-accent/40 bg-accent-soft px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-accent"
+            className="inline-flex w-max items-center gap-2 bg-accent px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-wider"
+            style={{ color: '#0a0a08' }}
           >
             Sur devis
           </div>
