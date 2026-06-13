@@ -43,6 +43,22 @@ export const projects: Project[] = [
     year: '2025',
   },
   {
+    slug: 'filon',
+    type: 'SaaS · Pipeline d\'opportunités',
+    title: 'Filon',
+    tagline: 'Ne laissez plus filer une opportunité de revenu.',
+    description: "SaaS de pipeline pour développeurs et freelances : il centralise candidatures à des offres, propositions spontanées et prospection de contrats dans un kanban (Piste, Contacté, Candidature/Proposition envoyée, Entretien, Négociation, Gagné/Perdu), avec relances datées, contacts et entreprises, bibliothèque de documents (CV, lettres) et un dashboard de pilotage. Multi-tenant strict par utilisateur, temps réel via Convex. Pensé d'abord pour un usage perso, ouvrable au grand public.",
+    tech: ['TanStack Start', 'React 19', 'Vite 7', 'Convex', 'Better Auth', 'Tailwind v4', 'Radix UI', 'TypeScript', 'Vercel'],
+    liveUrl: 'https://filon-xi.vercel.app',
+    githubUrl: 'https://github.com/James10192/filon',
+    year: '2026',
+    featured: true,
+    metrics: [
+      { value: '9', label: 'Modules produit' },
+      { value: 'Temps réel', label: 'Pipeline Convex' },
+    ],
+  },
+  {
     slug: 'esbtp',
     type: 'Proposition spontanée · Site vitrine',
     title: 'ESBTP',

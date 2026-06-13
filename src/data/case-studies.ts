@@ -2408,6 +2408,168 @@ export const caseStudies: CaseStudy[] = [
       "live": "https://byoma-website.vercel.app",
       "github": "https://github.com/James10192/byoma-website"
     }
+  },
+  {
+    "slug": "filon",
+    "title": "Filon, pipeline d'opportunités de revenu pour développeurs et freelances",
+    "oneLiner": "Un SaaS qui centralise candidatures, propositions spontanées et prospection de contrats dans un kanban temps réel, avec relances datées, contacts, entreprises et documents, multi-tenant strict par utilisateur.",
+    "role": "Conception et développement de bout en bout : modèle de données Convex multi-tenant, authentification Better Auth en single-store sur Convex, pipeline kanban et timeline d'activités, dashboard de pilotage, design system et landing, déploiement Vercel.",
+    "year": "2026",
+    "status": "prod",
+    "stack": [
+      "TanStack Start v1.121 (SSR)",
+      "React 19",
+      "Vite 7",
+      "Convex (DB temps réel)",
+      "@convex-dev/better-auth (single-store)",
+      "Better Auth 1.6",
+      "TanStack Query + Router",
+      "Tailwind v4",
+      "shadcn / Radix UI",
+      "Lucide",
+      "Sonner",
+      "Zod",
+      "TypeScript",
+      "Vercel"
+    ],
+    "context": "Un développeur ou un freelance qui cherche du revenu jongle en permanence entre plusieurs flux : candidatures à des offres d'emploi, propositions spontanées à des entreprises, prospection de missions et de contrats. Ces démarches finissent dispersées entre onglets, tableurs, notes et messageries, sans vue d'ensemble, sans rappel de relance, et avec des opportunités qui filent faute de suivi. Filon répond à ce besoin avec un pipeline unique, façon CRM commercial mais pensé pour le chercheur de revenu indépendant : chaque piste devient une carte qui avance dans un kanban, chaque contact et chaque entreprise sont mémorisés, chaque relance est datée, et un dashboard donne en un coup d'œil l'état du tunnel. Construit d'abord pour un usage personnel, le produit est conçu multi-tenant dès le premier jour pour être ouvrable au grand public sans refonte.",
+    "architectureSummary": "Filon est un monolithe SSR TanStack Start (React 19, Vite 7) déployé sur Vercel, adossé à un backend unique Convex qui sert à la fois de base de données et de couche temps réel. L'originalité de l'architecture est l'authentification en single-store : Better Auth tourne directement sur Convex via le composant @convex-dev/better-auth, sans base de données séparée ni synchronisation par webhook. Le proxy /api/auth/* est monté côté frontend avec le pattern officiel react-start (convexBetterAuthReactStart, un handler relayé depuis une route createFileRoute avec server.handlers), et un trigger user.onCreate matérialise une ligne métier dans la table users à l'inscription. Tout le modèle métier est multi-tenant strict : neuf tables (users, companies, contacts, opportunities, activities, followups, proposals, documents, settings) portent un champ userId, chacune indexée par by_user* ; aucune query ne fait de scan global, toutes passent par un helper requireUser/withUser qui résout l'utilisateur Better Auth courant et scope la lecture sur son identifiant. Le cœur du produit est la table opportunities : un type (offre d'emploi, proposition spontanée, prospect, mission), un stage de pipeline (lead, contacted, applied, interview, negotiation, won, lost), une priorité, des dates clés (deadline, dépôt, prochaine action), des tags et un champ order qui porte le tri intra-colonne du kanban (index by_user_stage_order). Une timeline d'activités (notes, e-mails, appels, entretiens, changements de statut) s'attache à chaque opportunité ; les relances datées vivent dans une table followups indexée par échéance et statut pour alimenter le dashboard ; les documents (CV, lettres, portfolio, contrats) sont stockés via Convex storage et référencés par un storageId. Les abonnements temps réel de Convex propagent instantanément tout déplacement de carte, ajout de relance ou nouvelle activité à toutes les vues ouvertes, sans rafraîchissement. Côté interface, le produit compte neuf modules (dashboard de pilotage, pipeline kanban, opportunités avec timeline, entreprises et contacts, propositions, relances, documents, paramètres, landing avec authentification), bâtis sur des composants shadcn / Radix, avec Sonner pour le feedback et Zod pour la validation.",
+    "architectureDiagram": {
+      "nodes": [
+        {
+          "id": "user",
+          "label": "Développeur / freelance (multi-tenant)",
+          "kind": "client"
+        },
+        {
+          "id": "start",
+          "label": "App TanStack Start SSR (Vercel)",
+          "kind": "server"
+        },
+        {
+          "id": "authproxy",
+          "label": "Proxy /api/auth/* (react-start handler officiel)",
+          "kind": "server"
+        },
+        {
+          "id": "withuser",
+          "label": "requireUser / withUser (scope par userId)",
+          "kind": "service"
+        },
+        {
+          "id": "convex",
+          "label": "Convex (9 tables métier, temps réel)",
+          "kind": "db"
+        },
+        {
+          "id": "betterauth",
+          "label": "Better Auth single-store (sur Convex)",
+          "kind": "service"
+        },
+        {
+          "id": "storage",
+          "label": "Convex storage (CV, lettres, documents)",
+          "kind": "db"
+        }
+      ],
+      "edges": [
+        {
+          "from": "user",
+          "to": "start",
+          "label": "HTTP/SSR"
+        },
+        {
+          "from": "start",
+          "to": "authproxy",
+          "label": "/api/auth/* (cookies, token)"
+        },
+        {
+          "from": "authproxy",
+          "to": "betterauth",
+          "label": "relai Better Auth"
+        },
+        {
+          "from": "betterauth",
+          "to": "convex",
+          "label": "single-store (users, sessions)"
+        },
+        {
+          "from": "start",
+          "to": "withuser",
+          "label": "query/mutation métier"
+        },
+        {
+          "from": "withuser",
+          "to": "convex",
+          "label": "lecture scopée by_user* temps réel"
+        },
+        {
+          "from": "withuser",
+          "to": "storage",
+          "label": "upload / référence document"
+        }
+      ]
+    },
+    "decisions": [
+      {
+        "title": "Authentification Better Auth en single-store sur Convex",
+        "choice": "Faire tourner Better Auth directement sur Convex via le composant @convex-dev/better-auth, plutôt que d'adosser l'auth à une base de données séparée (Postgres) synchronisée par webhook.",
+        "rationale": "Un seul backend pour l'auth et le métier supprime toute synchronisation à maintenir, garde les identités et les données dans le même store transactionnel, et simplifie radicalement le déploiement et les variables d'environnement. Un trigger user.onCreate matérialise la ligne métier users à l'inscription, et l'identifiant Better Auth devient directement la clé de tenant.",
+        "tradeoff": "On se restreint aux plugins supportés par le composant Convex et on dépend d'une intégration encore jeune ; en contrepartie, l'architecture reste simple, sans double store ni dérive entre deux bases."
+      },
+      {
+        "title": "Multi-tenant strict par userId dès le premier jour",
+        "choice": "Porter un champ userId sur les neuf tables métier, l'indexer en by_user* partout, et imposer un helper requireUser/withUser en tête de chaque query et mutation, sans jamais autoriser de scan global.",
+        "rationale": "Le produit naît pour un usage personnel mais doit pouvoir s'ouvrir au public sans refonte : isoler chaque utilisateur par construction évite la fuite de données entre comptes et garantit que les lectures restent bornées et performantes même quand la base grossit.",
+        "tradeoff": "Chaque accès doit résoudre l'identité et passer par un index dédié, ce qui ajoute de la discipline et multiplie les index ; en échange, l'isolation est systématique et l'ouverture au grand public devient une formalité plutôt qu'un chantier."
+      },
+      {
+        "title": "Pipeline modélisé en stages avec un champ order pour le kanban",
+        "choice": "Représenter chaque opportunité par un stage (lead, contacted, applied, interview, negotiation, won, lost) et un champ order numérique, indexés ensemble (by_user_stage_order) pour porter à la fois la colonne et le tri à l'intérieur de la colonne.",
+        "rationale": "Le kanban est l'interface centrale : déplacer une carte doit mettre à jour son stage et sa position de façon atomique et se propager en temps réel. Un index composite userId + stage + order rend la lecture d'une colonne triée directe, sans tri côté client.",
+        "tradeoff": "Réordonner exige de gérer les valeurs de order au déplacement plutôt que de s'appuyer sur un simple createdAt ; en échange, l'utilisateur garde la maîtrise de la priorisation visuelle de son tunnel."
+      },
+      {
+        "title": "Proxy d'authentification via le pattern officiel react-start",
+        "choice": "Monter le relai /api/auth/* avec convexBetterAuthReactStart et une route createFileRoute exposant des server.handlers GET/POST, plutôt qu'un middleware maison ou l'ancien createServerFileRoute.",
+        "rationale": "Le pattern officiel gère proprement les cookies, le CORS et l'endpoint token vers Convex, et reste aligné sur l'API actuelle de TanStack Start (où Route + server.handlers a remplacé createServerFileRoute). Les URLs Convex sont inlinées au build par Vite pour être disponibles au runtime serveur Nitro/Vercel, où les variables VITE_* ne sont pas dans process.env.",
+        "tradeoff": "On suit de près une API encore mouvante et on doit gérer l'inlining des URLs au build ; en contrepartie, l'intégration auth reste supportée, testée et conforme aux gotchas SSR de la stack."
+      },
+      {
+        "title": "Documents stockés via Convex storage, référencés par les opportunités",
+        "choice": "Conserver CV, lettres, portfolios et contrats dans Convex storage avec un storageId, et permettre de rattacher un document à une opportunité, plutôt qu'un service de fichiers externe.",
+        "rationale": "Rester sur le même backend évite une intégration de stockage tierce et garde la bibliothèque de documents dans le périmètre multi-tenant : chaque fichier est scopé par userId comme le reste, et peut être attaché au dossier d'une candidature.",
+        "tradeoff": "On dépend du stockage Convex et de ses limites plutôt que d'un CDN d'objets dédié ; en échange, l'ensemble reste cohérent, transactionnel et simple à sécuriser."
+      }
+    ],
+    "challenges": [
+      {
+        "problem": "Empêcher toute fuite de données entre utilisateurs alors que le produit doit pouvoir passer d'un usage perso à une ouverture publique sans refonte.",
+        "solution": "Multi-tenant strict par construction : un champ userId sur les neuf tables métier, des index by_user* systématiques, et un helper requireUser/withUser appelé en tête de chaque query et mutation qui résout l'utilisateur Better Auth courant et borne toute lecture à son identifiant, sans aucun scan global."
+      },
+      {
+        "problem": "Offrir une authentification robuste sans empiler un second backend ni gérer une synchronisation entre deux bases.",
+        "solution": "Better Auth en single-store sur Convex via @convex-dev/better-auth : auth et métier dans le même store, proxy /api/auth/* monté avec le pattern officiel react-start, et un trigger user.onCreate qui matérialise la ligne métier users à l'inscription, l'identifiant Better Auth servant directement de clé de tenant."
+      },
+      {
+        "problem": "Rendre le déplacement d'une carte dans le kanban immédiat et cohérent, tout en gardant l'ordre choisi par l'utilisateur dans chaque colonne.",
+        "solution": "Un modèle d'opportunité avec stage et champ order indexés ensemble (by_user_stage_order) : lire une colonne triée se fait directement par index, déplacer une carte met à jour son stage et sa position, et les abonnements temps réel de Convex propagent le changement à toutes les vues ouvertes sans rafraîchissement."
+      },
+      {
+        "problem": "Servir une application authentifiée en SSR sur Vercel sans casser l'hydratation ni perdre les URLs Convex au runtime serveur.",
+        "solution": "Stack alignée sur les gotchas TanStack Start : URLs Convex inlinées au build par Vite (import.meta.env) pour être disponibles côté Nitro/Vercel où les VITE_* ne sont pas dans process.env, proxy auth via server.handlers, et providers Convex/auth scopés sur les routes applicatives plutôt que sur la racine du document."
+      }
+    ],
+    "results": [],
+    "confidential": false,
+    "headlineMetric": {
+      "label": "modules produit (dashboard, kanban, opportunités, entreprises, propositions, relances, documents, paramètres, landing)",
+      "value": "9"
+    },
+    "links": {
+      "live": "https://filon-xi.vercel.app",
+      "github": "https://github.com/James10192/filon"
+    }
   }
 ]
 
