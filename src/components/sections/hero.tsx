@@ -120,6 +120,13 @@ export function Hero() {
                 Me contacter
               </a>
             </Magnetic>
+            <a
+              href={personal.cvPdf}
+              download
+              className="inline-flex h-12 items-center gap-2 px-2 font-mono text-sm text-muted underline decoration-line underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+            >
+              Télécharger le CV (PDF)
+            </a>
           </motion.div>
         </div>
 

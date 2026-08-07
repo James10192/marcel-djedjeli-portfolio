@@ -49,8 +49,9 @@ export const Route = createRootRoute({
       { rel: 'stylesheet', href: appCss },
       { rel: 'icon', href: '/favicon.ico' },
       { rel: 'manifest', href: '/manifest.json' },
-      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
+      // Fonts critiques du premier viewport (titre display + corps mono)
+      { rel: 'preload', href: '/fonts/syne-800.woff2', as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
+      { rel: 'preload', href: '/fonts/dm-mono-400.woff2', as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
     ],
     scripts: [
       {
