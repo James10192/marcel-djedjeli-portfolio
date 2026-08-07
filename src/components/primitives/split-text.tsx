@@ -1,5 +1,7 @@
-import { motion, useReducedMotion } from 'motion/react'
-import { cn } from '@/lib/utils'
+import { useRef } from 'react'
+import gsap from 'gsap'
+import { useGsapEffect } from '@/lib/use-gsap'
+import { cn, prefersReducedMotion } from '@/lib/utils'
 
 type SplitTextProps = {
   text: string
@@ -9,6 +11,11 @@ type SplitTextProps = {
   as?: 'span' | 'div'
 }
 
+/**
+ * Titre révélé mot par mot derrière un masque (équivalent variants framer).
+ * SSR-safe : le HTML serveur est entièrement visible, gsap.from ne masque
+ * qu'au montage client avant de jouer. Neutre si prefers-reduced-motion.
+ */
 export function SplitText({
   text,
   className,
@@ -17,60 +24,36 @@ export function SplitText({
   as = 'span',
 }: SplitTextProps) {
   const words = text.split(' ')
-  const MotionTag = as === 'div' ? motion.div : motion.span
-  const reduceMotion = useReducedMotion()
+  const Tag = as === 'div' ? 'div' : 'span'
+  const ref = useRef<HTMLElement>(null)
 
-  if (reduceMotion) {
-    const Tag = as === 'div' ? 'div' : 'span'
-    return (
-      <Tag className={cn('inline-block', className)} aria-label={text}>
-        {words.map((word, i) => (
-          <span
-            key={i}
-            className="inline-block max-w-full overflow-hidden align-baseline pb-[0.18em] -mb-[0.18em]"
-            aria-hidden
-          >
-            <span className="inline-block">
-              {word}
-              {i < words.length - 1 && ' '}
-            </span>
-          </span>
-        ))}
-      </Tag>
-    )
-  }
+  useGsapEffect(() => {
+    const el = ref.current
+    if (prefersReducedMotion() || !el) return
+    gsap.from(el.querySelectorAll('[data-split-word]'), {
+      yPercent: 110,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'expo.out',
+      stagger,
+      delay,
+    })
+  }, ref)
 
   return (
-    <MotionTag
-      className={cn('inline-block', className)}
-      initial="hidden"
-      animate="visible"
-      variants={{
-        hidden: {},
-        visible: {
-          transition: { staggerChildren: stagger, delayChildren: delay },
-        },
-      }}
-      aria-label={text}
-    >
+    <Tag ref={ref as React.RefObject<never>} className={cn('inline-block', className)} aria-label={text}>
       {words.map((word, i) => (
         <span
           key={i}
           className="inline-block max-w-full overflow-hidden align-baseline pb-[0.18em] -mb-[0.18em]"
           aria-hidden
         >
-          <motion.span
-            className="inline-block"
-            variants={{
-              hidden: { y: '110%', opacity: 0 },
-              visible: { y: '0%', opacity: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
-            }}
-          >
+          <span data-split-word className="inline-block">
             {word}
-            {i < words.length - 1 && ' '}
-          </motion.span>
+            {i < words.length - 1 && ' '}
+          </span>
         </span>
       ))}
-    </MotionTag>
+    </Tag>
   )
 }

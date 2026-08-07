@@ -1,6 +1,6 @@
-import { useRef, type ReactNode } from 'react'
-import { motion, useMotionValue, useSpring, useReducedMotion } from 'motion/react'
-import { cn } from '@/lib/utils'
+import { useEffect, useRef, type ReactNode } from 'react'
+import gsap from 'gsap'
+import { cn, prefersReducedMotion } from '@/lib/utils'
 
 type MagneticProps = {
   children: ReactNode
@@ -8,39 +8,47 @@ type MagneticProps = {
   strength?: number
 }
 
+/**
+ * Effet magnétique au survol : l'élément suit légèrement le curseur
+ * (équivalent useMotionValue + useSpring). gsap.quickTo lisse le suivi,
+ * le retour se fait avec un léger rebond élastique.
+ */
 export function Magnetic({ children, className, strength = 0.25 }: MagneticProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-  const springX = useSpring(x, { stiffness: 300, damping: 22, mass: 0.5 })
-  const springY = useSpring(y, { stiffness: 300, damping: 22, mass: 0.5 })
-  const reduceMotion = useReducedMotion()
+  const strengthRef = useRef(strength)
+  strengthRef.current = strength
 
-  function handleMove(e: React.MouseEvent<HTMLDivElement>) {
-    if (reduceMotion) return
+  useEffect(() => {
     const el = ref.current
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    const offsetX = e.clientX - rect.left - rect.width / 2
-    const offsetY = e.clientY - rect.top - rect.height / 2
-    x.set(offsetX * strength)
-    y.set(offsetY * strength)
-  }
+    if (!el || prefersReducedMotion()) return
 
-  function handleLeave() {
-    x.set(0)
-    y.set(0)
-  }
+    const xTo = gsap.quickTo(el, 'x', { duration: 0.35, ease: 'power3.out' })
+    const yTo = gsap.quickTo(el, 'y', { duration: 0.35, ease: 'power3.out' })
+
+    function onMove(e: MouseEvent) {
+      if (!el) return
+      const rect = el.getBoundingClientRect()
+      xTo((e.clientX - rect.left - rect.width / 2) * strengthRef.current)
+      yTo((e.clientY - rect.top - rect.height / 2) * strengthRef.current)
+    }
+
+    function onLeave() {
+      gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)', overwrite: 'auto' })
+    }
+
+    el.addEventListener('mousemove', onMove)
+    el.addEventListener('mouseleave', onLeave)
+    return () => {
+      el.removeEventListener('mousemove', onMove)
+      el.removeEventListener('mouseleave', onLeave)
+      gsap.killTweensOf(el)
+      gsap.set(el, { x: 0, y: 0 })
+    }
+  }, [])
 
   return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      style={{ x: springX, y: springY }}
-      className={cn('inline-block', className)}
-    >
+    <div ref={ref} className={cn('inline-block', className)}>
       {children}
-    </motion.div>
+    </div>
   )
 }

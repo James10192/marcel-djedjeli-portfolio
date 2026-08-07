@@ -1,16 +1,31 @@
-import { motion, useScroll, useTransform } from 'motion/react'
 import { useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SectionHeader } from '@/components/section-header'
-import { Reveal, RevealStagger, staggerItem } from '@/components/primitives/reveal'
+import { Reveal, RevealStagger } from '@/components/primitives/reveal'
+import { useGsapEffect } from '@/lib/use-gsap'
+import { prefersReducedMotion } from '@/lib/utils'
 import { experiences } from '@/data/experiences'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export function Experience() {
   const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start 70%', 'end 30%'],
-  })
-  const lineHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
+
+  // Trait de timeline qui grandit avec le scroll (équivalent useScroll + useTransform)
+  useGsapEffect(() => {
+    const el = ref.current
+    if (prefersReducedMotion() || !el) return
+    gsap.fromTo(
+      '[data-timeline-line]',
+      { height: '0%' },
+      {
+        height: '100%',
+        ease: 'none',
+        scrollTrigger: { trigger: el, start: 'top 70%', end: 'bottom 30%', scrub: true },
+      },
+    )
+  }, ref)
 
   return (
     <section
@@ -26,17 +41,17 @@ export function Experience() {
       <div ref={ref} className="relative">
         {/* Animated timeline line */}
         <div className="absolute left-[5px] top-0 hidden h-full w-px bg-line md:block md:left-[199px]" aria-hidden>
-          <motion.div
-            style={{ height: lineHeight }}
+          <div
+            data-timeline-line
+            style={{ height: '0%' }}
             className="w-px origin-top bg-accent"
           />
         </div>
 
         <RevealStagger className="flex flex-col">
           {experiences.map((exp) => (
-            <motion.div
+            <div
               key={exp.company + exp.date}
-              variants={staggerItem}
               className="group relative grid grid-cols-1 gap-3 border-b border-line py-10 last:border-b-0 md:grid-cols-[200px_1fr] md:gap-12"
             >
               {/* Date column */}
@@ -78,7 +93,7 @@ export function Experience() {
                   ))}
                 </ul>
               </div>
-            </motion.div>
+            </div>
           ))}
         </RevealStagger>
       </div>

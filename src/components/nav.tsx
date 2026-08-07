@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation } from '@tanstack/react-router'
-import { motion, AnimatePresence } from 'motion/react'
-import { cn } from '@/lib/utils'
+import gsap from 'gsap'
+import { cn, prefersReducedMotion } from '@/lib/utils'
 
 const links = [
   { hash: 'about', label: 'À propos' },
@@ -16,6 +16,9 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('')
+  const overlayRef = useRef<HTMLDivElement>(null)
+  const listRef = useRef<HTMLUListElement>(null)
+  const firstRender = useRef(true)
   // Sur l'accueil, les liens sont des ancres locales (#about). Ailleurs (/projets,
   // etudes de cas), ils ramenent a l'accueil puis scrollent (/#about).
   const { pathname } = useLocation()
@@ -52,6 +55,30 @@ export function Nav() {
       if (top) window.scrollTo(0, parseInt(top || '0') * -1)
     }
     return () => window.removeEventListener('scroll', onScroll)
+  }, [open])
+
+  // Entrée/sortie du menu mobile en GSAP (remplace AnimatePresence).
+  // L'overlay reste monté : autoAlpha gère opacity + visibility (a11y ok).
+  useEffect(() => {
+    const overlay = overlayRef.current
+    if (!overlay) return
+    if (firstRender.current) {
+      firstRender.current = false
+      return
+    }
+    const reduced = prefersReducedMotion()
+    if (open) {
+      gsap.to(overlay, { autoAlpha: 1, duration: reduced ? 0 : 0.25, ease: 'power1.out', overwrite: 'auto' })
+      if (!reduced && listRef.current) {
+        gsap.fromTo(
+          listRef.current.children,
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', stagger: 0.06, delay: 0.1, overwrite: 'auto' },
+        )
+      }
+    } else {
+      gsap.to(overlay, { autoAlpha: 0, duration: reduced ? 0 : 0.25, ease: 'power1.out', overwrite: 'auto' })
+    }
   }, [open])
 
   useEffect(() => {
@@ -132,66 +159,43 @@ export function Nav() {
         </button>
       </nav>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-ink/97 backdrop-blur-2xl lg:hidden"
-            style={{
-              paddingTop: 'max(0px, env(safe-area-inset-top))',
-              paddingBottom: 'max(0px, env(safe-area-inset-bottom))',
-            }}
-          >
-            <motion.ul
-              className="flex w-full flex-col"
-              initial="hidden"
-              animate="visible"
-              variants={{
-                hidden: {},
-                visible: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } },
-              }}
-            >
-              {links.map((l) => (
-                <motion.li
-                  key={l.hash}
-                  variants={{
-                    hidden: { opacity: 0, y: 16 },
-                    visible: { opacity: 1, y: 0 },
-                  }}
-                  className="border-b border-line first:border-t"
-                >
-                  <a
-                    href={hrefFor(l.hash)}
-                    onClick={() => setOpen(false)}
-                    className="block px-10 py-5 text-center font-display text-2xl font-bold text-muted transition-colors hover:text-accent"
-                  >
-                    {l.label}
-                  </a>
-                </motion.li>
-              ))}
-              <motion.li
-                variants={{
-                  hidden: { opacity: 0, y: 16 },
-                  visible: { opacity: 1, y: 0 },
-                }}
-                className="mt-8 flex justify-center"
+      <div
+        ref={overlayRef}
+        className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-ink/97 backdrop-blur-2xl lg:hidden"
+        style={{
+          paddingTop: 'max(0px, env(safe-area-inset-top))',
+          paddingBottom: 'max(0px, env(safe-area-inset-bottom))',
+          opacity: 0,
+          visibility: 'hidden',
+        }}
+        aria-hidden={!open}
+      >
+        <ul ref={listRef} className="flex w-full flex-col">
+          {links.map((l) => (
+            <li key={l.hash} className="border-b border-line first:border-t">
+              <a
+                href={hrefFor(l.hash)}
+                onClick={() => setOpen(false)}
+                tabIndex={open ? undefined : -1}
+                className="block px-10 py-5 text-center font-display text-2xl font-bold text-muted transition-colors hover:text-accent"
               >
-                <a
-                  href={contactHref}
-                  onClick={() => setOpen(false)}
-                  className="bg-accent px-10 py-3.5 font-mono text-sm font-medium"
-                  style={{ color: '#0a0a08' }}
-                >
-                  Me contacter
-                </a>
-              </motion.li>
-            </motion.ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                {l.label}
+              </a>
+            </li>
+          ))}
+          <li className="mt-8 flex justify-center">
+            <a
+              href={contactHref}
+              onClick={() => setOpen(false)}
+              tabIndex={open ? undefined : -1}
+              className="bg-accent px-10 py-3.5 font-mono text-sm font-medium"
+              style={{ color: '#0a0a08' }}
+            >
+              Me contacter
+            </a>
+          </li>
+        </ul>
+      </div>
     </>
   )
 }

@@ -1,6 +1,11 @@
-import { motion, type Variants, useScroll, useTransform, useReducedMotion } from 'motion/react'
 import type { ReactNode } from 'react'
 import { useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGsapEffect } from '@/lib/use-gsap'
+import { prefersReducedMotion } from '@/lib/utils'
+
+gsap.registerPlugin(ScrollTrigger)
 
 type RevealProps = {
   children: ReactNode
@@ -12,44 +17,43 @@ type RevealProps = {
   duration?: number
 }
 
+/**
+ * Révélation à l'entrée dans le viewport (équivalent whileInView).
+ * SSR-safe : l'état rendu serveur est l'état final visible, l'animation
+ * n'est posée que côté client. Neutre si prefers-reduced-motion.
+ */
 export function Reveal({
   children,
   delay = 0,
   y = 50,
   className,
-  as = 'div',
+  as: Tag = 'div',
   once = true,
   duration = 0.9,
 }: RevealProps) {
-  const MotionTag = motion[as] as typeof motion.div
-  const reduceMotion = useReducedMotion()
+  const ref = useRef<HTMLElement>(null)
 
-  if (reduceMotion) {
-    return (
-      <MotionTag className={className} initial={false} animate={{ opacity: 1, y: 0 }}>
-        {children}
-      </MotionTag>
-    )
-  }
+  useGsapEffect(() => {
+    if (prefersReducedMotion() || !ref.current) return
+    gsap.from(ref.current, {
+      opacity: 0,
+      y,
+      duration,
+      delay,
+      ease: 'expo.out',
+      scrollTrigger: {
+        trigger: ref.current,
+        start: 'top 85%',
+        once,
+        toggleActions: once ? 'play none none none' : 'play none none reverse',
+      },
+    })
+  }, ref)
 
   return (
-    <MotionTag
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once, amount: 0.15 }}
-      variants={{
-        hidden: { opacity: 0, y },
-        visible: { opacity: 1, y: 0 },
-      }}
-      transition={{
-        duration,
-        delay,
-        ease: [0.16, 1, 0.3, 1],
-      }}
-    >
+    <Tag ref={ref as React.RefObject<never>} className={className}>
       {children}
-    </MotionTag>
+    </Tag>
   )
 }
 
@@ -60,69 +64,39 @@ type RevealStaggerProps = {
   className?: string
 }
 
+/**
+ * Cascade d'apparition des enfants directs du conteneur
+ * (équivalent staggerChildren + variants staggerItem).
+ */
 export function RevealStagger({
   children,
   stagger = 0.1,
   delay = 0,
   className,
 }: RevealStaggerProps) {
-  const reduceMotion = useReducedMotion()
-
-  if (reduceMotion) {
-    return (
-      <motion.div className={className} initial={false} animate="visible">
-        {children}
-      </motion.div>
-    )
-  }
-
-  return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.1 }}
-      variants={{
-        hidden: {},
-        visible: {
-          transition: {
-            staggerChildren: stagger,
-            delayChildren: delay,
-          },
-        },
-      }}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-export const staggerItem: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-  },
-}
-
-type ParallaxProps = {
-  children: ReactNode
-  speed?: number
-  className?: string
-}
-
-export function Parallax({ children, speed = 50, className }: ParallaxProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-  const y = useTransform(scrollYProgress, [0, 1], [speed, -speed])
+
+  useGsapEffect(() => {
+    const el = ref.current
+    if (prefersReducedMotion() || !el || el.children.length === 0) return
+    gsap.from(el.children, {
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      ease: 'expo.out',
+      stagger,
+      delay,
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 90%',
+        once: true,
+      },
+    })
+  }, ref)
 
   return (
     <div ref={ref} className={className}>
-      <motion.div style={{ y }}>{children}</motion.div>
+      {children}
     </div>
   )
 }

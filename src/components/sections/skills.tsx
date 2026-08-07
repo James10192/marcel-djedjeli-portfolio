@@ -1,9 +1,8 @@
 import { Server, Monitor, Database, GitBranch, Globe, Package } from 'lucide-react'
-import { Reveal, RevealStagger, staggerItem } from '@/components/primitives/reveal'
+import { Reveal, RevealStagger } from '@/components/primitives/reveal'
 import { SectionHeader } from '@/components/section-header'
 import { Marquee } from '@/components/primitives/marquee'
 import { skillGroups, techMarquee } from '@/data/skills'
-import { motion } from 'motion/react'
 
 const iconMap = {
   server: Server,
@@ -30,9 +29,8 @@ export function Skills() {
         {skillGroups.map((group) => {
           const Icon = iconMap[group.icon]
           return (
-            <motion.div
+            <div
               key={group.title}
-              variants={staggerItem}
               className="surface group relative p-8 md:p-9"
             >
               <div className="mb-5 inline-flex h-11 w-11 items-center justify-center border border-line text-accent transition-all duration-300 group-hover:border-accent group-hover:shadow-lime-glow">
@@ -51,7 +49,7 @@ export function Skills() {
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </div>
           )
         })}
       </RevealStagger>

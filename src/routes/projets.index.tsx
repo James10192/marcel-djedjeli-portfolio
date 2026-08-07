@@ -1,12 +1,11 @@
 import { useMemo } from 'react'
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { motion } from 'motion/react'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { publicCaseStudies } from '@/data/case-studies'
 import { FAMILY_LABEL, STATUS_META, familyOf, type Family } from '@/components/case-study/meta'
 import { ProjectLogo } from '@/components/case-study/project-logo'
 import { Nav } from '@/components/nav'
-import { RevealStagger, staggerItem } from '@/components/primitives/reveal'
+import { RevealStagger } from '@/components/primitives/reveal'
 import { cn } from '@/lib/utils'
 
 type FamilyFilter = Family | 'all'
@@ -112,7 +111,7 @@ function ProjectsIndex() {
           {items.map((c) => {
             const st = STATUS_META[c.status]
             return (
-              <motion.div key={c.slug} variants={staggerItem} className="surface">
+              <div key={c.slug} className="surface">
                 <Link
                   to="/projets/$slug"
                   params={{ slug: c.slug }}
@@ -179,7 +178,7 @@ function ProjectsIndex() {
                     <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             )
           })}
         </RevealStagger>

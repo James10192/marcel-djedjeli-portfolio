@@ -1,5 +1,8 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { useRef } from 'react'
+import gsap from 'gsap'
 import { Reveal } from '@/components/primitives/reveal'
+import { useGsapEffect } from '@/lib/use-gsap'
+import { prefersReducedMotion } from '@/lib/utils'
 
 function CodeLine({ n, children }: { n: number; children: React.ReactNode }) {
   return (
@@ -27,14 +30,21 @@ const profileLines: ProfileLine[] = [
   { k: 'company', v: '"African Digit Consulting"', link: 'https://africandigitconsulting.com' },
   { k: 'shipping', v: '"Klassci"', comment: '5 écoles · 7 600+ étudiants', link: 'https://klassci.com' },
   { k: 'location', v: '"Koumassi, Abidjan, CI"' },
-  { k: 'email', v: '"Marcel-_12@outlook.fr"', link: 'mailto:Marcel-_12@outlook.fr' },
+  { k: 'email', v: '"djedjelipatrick@gmail.com"', link: 'mailto:djedjelipatrick@gmail.com' },
   { k: 'graduate', v: '"BSc Hons · UCLan"' },
   { k: 'stack', v: '["Laravel","React","Next","TanStack"]' },
   { k: 'status', v: '"open to opportunities"', highlight: true },
 ]
 
 export function About() {
-  const prefersReducedMotion = useReducedMotion()
+  const badgeRingRef = useRef<HTMLDivElement>(null)
+
+  // Rotation continue du cadre pointillé (équivalent animate rotate 360, 24s, linéaire)
+  useGsapEffect(() => {
+    if (prefersReducedMotion() || !badgeRingRef.current) return
+    gsap.to(badgeRingRef.current, { rotation: 360, duration: 24, repeat: -1, ease: 'none' })
+  }, badgeRingRef)
+
   return (
     <section
       id="about"
@@ -79,13 +89,8 @@ export function About() {
                   MD
                 </span>
               </div>
-              <motion.div
-                animate={prefersReducedMotion ? undefined : { rotate: 360 }}
-                transition={
-                  prefersReducedMotion
-                    ? undefined
-                    : { duration: 24, repeat: Infinity, ease: 'linear' }
-                }
+              <div
+                ref={badgeRingRef}
                 className="pointer-events-none absolute -inset-3 border border-dashed border-accent/30"
               />
             </div>

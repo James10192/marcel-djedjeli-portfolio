@@ -1,5 +1,4 @@
 import { Mail, Phone, Github, MapPin, MessageCircle, ArrowUpRight } from 'lucide-react'
-import { motion } from 'motion/react'
 import { Reveal } from '@/components/primitives/reveal'
 import { Magnetic } from '@/components/primitives/magnetic'
 import { personal } from '@/data/personal'
@@ -126,10 +125,8 @@ export function Contact() {
                 {contactLinks.map((link) => {
                   const Icon = link.icon
                   const Inner = (
-                    <motion.div
-                      whileHover={{ x: 4 }}
-                      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                      className={`group flex items-center justify-between gap-4 rounded-sm px-3 py-3 transition-colors ${
+                    <div
+                      className={`group flex items-center justify-between gap-4 rounded-sm px-3 py-3 transition-[background-color,transform] duration-200 ease-out motion-safe:hover:translate-x-1 ${
                         link.href ? 'hover:bg-surface/60' : ''
                       }`}
                     >
@@ -146,7 +143,7 @@ export function Contact() {
                       {link.href && (
                         <ArrowUpRight className="h-4 w-4 flex-shrink-0 text-muted transition-colors group-hover:text-accent" />
                       )}
-                    </motion.div>
+                    </div>
                   )
                   return link.href ? (
                     <li key={link.cmd}>
