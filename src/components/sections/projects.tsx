@@ -1,7 +1,7 @@
 import { useRef } from 'react'
-import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGsapEffect } from '@/lib/use-gsap'
 import { Link } from '@tanstack/react-router'
 import { ExternalLink, Github, BookOpen, ArrowUpRight, ArrowRight } from 'lucide-react'
 import { SectionHeader } from '@/components/section-header'
@@ -12,7 +12,7 @@ import { publicCaseStudies } from '@/data/case-studies'
 import { ProjectLogo } from '@/components/case-study/project-logo'
 import { cn } from '@/lib/utils'
 
-gsap.registerPlugin(useGSAP, ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger)
 
 // Slugs disposant d'une étude de cas publique (pour afficher le lien dédié).
 const caseStudySlugs = new Set(publicCaseStudies.map((c) => c.slug))
@@ -21,32 +21,29 @@ export function Projects() {
   const pinRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia()
-      // Scroll horizontal épinglé UNIQUEMENT sur desktop + mouvement autorisé.
-      mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
-        const track = trackRef.current
-        const pin = pinRef.current
-        if (!track || !pin) return
-        const distance = () => track.scrollWidth - pin.clientWidth + 96
-        gsap.to(track, {
-          x: () => -distance(),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: pin,
-            start: 'top top',
-            end: () => '+=' + distance(),
-            pin: true,
-            scrub: 1,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        })
+  useGsapEffect(() => {
+    const mm = gsap.matchMedia()
+    // Scroll horizontal épinglé UNIQUEMENT sur desktop + mouvement autorisé.
+    mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
+      const track = trackRef.current
+      const pin = pinRef.current
+      if (!track || !pin) return
+      const distance = () => track.scrollWidth - pin.clientWidth + 96
+      gsap.to(track, {
+        x: () => -distance(),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: pin,
+          start: 'top top',
+          end: () => '+=' + distance(),
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
       })
-    },
-    { scope: pinRef },
-  )
+    })
+  }, pinRef)
 
   return (
     <section id="projects" className="border-t border-line py-20 md:py-28">

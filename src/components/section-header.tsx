@@ -1,11 +1,11 @@
 import { useRef } from 'react'
-import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin'
 import { Parallax } from '@/components/primitives/gsap-fx'
+import { useGsapEffect } from '@/lib/use-gsap'
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, DrawSVGPlugin)
+gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin)
 
 const reduced = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -27,9 +27,8 @@ export function SectionHeader({ num, title, caption }: SectionHeaderProps) {
   const pad = digits.length || 2
   const suffix = num.replace(/^\s*\d+/, '')
 
-  useGSAP(
-    () => {
-      if (reduced() || !ref.current) return
+  useGsapEffect(() => {
+    if (reduced() || !ref.current) return
 
       // Titre : révélation pilotée par le scroll (scrub).
       // fromTo + immediateRender:false => si le trigger ne se déclenche jamais,
@@ -70,9 +69,7 @@ export function SectionHeader({ num, title, caption }: SectionHeaderProps) {
       if (lineRef.current) {
         tl.from(lineRef.current, { drawSVG: '0%', duration: 0.85, ease: 'power2.inOut' }, 0.1)
       }
-    },
-    { scope: ref },
-  )
+  }, ref)
 
   return (
     <div ref={ref} className="mb-12 md:mb-16">

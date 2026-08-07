@@ -1,7 +1,7 @@
 import { useRef } from 'react'
-import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGsapEffect } from '@/lib/use-gsap'
 import {
   Rocket,
   Globe,
@@ -18,7 +18,7 @@ import { Magnetic } from '@/components/primitives/magnetic'
 import { personal } from '@/data/personal'
 import { cn } from '@/lib/utils'
 
-gsap.registerPlugin(useGSAP, ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger)
 
 const reduced = () =>
   typeof window !== 'undefined' &&
@@ -105,22 +105,19 @@ const OPTIONS = [
 export function Services() {
   const gridRef = useRef<HTMLDivElement>(null)
 
-  useGSAP(
-    () => {
-      if (reduced() || !gridRef.current) return
-      const cards = gridRef.current.querySelectorAll<HTMLElement>('[data-svc]')
-      // Une seule tween + stagger (compositor-friendly : transform + opacity).
-      gsap.from(cards, {
-        autoAlpha: 0,
-        y: 34,
-        duration: 0.6,
-        ease: 'power3.out',
-        stagger: 0.07,
-        scrollTrigger: { trigger: gridRef.current, start: 'top 82%', once: true },
-      })
-    },
-    { scope: gridRef },
-  )
+  useGsapEffect(() => {
+    if (reduced() || !gridRef.current) return
+    const cards = gridRef.current.querySelectorAll<HTMLElement>('[data-svc]')
+    // Une seule tween + stagger (compositor-friendly : transform + opacity).
+    gsap.from(cards, {
+      autoAlpha: 0,
+      y: 34,
+      duration: 0.6,
+      ease: 'power3.out',
+      stagger: 0.07,
+      scrollTrigger: { trigger: gridRef.current, start: 'top 82%', once: true },
+    })
+  }, gridRef)
 
   return (
     <section

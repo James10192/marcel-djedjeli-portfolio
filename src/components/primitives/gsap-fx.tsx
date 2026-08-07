@@ -1,9 +1,9 @@
 import { useRef, type ReactNode } from 'react'
-import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGsapEffect } from '@/lib/use-gsap'
 
-gsap.registerPlugin(useGSAP, ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger)
 
 const reduced = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -11,7 +11,7 @@ const reduced = () =>
 /**
  * Révélation pilotée par le scroll (scrub) : le contenu monte et se défloute
  * EN SUIVANT la position de scroll, pas en un fondu ponctuel.
- * SSR-safe (useGSAP côté client) et neutre si prefers-reduced-motion.
+ * SSR-safe (effet côté client uniquement) et neutre si prefers-reduced-motion.
  */
 export function ScrubReveal({
   children,
@@ -25,19 +25,16 @@ export function ScrubReveal({
   blur?: number
 }) {
   const ref = useRef<HTMLDivElement>(null)
-  useGSAP(
-    () => {
-      if (reduced() || !ref.current) return
-      gsap.from(ref.current, {
-        opacity: 0,
-        y,
-        filter: `blur(${blur}px)`,
-        ease: 'none',
-        scrollTrigger: { trigger: ref.current, start: 'top 90%', end: 'top 52%', scrub: 0.6 },
-      })
-    },
-    { scope: ref },
-  )
+  useGsapEffect(() => {
+    if (reduced() || !ref.current) return
+    gsap.from(ref.current, {
+      opacity: 0,
+      y,
+      filter: `blur(${blur}px)`,
+      ease: 'none',
+      scrollTrigger: { trigger: ref.current, start: 'top 90%', end: 'top 52%', scrub: 0.6 },
+    })
+  }, ref)
   return (
     <div ref={ref} className={className}>
       {children}
@@ -59,25 +56,22 @@ export function Parallax({
   speed?: number
 }) {
   const ref = useRef<HTMLDivElement>(null)
-  useGSAP(
-    () => {
-      // Parallaxe = desktop uniquement (perf mobile). transform-only (compositor).
-      const mm = gsap.matchMedia()
-      mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
-        if (!ref.current) return
-        gsap.fromTo(
-          ref.current,
-          { yPercent: speed },
-          {
-            yPercent: -speed,
-            ease: 'none',
-            scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: true },
-          },
-        )
-      })
-    },
-    { scope: ref },
-  )
+  useGsapEffect(() => {
+    // Parallaxe = desktop uniquement (perf mobile). transform-only (compositor).
+    const mm = gsap.matchMedia()
+    mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+      if (!ref.current) return
+      gsap.fromTo(
+        ref.current,
+        { yPercent: speed },
+        {
+          yPercent: -speed,
+          ease: 'none',
+          scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: true },
+        },
+      )
+    })
+  }, ref)
   return (
     <div ref={ref} className={className}>
       {children}

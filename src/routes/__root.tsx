@@ -1,4 +1,4 @@
-import { HeadContent, Scripts, createRootRoute, Outlet } from '@tanstack/react-router'
+import { HeadContent, Scripts, createRootRoute, Outlet, Link } from '@tanstack/react-router'
 import { ScrollProgress } from '@/components/scroll-progress'
 import appCss from '../styles.css?url'
 
@@ -79,7 +79,40 @@ export const Route = createRootRoute({
     ],
   }),
   shellComponent: RootDocument,
+  notFoundComponent: NotFound,
 })
+
+function NotFound() {
+  return (
+    <main className="flex min-h-svh flex-col items-center justify-center px-6 text-center">
+      <span className="mono-caps text-accent">erreur 404</span>
+      <h1 className="heading mt-4 text-[clamp(40px,10vw,110px)] leading-none">
+        Page
+        <br />
+        introuvable.
+      </h1>
+      <p className="mt-6 max-w-md text-sm leading-relaxed text-muted">
+        Cette page n'existe pas ou a été déplacée. Le reste du site, lui, tourne en production.
+      </p>
+      <div className="mt-10 flex flex-wrap justify-center gap-3">
+        <Link
+          to="/"
+          className="inline-flex h-11 items-center bg-accent px-6 font-mono text-xs uppercase tracking-wider transition-colors hover:bg-accent-soft"
+          style={{ color: '#0a0a08' }}
+        >
+          Retour à l'accueil
+        </Link>
+        <Link
+          to="/projets"
+          search={{ famille: 'all' }}
+          className="inline-flex h-11 items-center border border-line px-6 font-mono text-xs uppercase tracking-wider text-paper transition-colors hover:border-accent hover:text-accent"
+        >
+          Voir les études de cas
+        </Link>
+      </div>
+    </main>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
