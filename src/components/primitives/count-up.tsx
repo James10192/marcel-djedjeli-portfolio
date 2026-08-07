@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { cn } from '@/lib/utils'
+import { parseMetric, formatMetric } from '@/lib/metric'
 
 /**
  * Anime le nombre contenu dans une métrique (ex. "2 000+", "76 specs Vitest")
@@ -25,18 +26,9 @@ export function CountUp({
     if (!node) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    // Découpe "préfixe NOMBRE suffixe" — le nombre peut contenir des espaces
-    // (séparateur de milliers à la française) ou des séparateurs , et .
-    const match = value.match(/(\d[\d\s .,]*\d|\d)/)
-    if (!match) return
-    const target = Number(match[1].replace(/[\s .,]/g, ''))
-    const prefix = value.slice(0, match.index)
-    const suffix = value.slice((match.index ?? 0) + match[1].length)
-
-    const format = (n: number) =>
-      Math.round(n)
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+    const parsed = parseMetric(value)
+    if (!parsed) return
+    const { prefix, target, suffix } = parsed
 
     let tween: gsap.core.Tween | undefined
     const io = new IntersectionObserver(
@@ -49,7 +41,7 @@ export function CountUp({
           duration: 1.6,
           ease: 'power2.out',
           onUpdate: () => {
-            node.textContent = prefix + format(obj.n) + suffix
+            node.textContent = prefix + formatMetric(obj.n) + suffix
           },
           onComplete: () => {
             node.textContent = value // restaure le formatage exact d'origine
