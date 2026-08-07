@@ -72,7 +72,7 @@ export const Route = createRootRoute({
             addressRegion: 'Koumassi',
             addressCountry: 'CI',
           },
-          email: 'Marcel-_12@outlook.fr',
+          email: 'djedjelipatrick@gmail.com',
           telephone: '+2250705843901',
           sameAs: ['https://github.com/James10192'],
         }),

@@ -5,7 +5,7 @@ export const personal = {
   role: 'Full Stack Developer',
   currentRole: 'Head of Development @ African Digit Consulting',
   location: 'Koumassi, Abidjan, Côte d\'Ivoire',
-  email: 'Marcel-_12@outlook.fr',
+  email: 'djedjelipatrick@gmail.com',
   phone: '07 05 84 39 01',
   phoneIntl: '+2250705843901',
   whatsapp: '01 41 54 01 78',
