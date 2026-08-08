@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import gsap from 'gsap'
 import { Reveal } from '@/components/primitives/reveal'
+import { InteractiveTerminal } from '@/components/interactive-terminal'
 import { useGsapEffect } from '@/lib/use-gsap'
 import { prefersReducedMotion } from '@/lib/utils'
 
@@ -239,6 +240,11 @@ export function About() {
               </div>
               <span>ln {profileLines.length + 4}, col 22</span>
             </footer>
+          </div>
+
+          {/* Terminal réellement interactif : tapez help */}
+          <div className="mt-5">
+            <InteractiveTerminal />
           </div>
         </Reveal>
       </div>

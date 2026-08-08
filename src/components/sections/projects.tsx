@@ -10,6 +10,7 @@ import { CountUp } from '@/components/primitives/count-up'
 import { projects, type Project } from '@/data/projects'
 import { publicCaseStudies } from '@/data/case-studies'
 import { ProjectLogo } from '@/components/case-study/project-logo'
+import { BrowserFrame } from '@/components/browser-frame'
 import { cn } from '@/lib/utils'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -100,6 +101,15 @@ function ProjectCard({ p }: { p: Project }) {
         </h3>
 
         <p className={cn('mt-3 text-paper', p.featured ? 'text-base md:text-lg' : 'text-sm md:text-base')}>{p.tagline}</p>
+
+        {p.shot && (
+          <BrowserFrame
+            src={p.shot}
+            alt={`Le site ${p.title} en ligne`}
+            url={p.liveUrl?.replace(/^https?:\/\//, '')}
+            className="mt-5"
+          />
+        )}
 
         {p.metrics && (
           <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2 border-y border-line py-4">

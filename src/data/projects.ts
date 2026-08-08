@@ -11,6 +11,8 @@ export type Project = {
   featured?: boolean
   year: string
   metrics?: { value: string; label: string }[]
+  /** Capture du produit en ligne, servie depuis public/shots/. */
+  shot?: string
 }
 
 export const projects: Project[] = [
@@ -33,6 +35,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'klassci-landing',
+    shot: '/shots/klassci-landing.jpg',
     type: 'Vitrine SaaS · apex klassci.com',
     title: 'Klassci Landing',
     tagline: 'La page d\'acquisition de Klassci, sur l\'apex klassci.com.',
@@ -44,6 +47,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'filon',
+    shot: '/shots/filon.jpg',
     type: 'SaaS · Pipeline d\'opportunités',
     title: 'Filon',
     tagline: 'Ne laissez plus filer une opportunité de revenu.',
@@ -60,6 +64,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'esbtp',
+    shot: '/shots/esbtp.jpg',
     type: 'Proposition spontanée · Site vitrine',
     title: 'ESBTP',
     tagline: 'Refonte proposée du site de l\'École Spéciale du Bâtiment et des Travaux Publics.',
@@ -86,6 +91,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'itm',
+    shot: '/shots/itm.jpg',
     type: 'Vitrine premium',
     title: 'ITM Construction Métallique',
     tagline: 'Site vitrine + CMS pour un industriel d\'Abidjan.',
@@ -97,6 +103,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'sopremi',
+    shot: '/shots/sopremi.jpg',
     type: 'Cockpit B2B · Maquette',
     title: 'SOPREMI Cockpit',
     tagline: 'Cockpit opérationnel pour prestations minières.',
@@ -108,6 +115,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'iroko',
+    shot: '/shots/iroko.jpg',
     type: 'Package open source · npm',
     title: 'iroko',
     tagline: 'La config Claude Code que je voulais pour mes équipes.',
@@ -119,6 +127,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'fejeci',
+    shot: '/shots/fejeci.jpg',
     type: 'Site vitrine client',
     title: 'Fejeci',
     tagline: 'Site institutionnel livré chez ADC.',
