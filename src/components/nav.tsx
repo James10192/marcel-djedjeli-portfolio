@@ -1,15 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
-import { useLocation } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
 import gsap from 'gsap'
 import { cn, prefersReducedMotion } from '@/lib/utils'
+import { BrandMark } from '@/components/brand-mark'
 
 const links = [
   { hash: 'about', label: 'À propos' },
-  { hash: 'skills', label: 'Compétences' },
-  { hash: 'experience', label: 'Expérience' },
   { hash: 'projects', label: 'Projets' },
-  { hash: 'formation', label: 'Formation' },
+  { hash: 'machine-room', label: 'Preuves' },
   { hash: 'services', label: 'Services' },
+]
+
+// Vraies routes (pas des ancres) : méthode de travail et notes éditoriales.
+const routeLinks = [
+  { to: '/methode', label: 'Méthode' },
+  { to: '/notes', label: 'Notes' },
 ]
 
 export function Nav() {
@@ -101,8 +106,15 @@ export function Nav() {
         )}
         style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}
       >
-        <a href={onHome ? '#' : '/'} className="font-display text-lg font-extrabold tracking-tight text-accent">
-          LeVraiMD_DEV
+        <a
+          href={onHome ? '#' : '/'}
+          className="group flex items-center gap-2.5"
+          aria-label="Marcel DJEDJE-LI, accueil"
+        >
+          <BrandMark className="h-8 w-8 shrink-0 transition-opacity group-hover:opacity-80" />
+          <span className="font-display text-lg font-extrabold tracking-tight text-accent">
+            LeVraiMD_DEV
+          </span>
         </a>
 
         <ul className="hidden items-center gap-6 lg:flex xl:gap-8">
@@ -119,6 +131,17 @@ export function Nav() {
               >
                 {l.label}
               </a>
+            </li>
+          ))}
+          {routeLinks.map((r) => (
+            <li key={r.to}>
+              <Link
+                to={r.to}
+                className="mono-caps whitespace-nowrap text-muted transition-colors duration-200 hover:text-paper"
+                activeProps={{ className: 'mono-caps whitespace-nowrap text-paper' }}
+              >
+                {r.label}
+              </Link>
             </li>
           ))}
           <li>
@@ -181,6 +204,18 @@ export function Nav() {
               >
                 {l.label}
               </a>
+            </li>
+          ))}
+          {routeLinks.map((r) => (
+            <li key={r.to} className="border-b border-line">
+              <Link
+                to={r.to}
+                onClick={() => setOpen(false)}
+                tabIndex={open ? undefined : -1}
+                className="block px-10 py-5 text-center font-display text-2xl font-bold text-muted transition-colors hover:text-accent"
+              >
+                {r.label}
+              </Link>
             </li>
           ))}
           <li className="mt-8 flex justify-center">
