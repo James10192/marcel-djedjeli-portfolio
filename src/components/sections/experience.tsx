@@ -33,7 +33,8 @@ export function Experience() {
       className="border-t border-line px-6 py-20 md:px-12 md:py-28"
     >
       <SectionHeader
-        num="03 —"
+        num="03"
+        state="relevé chronologique"
         title="Expérience"
         caption="De la maintenance réseau au leadership tech, en 4 ans."
       />

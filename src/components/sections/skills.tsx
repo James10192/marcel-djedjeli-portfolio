@@ -20,7 +20,8 @@ export function Skills() {
       className="border-t border-line px-6 py-20 md:px-12 md:py-28"
     >
       <SectionHeader
-        num="02 —"
+        num="02"
+        state="nomenclature"
         title="Compétences"
         caption="La stack que j'utilise au quotidien, du proto à la production."
       />

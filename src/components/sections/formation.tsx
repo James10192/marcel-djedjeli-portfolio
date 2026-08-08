@@ -28,7 +28,7 @@ export function Formation() {
       id="formation"
       className="border-t border-line px-6 py-20 md:px-12 md:py-28"
     >
-      <SectionHeader num="06 —" title="Formation" />
+      <SectionHeader num="06" title="Formation" state="pièces justificatives" />
 
       <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2">
         {formations.map((f, i) => (

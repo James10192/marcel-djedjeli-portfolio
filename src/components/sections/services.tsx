@@ -133,7 +133,8 @@ export function Services() {
       </div>
 
       <SectionHeader
-        num="07 —"
+        num="07"
+        state="devis sur demande"
         title="Travaillons ensemble"
         caption="Sites, plateformes et applications sur mesure, du devis à la mise en ligne. Des formules claires pour démarrer vite, le sur-mesure pour les projets ambitieux."
       />

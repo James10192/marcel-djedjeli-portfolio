@@ -6,6 +6,7 @@ import { Link } from '@tanstack/react-router'
 import { ExternalLink, Github, BookOpen, ArrowUpRight, ArrowRight } from 'lucide-react'
 import { SectionHeader } from '@/components/section-header'
 import { TiltCard } from '@/components/primitives/tilt-card'
+import { Plate, PlateLabel } from '@/components/primitives/plate'
 import { CountUp } from '@/components/primitives/count-up'
 import { projects, type Project } from '@/data/projects'
 import { publicCaseStudies } from '@/data/case-studies'
@@ -47,10 +48,11 @@ export function Projects() {
   }, pinRef)
 
   return (
-    <section id="projects" className="border-t border-line py-20 md:py-28">
+    <section id="projects" className="pb-20 pt-6 md:pb-28 md:pt-8">
       <div className="px-6 md:px-12">
         <SectionHeader
-          num="04 —"
+          num="04"
+          state="ouvrages réalisés"
           title="Projets clés"
           caption="Quelques produits que j'ai conçus, codés et déployés. La plupart tournent en prod aujourd'hui. (Faites défiler : les cartes glissent à l'horizontale.)"
         />
@@ -87,13 +89,14 @@ export function Projects() {
 
 function ProjectCard({ p }: { p: Project }) {
   return (
-    <TiltCard intensity={6} className="surface group relative flex h-full flex-col overflow-hidden p-8 md:p-10">
-      <div className="tilt-content relative z-10 flex h-full flex-col">
-        <div className={cn('mb-5 flex flex-wrap items-start justify-between gap-x-4 gap-y-2', p.featured && 'pr-24 sm:pr-32')}>
-          <span className="mono-caps text-accent">{p.type}</span>
-          <span className="mono-caps whitespace-nowrap text-muted">{p.year}</span>
-        </div>
-
+    <TiltCard intensity={6} className="group flex h-full flex-col">
+      <Plate
+        label={p.featured ? `${p.type} · pièce maîtresse` : p.type}
+        labelRight={p.year}
+        tint
+        live
+        className="tilt-content relative z-10 flex h-full flex-col px-6 py-9 md:px-9 md:py-10"
+      >
         <ProjectLogo slug={p.slug} title={p.title} className={cn('mb-4', p.featured ? 'h-14 w-14' : 'h-11 w-11')} />
 
         <h3 className={cn('font-display font-extrabold tracking-tight leading-[1.05]', p.featured ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl')}>
@@ -126,12 +129,15 @@ function ProjectCard({ p }: { p: Project }) {
 
         <p className="mt-5 flex-1 text-[13.5px] leading-[1.75] text-muted">{p.description}</p>
 
-        <div className="mt-6 flex flex-wrap gap-1.5">
-          {p.tech.map((t) => (
-            <span key={t} className="border border-line px-2.5 py-1 text-[10.5px] uppercase tracking-wider text-muted">
-              {t}
-            </span>
-          ))}
+        <div className="mt-6">
+          <PlateLabel className="mb-2 block">matériaux</PlateLabel>
+          <div className="flex flex-wrap gap-x-3.5 gap-y-1.5">
+            {p.tech.map((t) => (
+              <span key={t} className="font-mono text-[11px] text-muted">
+                {t}
+              </span>
+            ))}
+          </div>
         </div>
 
         <div className="mt-6 flex flex-wrap gap-2">
@@ -139,7 +145,7 @@ function ProjectCard({ p }: { p: Project }) {
             <Link
               to="/projets/$slug"
               params={{ slug: p.slug }}
-              className="inline-flex h-9 items-center gap-1.5 bg-accent px-4 font-mono text-[11px] font-medium transition-colors hover:bg-accent-soft"
+              className="inline-flex h-11 items-center gap-1.5 bg-accent px-4 font-mono text-[11px] font-medium transition-colors hover:bg-accent-soft"
               style={{ color: '#0a0a08' }}
             >
               <ArrowUpRight className="h-3.5 w-3.5" />
@@ -152,7 +158,7 @@ function ProjectCard({ p }: { p: Project }) {
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
-                'inline-flex h-9 items-center gap-1.5 px-4 font-mono text-[11px] font-medium transition-colors',
+                'inline-flex h-11 items-center gap-1.5 px-4 font-mono text-[11px] font-medium transition-colors',
                 caseStudySlugs.has(p.slug) ? 'border border-line text-muted hover:border-accent hover:text-accent' : 'bg-accent hover:bg-accent-soft',
               )}
               style={caseStudySlugs.has(p.slug) ? undefined : { color: '#0a0a08' }}
@@ -162,25 +168,20 @@ function ProjectCard({ p }: { p: Project }) {
             </a>
           )}
           {p.githubUrl && (
-            <a href={p.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center gap-1.5 border border-line px-4 font-mono text-[11px] text-muted transition-colors hover:border-accent hover:text-accent">
+            <a href={p.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center gap-1.5 border border-line px-4 font-mono text-[11px] text-muted transition-colors hover:border-accent hover:text-accent">
               <Github className="h-3.5 w-3.5" />
               GitHub
             </a>
           )}
           {p.docsUrl && (
-            <a href={p.docsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center gap-1.5 border border-line px-4 font-mono text-[11px] text-muted transition-colors hover:border-accent hover:text-accent">
+            <a href={p.docsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center gap-1.5 border border-line px-4 font-mono text-[11px] text-muted transition-colors hover:border-accent hover:text-accent">
               <BookOpen className="h-3.5 w-3.5" />
               Docs
             </a>
           )}
         </div>
 
-        {p.featured && (
-          <div className="absolute right-0 top-0 bg-accent px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-wider" style={{ color: '#0a0a08' }}>
-            ★ Flagship
-          </div>
-        )}
-      </div>
+      </Plate>
     </TiltCard>
   )
 }

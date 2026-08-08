@@ -49,7 +49,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden border-t border-line px-6 py-20 md:px-12 md:py-28"
+      className="relative overflow-hidden px-6 pb-20 pt-6 md:px-12 md:pb-28 md:pt-8"
     >
       {/* Decorative giant section number */}
       <div

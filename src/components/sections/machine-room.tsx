@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowUpRight, Github, Package, Radio } from 'lucide-react'
 import { SectionHeader } from '@/components/section-header'
+import { Plate } from '@/components/primitives/plate'
 import { useGsapEffect } from '@/lib/use-gsap'
 import { prefersReducedMotion } from '@/lib/utils'
 import type { LiveMetric, LiveMetricsPayload } from '@/lib/live-metrics'
@@ -36,7 +37,7 @@ export function MachineRoom({ data }: { data: LiveMetricsPayload }) {
   return (
     <section
       id="machine-room"
-      className="relative overflow-hidden border-t border-line px-6 py-20 md:px-12 md:py-28"
+      className="relative overflow-hidden px-6 pb-20 pt-6 md:px-12 md:pb-28 md:pt-8"
     >
       <div
         className="pointer-events-none absolute right-2 top-8 font-display text-[100px] font-extrabold leading-none text-accent opacity-[0.025] md:right-12 md:top-12 md:text-[260px]"
@@ -46,7 +47,8 @@ export function MachineRoom({ data }: { data: LiveMetricsPayload }) {
       </div>
 
       <SectionHeader
-        num="05 —"
+        num="05"
+        state="lecture en direct"
         title="La salle des machines"
         caption="Les projets ci-dessus racontent ce que j'ai construit. Ces compteurs, eux, sont lus en direct sur npm et GitHub à chaque rendu de la page. Ni capture d'écran, ni chiffre saisi à la main."
       />
@@ -69,7 +71,7 @@ export function MachineRoom({ data }: { data: LiveMetricsPayload }) {
             <span className="text-accent">$</span> curl --silent registry.npmjs.org api.github.com
           </div>
 
-          <div ref={gridRef} className="grid grid-cols-1 gap-px overflow-hidden border border-line bg-line sm:grid-cols-3">
+          <div ref={gridRef} className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
             {data.metrics.map((m) => (
               <MetricTile key={m.key} metric={m} />
             ))}
@@ -134,7 +136,13 @@ export function MachineRoom({ data }: { data: LiveMetricsPayload }) {
 function MetricTile({ metric: m }: { metric: LiveMetric }) {
   const available = m.value !== null
   return (
-    <div data-metric className="bg-ink2 p-5 md:p-6">
+    <Plate
+      data-metric
+      label={available ? 'relevé' : 'hors service'}
+      size="sm"
+      quiet={!available}
+      className="px-4 py-6 md:px-5"
+    >
       <div className="mono-caps text-[10px] text-muted">{m.label}</div>
 
       {available ? (
@@ -159,6 +167,6 @@ function MetricTile({ metric: m }: { metric: LiveMetric }) {
       <p className="mt-3 text-[12.5px] leading-relaxed text-muted">
         {available ? m.detail : `Source non contactée : ${m.reason}. Aucune valeur affichée.`}
       </p>
-    </div>
+    </Plate>
   )
 }
