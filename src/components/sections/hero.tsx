@@ -92,13 +92,13 @@ export function Hero() {
             </div>
 
             <h1 className="heading leading-[1.02]">
-              <span className="block text-[clamp(30px,11cqi,74px)]">
+              <span className="block text-[clamp(30px,13.5cqi,104px)]">
                 <SplitText text="N'Guessan" delay={0.15} />
               </span>
-              <span className="block text-[clamp(34px,13cqi,86px)]">
+              <span className="block text-[clamp(34px,16cqi,124px)]">
                 <SplitText text="Marcel" delay={0.25} className="font-serif italic text-accent" />
               </span>
-              <span className="block text-[clamp(26px,10cqi,66px)]">
+              <span className="block text-[clamp(26px,12.2cqi,94px)]">
                 <SplitText text="DJEDJE-LI" delay={0.35} />
               </span>
             </h1>
