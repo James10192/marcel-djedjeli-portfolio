@@ -8,6 +8,7 @@ import { Skills } from '@/components/sections/skills'
 import { Experience } from '@/components/sections/experience'
 import { Projects } from '@/components/sections/projects'
 import { MachineRoom } from '@/components/sections/machine-room'
+import { Journal } from '@/components/sections/journal'
 import { Formation } from '@/components/sections/formation'
 import { Services } from '@/components/sections/services'
 import { Contact } from '@/components/sections/contact'
@@ -41,6 +42,8 @@ function Home() {
         <Projects />
         <SectionCut from="← ouvrages réalisés" to="compteurs en direct →" />
         <MachineRoom data={metrics} />
+        <SectionCut from="← compteurs en direct" to="notes de chantier →" />
+        <Journal />
         <Formation />
         <Services />
         <Contact />

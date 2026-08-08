@@ -129,11 +129,11 @@ export function Services() {
         className="pointer-events-none absolute right-2 top-8 font-display text-[100px] font-extrabold leading-none text-accent opacity-[0.025] md:right-12 md:top-12 md:text-[260px]"
         aria-hidden
       >
-        07
+        08
       </div>
 
       <SectionHeader
-        num="07"
+        num="08"
         state="devis sur demande"
         title="Travaillons ensemble"
         caption="Sites, plateformes et applications sur mesure, du devis à la mise en ligne. Des formules claires pour démarrer vite, le sur-mesure pour les projets ambitieux."
