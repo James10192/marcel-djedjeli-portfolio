@@ -415,6 +415,10 @@ export function InteractiveTerminal({
             autoCapitalize="off"
             spellCheck={false}
             aria-describedby={`${inputId}-hint`}
+            /* 16px obligatoire : sous ce seuil, iOS Safari zoome sur la page à
+               la prise de focus. Le champ étant transparent (le texte visible
+               est le span voisin), cette taille ne change rien à l'affichage. */
+            style={{ fontSize: '16px' }}
             className="terminal-input absolute inset-0 w-full bg-transparent text-transparent caret-transparent outline-none"
           />
           <span

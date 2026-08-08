@@ -47,7 +47,7 @@ export type Note = PublishedNote | UpcomingNote
  * confirmée : le CTA LinkedIn n'est alors simplement pas rendu, plutôt que de
  * livrer un lien mort en production. Renseigner l'URL suffit à l'activer.
  */
-export const LINKEDIN_URL = ''
+export const LINKEDIN_URL = 'https://www.linkedin.com/in/marcel-djedje-li-099490235/'
 
 export const notes: Note[] = [
   {

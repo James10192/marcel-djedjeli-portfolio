@@ -54,18 +54,26 @@ export function Projects() {
           num="04"
           state="ouvrages réalisés"
           title="Projets clés"
-          caption="Quelques produits que j'ai conçus, codés et déployés. La plupart tournent en prod aujourd'hui. (Faites défiler : les cartes glissent à l'horizontale.)"
+          caption="Quelques produits que j'ai conçus, codés et déployés. La plupart tournent en production aujourd'hui."
         />
       </div>
 
-      {/* Zone épinglée (desktop) / pile verticale (mobile) */}
-      <div ref={pinRef} className="relative flex items-center overflow-hidden lg:min-h-[100svh]">
+      {/* Zone épinglée : exactement une hauteur d'écran en desktop, pile
+          verticale libre en mobile. La carte tient dans ce budget, jamais
+          l'inverse : sur un portable 1280x720 comme sur un 27 pouces. */}
+      <div
+        ref={pinRef}
+        className="relative flex items-center overflow-hidden lg:h-[100svh]"
+      >
         <div
           ref={trackRef}
-          className="flex w-full flex-col gap-5 px-6 will-change-transform md:px-12 lg:w-auto lg:flex-row lg:gap-6 lg:pr-[12vw]"
+          className="flex w-full flex-col gap-5 px-6 will-change-transform md:px-12 lg:w-auto lg:flex-row lg:items-center lg:gap-6 lg:pr-[12vw]"
         >
           {projects.map((p) => (
-            <div key={p.slug} className="w-full shrink-0 lg:w-[clamp(380px,42vw,560px)]">
+            <div
+              key={p.slug}
+              className="w-full shrink-0 lg:w-[clamp(380px,40vw,540px)] lg:h-[min(680px,calc(100svh-6rem))]"
+            >
               <ProjectCard p={p} />
             </div>
           ))}
@@ -95,30 +103,35 @@ function ProjectCard({ p }: { p: Project }) {
         labelRight={p.year}
         tint
         live
-        className="tilt-content relative z-10 flex h-full flex-col px-6 py-9 md:px-9 md:py-10"
+        className="tilt-content relative z-10 flex h-full min-h-0 flex-col overflow-hidden px-6 py-7 md:px-8 md:py-8"
       >
-        <ProjectLogo slug={p.slug} title={p.title} className={cn('mb-4', p.featured ? 'h-14 w-14' : 'h-11 w-11')} />
+        <div className="flex items-start gap-4">
+          <ProjectLogo slug={p.slug} title={p.title} className={cn('shrink-0', p.featured ? 'h-12 w-12' : 'h-10 w-10')} />
+          <div className="min-w-0 flex-1">
+            <h3 className={cn('font-display font-extrabold tracking-tight leading-[1.05]', p.featured ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl')}>
+              {p.title}
+            </h3>
+            <p className={cn('mt-2 text-paper', p.featured ? 'text-[15px]' : 'text-sm')}>{p.tagline}</p>
+          </div>
+        </div>
 
-        <h3 className={cn('font-display font-extrabold tracking-tight leading-[1.05]', p.featured ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl')}>
-          {p.title}
-        </h3>
-
-        <p className={cn('mt-3 text-paper', p.featured ? 'text-base md:text-lg' : 'text-sm md:text-base')}>{p.tagline}</p>
-
+        {/* La capture absorbe l'espace disponible : elle rétrécit sur un écran
+            court et disparaît sous 720px de haut plutôt que de pousser les CTA
+            hors de la carte. */}
         {p.shot && (
           <BrowserFrame
             src={p.shot}
             alt={`Le site ${p.title} en ligne`}
             url={p.liveUrl?.replace(/^https?:\/\//, '')}
-            className="mt-5"
+            className="mt-4 hidden min-h-0 flex-1 lg:[@media(min-height:720px)]:block"
           />
         )}
 
         {p.metrics && (
-          <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2 border-y border-line py-4">
+          <div className="mt-4 flex flex-wrap gap-x-7 gap-y-1.5 border-y border-line py-3">
             {p.metrics.map((m) => (
               <div key={m.label}>
-                <div className="font-display text-2xl font-extrabold text-accent tabular-nums">
+                <div className="font-display text-xl font-extrabold text-accent tabular-nums">
                   <CountUp value={m.value} />
                 </div>
                 <div className="mono-caps text-muted">{m.label}</div>
@@ -127,20 +140,25 @@ function ProjectCard({ p }: { p: Project }) {
           </div>
         )}
 
-        <p className="mt-5 flex-1 text-[13.5px] leading-[1.75] text-muted">{p.description}</p>
+        <p className="mt-4 line-clamp-3 min-h-0 text-[13px] leading-[1.7] text-muted lg:[@media(min-height:900px)]:line-clamp-4">
+          {p.description}
+        </p>
 
-        <div className="mt-6">
-          <PlateLabel className="mb-2 block">matériaux</PlateLabel>
-          <div className="flex flex-wrap gap-x-3.5 gap-y-1.5">
-            {p.tech.map((t) => (
+        <div className="mt-auto pt-4">
+          <PlateLabel className="mb-1.5 block">matériaux</PlateLabel>
+          <div className="flex flex-wrap gap-x-3 gap-y-1">
+            {p.tech.slice(0, 6).map((t) => (
               <span key={t} className="font-mono text-[11px] text-muted">
                 {t}
               </span>
             ))}
+            {p.tech.length > 6 && (
+              <span className="font-mono text-[11px] text-muted/70">+{p.tech.length - 6}</span>
+            )}
           </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-2">
+        <div className="mt-4 flex flex-wrap gap-2">
           {caseStudySlugs.has(p.slug) && (
             <Link
               to="/projets/$slug"

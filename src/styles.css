@@ -142,14 +142,43 @@ html { overflow-x: clip; }
   color: var(--color-ink);
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--color-ink); }
-::-webkit-scrollbar-thumb {
-  background: var(--color-line);
-  border-radius: 3px;
+/* Scrollbar en grammaire de plan : une règle graduée dans la marge.
+   Le rail porte une graduation régulière, le curseur est un segment lime
+   encadré, comme un repère qu'on déplace sur une planche. */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+::-webkit-scrollbar-track {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      var(--color-line) 0 1px,
+      transparent 1px 12px
+    ),
+    var(--color-ink);
+  border-left: 1px solid var(--color-line);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line2);
+  border: 3px solid var(--color-ink);
+  border-radius: 0;
+  background-clip: padding-box;
+  transition: background-color 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active {
+  background: var(--color-accent);
+}
+::-webkit-scrollbar-corner {
+  background: var(--color-ink);
+}
+
+/* Firefox : pas de graduation possible, on garde le contraste et la teinte. */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line2) var(--color-ink);
+}
 
 /* Noise texture overlay */
 .noise-overlay::before {

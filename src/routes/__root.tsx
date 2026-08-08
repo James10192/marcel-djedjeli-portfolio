@@ -74,7 +74,10 @@ export const Route = createRootRoute({
           },
           email: 'djedjelipatrick@gmail.com',
           telephone: '+2250705843901',
-          sameAs: ['https://github.com/James10192'],
+          sameAs: [
+            'https://github.com/James10192',
+            'https://www.linkedin.com/in/marcel-djedje-li-099490235/',
+          ],
         }),
       },
     ],
