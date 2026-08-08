@@ -1,5 +1,13 @@
 import { Reveal } from '@/components/primitives/reveal'
 import { SectionHeader } from '@/components/section-header'
+import { Plate, PlateLabel } from '@/components/primitives/plate'
+
+/**
+ * Les pièces justificatives du plan : chaque diplôme est une planche cadrée.
+ * Le calque de gauche porte le niveau, l'étiquette de droite le millésime,
+ * exactement comme les épisodes du journal. Rien de bordé, rien de badgé :
+ * le détail (établissement, mention) passe en nomenclature mono.
+ */
 
 const formations = [
   {
@@ -30,34 +38,47 @@ export function Formation() {
     >
       <SectionHeader num="07" title="Formation" state="pièces justificatives" />
 
-      <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2">
+      {/* Bandeau de relevé : ce que couvre la planche. */}
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-b border-line pb-3">
+        <PlateLabel accent>relevé de diplômes</PlateLabel>
+        <PlateLabel>
+          <span className="tabular-nums">{formations.length}</span> pièces · Abidjan
+        </PlateLabel>
+      </div>
+
+      <div className="mt-9 grid grid-cols-1 items-stretch gap-6 md:grid-cols-2">
         {formations.map((f, i) => (
           <Reveal key={f.degree} delay={i * 0.1} className="flex">
-            <div className="surface group relative flex h-full w-full flex-col overflow-hidden p-8 md:p-10">
-              <div
-                className="pointer-events-none absolute -right-5 top-1/2 -translate-y-1/2 rotate-90 font-display text-6xl font-extrabold opacity-[0.04] transition-opacity duration-300 group-hover:opacity-[0.06] md:text-7xl"
-                aria-hidden
-              >
-                {f.badge}
+            <Plate
+              label={f.badge}
+              labelRight={f.year}
+              tint
+              className="flex h-full w-full min-w-0 flex-col px-6 py-9 md:px-9 md:py-10"
+            >
+              {/* Ligne de repères : le millésime en cote, l'établissement. */}
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                <span
+                  className="font-display text-[34px] font-extrabold leading-none tracking-tighter tabular-nums text-accent sm:text-[42px]"
+                  aria-hidden
+                >
+                  {f.year}
+                </span>
+                <span className="plate-dash hidden min-w-[40px] sm:block" aria-hidden />
+                <PlateLabel className="[overflow-wrap:anywhere]">{f.institution}</PlateLabel>
               </div>
 
-              <div className="font-display text-4xl font-extrabold leading-none text-accent md:text-5xl">
-                {f.year}
-              </div>
-              <div className="mt-2 text-xs text-muted">
-                {f.institution}
-                <br />
-                <em className="not-italic text-muted/80">{f.subtitle}</em>
-              </div>
-
-              <h3 className="mt-6 font-display text-lg font-bold leading-snug tracking-tight md:text-xl">
+              <h3 className="mt-6 font-display text-lg font-bold leading-snug tracking-tight [overflow-wrap:anywhere] md:text-xl">
                 {f.degree}
               </h3>
 
-              <p className="mt-4 flex-1 text-[13px] leading-[1.7] text-muted">
+              <PlateLabel className="mt-2.5 block [overflow-wrap:anywhere]">
+                {f.subtitle}
+              </PlateLabel>
+
+              <p className="mt-5 flex-1 text-[13px] leading-[1.7] text-muted">
                 {f.description}
               </p>
-            </div>
+            </Plate>
           </Reveal>
         ))}
       </div>
