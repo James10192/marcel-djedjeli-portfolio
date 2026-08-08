@@ -18,6 +18,11 @@ const LOGO_BY_SLUG: Record<string, string> = {
   akwaba: '/logos/akwaba.svg',
   'la-victoire': '/logos/la-victoire.png',
   byoma: '/logos/byoma.png',
+  filon: '/logos/filon.svg',
+  iroko: '/logos/iroko.png',
+  sopremi: '/logos/sopremi.png',
+  // SDAI est un outil interne sans marque propre : on affiche la banque cliente.
+  sdai: '/logos/nsia.png',
 }
 
 /** Initiales de repli depuis le titre (1 à 2 lettres). */
