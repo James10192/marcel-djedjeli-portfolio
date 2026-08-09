@@ -74,10 +74,14 @@ export function Plate({
         className,
       )}
     >
+      {/* Les étiquettes chevauchent le bord haut de la plaque : aucun parent ne
+          doit poser overflow-hidden, sinon elles sont rognées en deux. Sur
+          écran étroit, celle de gauche se tronque plutôt que de bousculer
+          celle de droite. */}
       {(label || labelRight) && (
         <div className="pointer-events-none absolute inset-x-5 top-0 flex -translate-y-1/2 items-center justify-between gap-3 md:inset-x-7">
-          {label ? <span className="plate-tag">{label}</span> : <span />}
-          {labelRight ? <span className="plate-tag">{labelRight}</span> : null}
+          {label ? <span className="plate-tag min-w-0 truncate">{label}</span> : <span />}
+          {labelRight ? <span className="plate-tag shrink-0">{labelRight}</span> : null}
         </div>
       )}
       {children}

@@ -73,14 +73,17 @@ function NotePage() {
               </span>
             </div>
 
-            <div className="mt-7 flex items-start gap-5 md:gap-7">
+            {/* Le numéro passe au-dessus du titre sur écran étroit : côte à
+                côte, il ne laissait pas assez de largeur et coupait les mots
+                longs du titre. */}
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-5 md:gap-7">
               <span
-                className="font-display text-[56px] font-extrabold leading-[0.8] tracking-tighter text-accent tabular-nums md:text-[80px]"
+                className="font-display text-[44px] font-extrabold leading-[0.8] tracking-tighter text-accent tabular-nums sm:text-[56px] md:text-[80px]"
                 aria-hidden
               >
                 {episodeLabel(note.episode)}
               </span>
-              <h1 className="heading min-w-0 flex-1 text-[clamp(26px,5.5vw,50px)]">
+              <h1 className="heading min-w-0 flex-1 text-[clamp(24px,5.5vw,50px)] [overflow-wrap:anywhere] [hyphens:auto]">
                 {note.title}
               </h1>
             </div>

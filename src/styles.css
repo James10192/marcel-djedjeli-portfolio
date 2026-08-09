@@ -300,6 +300,10 @@ html {
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 0.95;
+  /* Syne en extrabold produit des mots très larges : sans ce filet, un mot
+     long (« développeurs », « francophone ») déborde de sa colonne sur mobile
+     au lieu de se couper. */
+  overflow-wrap: anywhere;
 }
 
 .heading em {

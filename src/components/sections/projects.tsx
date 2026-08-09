@@ -103,12 +103,15 @@ function ProjectCard({ p }: { p: Project }) {
         labelRight={p.year}
         tint
         live
-        className="tilt-content relative z-10 flex h-full min-h-0 flex-col overflow-hidden px-6 py-7 md:px-8 md:py-8"
+        /* Pas d'overflow-hidden ici : l'étiquette de calque chevauche le bord
+           haut de la plaque et serait rognée en deux. Le budget de hauteur est
+           tenu par flex + min-h-0 + line-clamp, pas par un rognage. */
+        className="tilt-content relative z-10 flex h-full min-h-0 flex-col px-6 py-7 md:px-8 md:py-8"
       >
         <div className="flex items-start gap-4">
           <ProjectLogo slug={p.slug} title={p.title} className={cn('shrink-0', p.featured ? 'h-12 w-12' : 'h-10 w-10')} />
           <div className="min-w-0 flex-1">
-            <h3 className={cn('font-display font-extrabold tracking-tight leading-[1.05]', p.featured ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl')}>
+            <h3 className={cn('font-display font-extrabold tracking-tight leading-[1.05] [overflow-wrap:anywhere]', p.featured ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl')}>
               {p.title}
             </h3>
             <p className={cn('mt-2 text-paper', p.featured ? 'text-[15px]' : 'text-sm')}>{p.tagline}</p>
