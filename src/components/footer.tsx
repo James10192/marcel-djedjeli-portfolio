@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="border-t border-line px-6 py-10 md:px-12">
       <div className="flex flex-col items-center gap-6 text-center md:flex-row md:items-start md:justify-between md:text-left">
         <div className="flex items-center gap-3">
-          <BrandMark className="h-10 w-10 shrink-0" />
+          <BrandMark className="h-11 shrink-0" />
           <div>
             <span className="block font-display text-sm font-extrabold text-accent">
               {personal.shortName}

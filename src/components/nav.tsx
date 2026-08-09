@@ -111,7 +111,7 @@ export function Nav() {
           className="group flex items-center gap-2.5"
           aria-label="Marcel DJEDJE-LI, accueil"
         >
-          <BrandMark className="h-8 w-8 shrink-0 transition-opacity group-hover:opacity-80" />
+          <BrandMark className="h-9 shrink-0 transition-opacity group-hover:opacity-80" />
           <span className="font-display text-lg font-extrabold tracking-tight text-accent">
             LeVraiMD_DEV
           </span>

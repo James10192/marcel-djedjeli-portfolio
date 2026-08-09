@@ -13,6 +13,8 @@ export const personal = {
   github: 'James10192',
   githubUrl: 'https://github.com/James10192',
   linkedinUrl: 'https://www.linkedin.com/in/marcel-djedje-li-099490235/',
+  /** Affichage court : l'identifiant numérique de LinkedIn n'apporte rien à l'oeil. */
+  linkedinHandle: 'marcel-djedje-li',
   cvPdf: '/cv-djedje-li-marcel.pdf',
   servicesPdf: '/offre-services-marcel.pdf',
   tagline: "Je conçois des plateformes SaaS robustes pour l'Afrique francophone. Laravel, Next.js, React, et une obsession pour les détails.",

@@ -63,7 +63,7 @@ const contactLinks: ContactLink[] = [
   {
     id: 'in',
     channel: 'linkedin',
-    value: personal.linkedinUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''),
+    value: `linkedin.com/in/${personal.linkedinHandle}`,
     href: personal.linkedinUrl,
     icon: Linkedin,
   },
