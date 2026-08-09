@@ -5,12 +5,14 @@ import { Reveal } from '@/components/primitives/reveal'
 import { personal } from '@/data/personal'
 import {
   LINKEDIN_URL,
+  SITE_URL,
   episodeLabel,
   formatNoteDate,
   nextPublishedNote,
   publishedNoteBySlug,
   readingMinutes,
 } from '@/data/notes'
+import { ShareBar } from '@/components/share-bar'
 
 export const Route = createFileRoute('/notes/$slug')({
   component: NotePage,
@@ -24,6 +26,8 @@ export const Route = createFileRoute('/notes/$slug')({
     const note = loaderData?.note
     if (!note) return { meta: [{ title: 'Note introuvable · African Builder Notes' }] }
     const title = `${note.title} · African Builder Notes`
+    const url = `${SITE_URL}/notes/${note.slug}`
+    const image = `${SITE_URL}/og/notes/${note.slug}.png`
     return {
       meta: [
         { title },
@@ -31,8 +35,17 @@ export const Route = createFileRoute('/notes/$slug')({
         { property: 'og:type', content: 'article' },
         { property: 'og:title', content: title },
         { property: 'og:description', content: note.thesis },
+        { property: 'og:url', content: url },
+        { property: 'og:image', content: image },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: title },
+        { name: 'twitter:description', content: note.thesis },
+        { name: 'twitter:image', content: image },
         { property: 'article:published_time', content: note.date },
       ],
+      links: [{ rel: 'canonical', href: url }],
     }
   },
 })
@@ -106,17 +119,20 @@ function NotePage() {
         <div className="px-6 md:px-12">
           <div className="mx-auto max-w-3xl">
             {note.sections.map((section, i) => (
-              <Reveal as="section" key={section.heading} className="pb-10 md:pb-12" y={24}>
-                <div className="mb-5 flex items-baseline gap-4">
+              <Reveal as="section" key={section.heading} className="pb-12 md:pb-14" y={24}>
+                {/* Sous-titre en repère de plan : numéro cadré, titre, filet.
+                    Sur mobile le numéro reste compact au-dessus du titre pour
+                    laisser toute la largeur aux mots longs. */}
+                <div className="mb-6 border-t border-line pt-6">
                   <span className="font-mono text-[11px] tracking-widest text-accent tabular-nums">
-                    {String(i + 1).padStart(2, '0')} ·
+                    {String(i + 1).padStart(2, '0')}
                   </span>
-                  <h2 className="heading text-[clamp(20px,3.4vw,30px)]">{section.heading}</h2>
+                  <h2 className="heading mt-2 text-[clamp(21px,3.4vw,30px)]">{section.heading}</h2>
                 </div>
 
                 <div className="max-w-[68ch] space-y-5">
                   {section.paragraphs.map((p, j) => (
-                    <p key={j} className="text-[15px] leading-[1.85] text-paper/90 md:text-base">
+                    <p key={j} className="text-[16px] leading-[1.85] text-paper/90">
                       {p}
                     </p>
                   ))}
@@ -126,7 +142,7 @@ function NotePage() {
                       {section.bullets.map((b, j) => (
                         <li
                           key={j}
-                          className="flex items-start gap-3 text-[15px] leading-[1.8] text-paper/90"
+                          className="flex items-start gap-3 text-[16px] leading-[1.8] text-paper/90"
                         >
                           <span className="mt-[0.7em] h-1.5 w-1.5 shrink-0 bg-accent" aria-hidden />
                           <span>{b}</span>
@@ -154,34 +170,29 @@ function NotePage() {
               </p>
 
               <div className="mt-7 flex flex-wrap gap-2.5">
-                {LINKEDIN_URL ? (
-                  <a
-                    href={LINKEDIN_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex h-11 items-center gap-2 bg-accent px-5 font-mono text-[11px] font-medium transition-colors hover:bg-accent-soft"
-                    style={{ color: '#0a0a08' }}
-                  >
-                    <Linkedin className="h-3.5 w-3.5" />
-                    Répondre sur LinkedIn
-                  </a>
-                ) : null}
                 <a
                   href={`https://wa.me/${personal.whatsappIntl}?text=${encodeURIComponent(
                     `Bonjour Marcel, je réagis à la note ${episodeLabel(note.episode)} : ${note.title}`,
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={
-                    LINKEDIN_URL
-                      ? 'inline-flex h-11 items-center gap-2 border border-line px-5 font-mono text-[11px] text-paper transition-colors hover:border-accent hover:text-accent'
-                      : 'inline-flex h-11 items-center gap-2 bg-accent px-5 font-mono text-[11px] font-medium transition-colors hover:bg-accent-soft'
-                  }
-                  style={LINKEDIN_URL ? undefined : { color: '#0a0a08' }}
+                  className="inline-flex h-11 items-center gap-2 bg-accent px-5 font-mono text-[11px] font-medium transition-colors hover:bg-accent-soft"
+                  style={{ color: '#0a0a08' }}
                 >
                   <MessageCircle className="h-3.5 w-3.5" />
-                  Répondre sur WhatsApp
+                  Me répondre sur WhatsApp
                 </a>
+                {LINKEDIN_URL ? (
+                  <a
+                    href={LINKEDIN_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-11 items-center gap-2 border border-line px-5 font-mono text-[11px] text-paper transition-colors hover:border-accent hover:text-accent"
+                  >
+                    <Linkedin className="h-3.5 w-3.5" />
+                    Commenter sur LinkedIn
+                  </a>
+                ) : null}
                 <a
                   href={`mailto:${personal.email}?subject=${encodeURIComponent(
                     `African Builder Notes ${episodeLabel(note.episode)}`,
@@ -193,6 +204,15 @@ function NotePage() {
                 </a>
               </div>
             </aside>
+
+            {/* Partage : le lecteur convaincu devient distributeur */}
+            <div className="mt-10 max-w-[68ch]">
+              <ShareBar
+                url={`${SITE_URL}/notes/${note.slug}`}
+                title={`${note.title} · African Builder Notes ${episodeLabel(note.episode)}`}
+                summary={note.thesis}
+              />
+            </div>
           </div>
         </div>
 
