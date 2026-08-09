@@ -105,13 +105,23 @@ function NotePage() {
               {note.chapo}
             </p>
 
-            <p className="mt-8 flex max-w-[68ch] items-start gap-2.5 border-t border-line pt-6 text-[12.5px] leading-relaxed text-muted">
-              <Users className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
-              <span>
-                <span className="mono-caps text-accent">Pour qui · </span>
-                {note.audience}
-              </span>
-            </p>
+            <div className="mt-8 flex max-w-[68ch] flex-col gap-5 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <p className="flex items-start gap-2.5 text-[12.5px] leading-relaxed text-muted">
+                <Users className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
+                <span>
+                  <span className="mono-caps text-accent">Pour qui · </span>
+                  {note.audience}
+                </span>
+              </p>
+              <div className="shrink-0">
+                <ShareBar
+                  compact
+                  url={`${SITE_URL}/notes/${note.slug}`}
+                  title={`${note.title} · African Builder Notes ${episodeLabel(note.episode)}`}
+                  summary={note.thesis}
+                />
+              </div>
+            </div>
           </div>
         </header>
 

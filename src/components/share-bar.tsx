@@ -11,10 +11,13 @@ export function ShareBar({
   url,
   title,
   summary,
+  compact = false,
 }: {
   url: string
   title: string
   summary: string
+  /** Variante d'en-tête : icônes seules, sans étiquette de section. */
+  compact?: boolean
 }) {
   const [copied, setCopied] = useState(false)
 
@@ -41,6 +44,50 @@ export function ShareBar({
 
   const btn =
     'inline-flex h-11 items-center gap-2 border border-line px-4 font-mono text-xs text-paper transition-colors hover:border-accent hover:text-accent'
+
+  if (compact) {
+    const iconBtn =
+      'inline-flex h-11 w-11 items-center justify-center border border-line text-muted transition-colors hover:border-accent hover:text-accent'
+    return (
+      <div className="flex items-center gap-2">
+        <span className="mr-1 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+          Partager
+        </span>
+        <a
+          href={whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={iconBtn}
+          aria-label="Partager sur WhatsApp"
+        >
+          <MessageCircle className="h-4 w-4" />
+        </a>
+        <a
+          href={linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={iconBtn}
+          aria-label="Partager sur LinkedIn"
+        >
+          <Linkedin className="h-4 w-4" />
+        </a>
+        <a href={x} target="_blank" rel="noopener noreferrer" className={iconBtn} aria-label="Partager sur X">
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor" aria-hidden>
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+          </svg>
+        </a>
+        <button
+          type="button"
+          onClick={copy}
+          className={iconBtn}
+          aria-label={copied ? 'Lien copié' : 'Copier le lien'}
+          aria-live="polite"
+        >
+          {copied ? <Check className="h-4 w-4 text-accent" /> : <Link2 className="h-4 w-4" />}
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div>
