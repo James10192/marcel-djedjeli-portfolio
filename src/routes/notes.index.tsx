@@ -6,8 +6,9 @@ import { Plate, PlateLabel, SheetHeader } from '@/components/primitives/plate'
 import {
   episodeLabel,
   formatNoteDate,
-  notes,
+  nextUpcomingNote,
   publishedNotes,
+  shelfNotes,
   readingMinutes,
 } from '@/data/notes'
 import { canonicalLink, ogUrlMeta } from '@/lib/site'
@@ -35,7 +36,7 @@ export const Route = createFileRoute('/notes/')({
 })
 
 function NotesIndex() {
-  const upcomingCount = notes.length - publishedNotes.length
+  const next = nextUpcomingNote
 
   return (
     <>
@@ -80,13 +81,17 @@ function NotesIndex() {
             <p className="mt-6 font-mono text-[11px] uppercase tracking-wider text-muted">
               <span className="text-accent tabular-nums">{publishedNotes.length}</span> note
               {publishedNotes.length > 1 ? 's' : ''} publiée{publishedNotes.length > 1 ? 's' : ''}
-              <span className="mx-2 text-line2">·</span>
-              <span className="text-accent tabular-nums">{upcomingCount}</span> à venir
+              {next && (
+                <>
+                  <span className="mx-2 text-line2">·</span>
+                  prochain : épisode <span className="text-accent tabular-nums">{episodeLabel(next.episode)}</span>
+                </>
+              )}
             </p>
           </header>
 
           <RevealStagger className="mt-12 flex flex-col gap-4 md:mt-16 md:gap-5">
-            {notes.map((note) =>
+            {shelfNotes.map((note) =>
               note.status === 'publie' ? (
                 <article key={note.slug}>
                   <Link to="/notes/$slug" params={{ slug: note.slug }} className="group block">

@@ -30,7 +30,7 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { personal } from '@/data/personal'
 import { projects } from '@/data/projects'
 import { skillGroups } from '@/data/skills'
-import { episodeLabel, notes } from '@/data/notes'
+import { episodeLabel, shelfNotes } from '@/data/notes'
 import { cn } from '@/lib/utils'
 
 type LineKind = 'prompt' | 'text' | 'accent' | 'muted' | 'warn'
@@ -169,7 +169,7 @@ export function InteractiveTerminal({
       hint: 'la série African Builder Notes',
       run: () => [
         { kind: 'accent', text: 'African Builder Notes' },
-        ...notes.map(
+        ...shelfNotes.map(
           (n): Line => ({
             kind: n.status === 'publie' ? 'text' : 'muted',
             text: `  ${episodeLabel(n.episode)}  ${n.status === 'publie' ? '[publié] ' : '[à venir]'} ${n.title}`,

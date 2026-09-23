@@ -10,8 +10,9 @@ import { prefersReducedMotion } from '@/lib/utils'
 import {
   episodeLabel,
   formatNoteDate,
-  notes,
+  nextUpcomingNote,
   publishedNotes,
+  shelfNotes,
   readingMinutes,
   type Note,
   type PublishedNote,
@@ -95,8 +96,8 @@ export function Journal() {
 
   if (!featured) return null
 
-  const rest = notes.filter((n) => n.slug !== featured.slug)
-  const upcomingCount = notes.length - publishedNotes.length
+  const rest = shelfNotes.filter((n) => n.slug !== featured.slug)
+  const next = nextUpcomingNote
   const { before, emphasis, after } = splitTitle(featured)
 
   return (
@@ -126,8 +127,12 @@ export function Journal() {
         <PlateLabel>
           Abidjan · n° {episodeLabel(featured.episode)} ·{' '}
           <span className="tabular-nums">{publishedNotes.length}</span> parue
-          {publishedNotes.length > 1 ? 's' : ''} ·{' '}
-          <span className="tabular-nums">{upcomingCount}</span> en écriture
+          {publishedNotes.length > 1 ? 's' : ''}
+          {next && (
+            <>
+              {' '}· prochain : n° <span className="tabular-nums">{episodeLabel(next.episode)}</span>
+            </>
+          )}
         </PlateLabel>
       </div>
 

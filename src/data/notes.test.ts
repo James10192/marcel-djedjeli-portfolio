@@ -3,10 +3,12 @@ import {
   episodeLabel,
   formatNoteDate,
   nextPublishedNote,
+  nextUpcomingNote,
   notes,
   publishedNoteBySlug,
   publishedNotes,
   readingMinutes,
+  shelfNotes,
 } from './notes'
 
 describe('notes data', () => {
@@ -70,6 +72,17 @@ describe('notes data', () => {
     for (const n of publishedNotes) {
       expect(readingMinutes(n)).toBeGreaterThanOrEqual(3)
       expect(readingMinutes(n)).toBeLessThanOrEqual(10)
+    }
+  })
+
+  it("n'annonce que le prochain épisode, pas toute la série à venir", () => {
+    const next = nextUpcomingNote
+    const shelf = shelfNotes
+    expect(shelf.filter((n) => n.status === 'a-venir')).toEqual(next ? [next] : [])
+    expect(shelf.filter((n) => n.status === 'publie')).toEqual(publishedNotes)
+    if (next) {
+      const lowestUpcoming = Math.min(...notes.filter((n) => n.status === 'a-venir').map((n) => n.episode))
+      expect(next.episode).toBe(lowestUpcoming)
     }
   })
 })
