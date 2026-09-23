@@ -7,6 +7,7 @@ import { Magnetic } from '@/components/primitives/magnetic'
 import { Plate, PlateLabel, PlateMeasure, MarginNote } from '@/components/primitives/plate'
 import { useGsapEffect } from '@/lib/use-gsap'
 import { prefersReducedMotion } from '@/lib/utils'
+import { HeroProof } from './hero-proof'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -92,13 +93,13 @@ export function Hero() {
             </div>
 
             <h1 className="heading leading-[1.02]">
-              <span className="block text-[clamp(28px,9cqi,56px)] lg:text-[clamp(48px,9.6cqi,96px)]">
+              <span className="block text-[clamp(28px,9cqi,56px)] lg:text-[min(clamp(48px,9.6cqi,96px),9.5svh)]">
                 <SplitText text="N'Guessan" delay={0.15} />
               </span>
-              <span className="block text-[clamp(32px,11cqi,68px)] lg:text-[clamp(58px,11.6cqi,116px)]">
+              <span className="block text-[clamp(32px,11cqi,68px)] lg:text-[min(clamp(58px,11.6cqi,116px),11.5svh)]">
                 <SplitText text="Marcel" delay={0.25} className="font-serif italic text-accent" />
               </span>
-              <span className="block text-[clamp(26px,9.8cqi,52px)] lg:text-[clamp(44px,10.2cqi,86px)]">
+              <span className="block text-[clamp(26px,9.8cqi,52px)] lg:text-[min(clamp(44px,10.2cqi,86px),9svh)]">
                 <SplitText text="DJEDJE-LI" delay={0.35} />
               </span>
             </h1>
@@ -110,6 +111,34 @@ export function Hero() {
             <p data-hero-tagline className="mt-5 max-w-md text-[15px] leading-relaxed text-muted">
               {personal.tagline}
             </p>
+
+            {/* Les actions restent dans le premier écran, y compris en 1280x720. */}
+            <div data-hero-cta className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <Magnetic strength={0.3} className="w-full sm:w-auto">
+                <a
+                  href="#projects"
+                  className="inline-flex h-12 w-full items-center justify-center bg-accent px-7 font-mono text-sm font-medium transition-colors hover:bg-accent-soft sm:w-auto"
+                  style={{ color: '#0a0a08' }}
+                >
+                  Voir mes projets →
+                </a>
+              </Magnetic>
+              <Magnetic strength={0.3} className="w-full sm:w-auto">
+                <a
+                  href="#contact"
+                  className="plate plate-sm inline-flex h-12 w-full items-center justify-center px-7 font-mono text-sm text-paper transition-colors hover:text-accent sm:w-auto"
+                >
+                  Me contacter
+                </a>
+              </Magnetic>
+              <a
+                href={personal.cvPdf}
+                download
+                className="inline-flex h-12 items-center justify-center gap-2 px-2 font-mono text-sm text-muted underline decoration-line underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+              >
+                Télécharger le CV (PDF)
+              </a>
+            </div>
           </Plate>
 
           {/* Rangée de cotes */}
@@ -128,33 +157,6 @@ export function Hero() {
             </div>
           </div>
 
-          <div data-hero-cta className="flex flex-wrap items-center gap-3 sm:gap-4">
-            <Magnetic strength={0.3}>
-              <a
-                href="#projects"
-                className="inline-flex h-12 items-center bg-accent px-7 font-mono text-sm font-medium transition-colors hover:bg-accent-soft"
-                style={{ color: '#0a0a08' }}
-              >
-                Voir mes projets →
-              </a>
-            </Magnetic>
-            <Magnetic strength={0.3}>
-              <a
-                href="#contact"
-                className="plate plate-sm inline-flex h-12 items-center px-7 font-mono text-sm text-paper transition-colors hover:text-accent"
-              >
-                Me contacter
-              </a>
-            </Magnetic>
-            <a
-              href={personal.cvPdf}
-              download
-              className="inline-flex h-12 items-center gap-2 px-2 font-mono text-sm text-muted underline decoration-line underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
-            >
-              Télécharger le CV (PDF)
-            </a>
-          </div>
-
           {/* Nomenclature des matériaux : la pile technique, en légende de plan. */}
           <div>
             <PlateLabel className="mb-3 block">matériaux</PlateLabel>
@@ -170,10 +172,12 @@ export function Hero() {
 
         {/* Marge du plan : annotations et méthode publique.
             Sous le contenu principal sur petit écran, en colonne à droite au-delà. */}
-        <div data-hero-margin className="flex flex-col gap-8 lg:justify-between">
+        <div data-hero-margin className="flex flex-col gap-8">
           <MarginNote label="annotations" items={annotations} />
 
-          <Plate label="méthode publique" size="sm" tint className="px-5 py-5">
+          <HeroProof />
+
+          <Plate label="méthode publique" size="sm" tint className="px-5 py-5 lg:mt-auto">
             <p className="font-mono text-[12.5px] leading-relaxed text-paper">
               npx @james10192/iroko
               <span className="ml-0.5 inline-block h-[1em] w-[0.5em] translate-y-[0.12em] bg-accent" aria-hidden />
