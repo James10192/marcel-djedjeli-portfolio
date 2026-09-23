@@ -7,6 +7,7 @@ import { ProjectLogo } from '@/components/case-study/project-logo'
 import { Nav } from '@/components/nav'
 import { RevealStagger } from '@/components/primitives/reveal'
 import { cn } from '@/lib/utils'
+import { canonicalLink, ogUrlMeta } from '@/lib/site'
 
 type FamilyFilter = Family | 'all'
 
@@ -27,7 +28,9 @@ export const Route = createFileRoute('/projets/')({
         content:
           "Études de cas détaillées des plateformes conçues par Marcel DJEDJE-LI : architecture, décisions techniques, défis et impact. Klassci, AKWABA, SmartLink et plus.",
       },
+      ogUrlMeta('/projets'),
     ],
+    links: [canonicalLink('/projets')],
   }),
 })
 

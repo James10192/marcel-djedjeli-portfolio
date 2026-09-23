@@ -5,13 +5,13 @@ import { Reveal } from '@/components/primitives/reveal'
 import { personal } from '@/data/personal'
 import {
   LINKEDIN_URL,
-  SITE_URL,
   episodeLabel,
   formatNoteDate,
   nextPublishedNote,
   publishedNoteBySlug,
   readingMinutes,
 } from '@/data/notes'
+import { absoluteUrl, canonicalLink, ogUrlMeta } from '@/lib/site'
 import { ShareBar } from '@/components/share-bar'
 
 export const Route = createFileRoute('/notes/$slug')({
@@ -26,8 +26,8 @@ export const Route = createFileRoute('/notes/$slug')({
     const note = loaderData?.note
     if (!note) return { meta: [{ title: 'Note introuvable · African Builder Notes' }] }
     const title = `${note.title} · African Builder Notes`
-    const url = `${SITE_URL}/notes/${note.slug}`
-    const image = `${SITE_URL}/og/notes/${note.slug}.png`
+    const path = `/notes/${note.slug}`
+    const image = absoluteUrl(`/og/notes/${note.slug}.png`)
     return {
       meta: [
         { title },
@@ -35,7 +35,7 @@ export const Route = createFileRoute('/notes/$slug')({
         { property: 'og:type', content: 'article' },
         { property: 'og:title', content: title },
         { property: 'og:description', content: note.thesis },
-        { property: 'og:url', content: url },
+        ogUrlMeta(path),
         { property: 'og:image', content: image },
         { property: 'og:image:width', content: '1200' },
         { property: 'og:image:height', content: '630' },
@@ -45,7 +45,7 @@ export const Route = createFileRoute('/notes/$slug')({
         { name: 'twitter:image', content: image },
         { property: 'article:published_time', content: note.date },
       ],
-      links: [{ rel: 'canonical', href: url }],
+      links: [canonicalLink(path)],
     }
   },
 })
@@ -116,7 +116,7 @@ function NotePage() {
               <div className="shrink-0">
                 <ShareBar
                   compact
-                  url={`${SITE_URL}/notes/${note.slug}`}
+                  url={absoluteUrl(`/notes/${note.slug}`)}
                   title={`${note.title} · African Builder Notes ${episodeLabel(note.episode)}`}
                   summary={note.thesis}
                 />
@@ -218,7 +218,7 @@ function NotePage() {
             {/* Partage : le lecteur convaincu devient distributeur */}
             <div className="mt-10 max-w-[68ch]">
               <ShareBar
-                url={`${SITE_URL}/notes/${note.slug}`}
+                url={absoluteUrl(`/notes/${note.slug}`)}
                 title={`${note.title} · African Builder Notes ${episodeLabel(note.episode)}`}
                 summary={note.thesis}
               />

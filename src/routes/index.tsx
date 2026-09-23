@@ -14,12 +14,17 @@ import { Services } from '@/components/sections/services'
 import { Contact } from '@/components/sections/contact'
 import { SheetHeader, SectionCut } from '@/components/primitives/plate'
 import { getLiveMetrics } from '@/server/live-metrics'
+import { canonicalLink, ogUrlMeta } from '@/lib/site'
 
 export const Route = createFileRoute('/')({
   component: Home,
   // Les métriques sont résolues côté serveur : elles sont donc présentes dans
   // le HTML SSR. La server function ne jette jamais, le loader non plus.
   loader: () => getLiveMetrics(),
+  head: () => ({
+    meta: [ogUrlMeta('/')],
+    links: [canonicalLink('/')],
+  }),
 })
 
 function Home() {

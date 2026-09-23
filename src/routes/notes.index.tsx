@@ -10,6 +10,7 @@ import {
   publishedNotes,
   readingMinutes,
 } from '@/data/notes'
+import { canonicalLink, ogUrlMeta } from '@/lib/site'
 
 export const Route = createFileRoute('/notes/')({
   component: NotesIndex,
@@ -27,7 +28,9 @@ export const Route = createFileRoute('/notes/')({
         content:
           'Ce que j\'apprends en construisant des plateformes qui tournent vraiment, en Afrique francophone.',
       },
+      ogUrlMeta('/notes'),
     ],
+    links: [canonicalLink('/notes')],
   }),
 })
 

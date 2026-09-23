@@ -3,6 +3,7 @@ import { Download, ArrowLeft } from 'lucide-react'
 import { personal } from '@/data/personal'
 import { experiences } from '@/data/experiences'
 import { skillGroups } from '@/data/skills'
+import { canonicalLink, ogUrlMeta } from '@/lib/site'
 
 export const Route = createFileRoute('/cv')({
   component: CVPage,
@@ -13,7 +14,9 @@ export const Route = createFileRoute('/cv')({
         name: 'description',
         content: `CV de ${personal.shortName}, ${personal.role} basé à Abidjan.`,
       },
+      ogUrlMeta('/cv'),
     ],
+    links: [canonicalLink('/cv')],
   }),
 })
 

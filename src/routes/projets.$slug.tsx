@@ -17,6 +17,7 @@ import { ArchDiagram } from '@/components/case-study/arch-diagram'
 import { Reveal } from '@/components/primitives/reveal'
 import { CountUp } from '@/components/primitives/count-up'
 import { cn } from '@/lib/utils'
+import { canonicalLink, ogUrlMeta } from '@/lib/site'
 
 export const Route = createFileRoute('/projets/$slug')({
   component: CaseStudyPage,
@@ -33,8 +34,10 @@ export const Route = createFileRoute('/projets/$slug')({
         ? [
             { title: `${cs.title.split(/[,:]|\s[—–-]\s/)[0].trim()} — Étude de cas · Marcel DJEDJE-LI` },
             { name: 'description', content: cs.oneLiner },
+            ogUrlMeta(`/projets/${cs.slug}`),
           ]
         : [{ title: 'Étude de cas' }],
+      links: cs ? [canonicalLink(`/projets/${cs.slug}`)] : [],
     }
   },
 })

@@ -1,5 +1,6 @@
 import { HeadContent, Scripts, createRootRoute, Outlet, Link } from '@tanstack/react-router'
 import { ScrollProgress } from '@/components/scroll-progress'
+import { absoluteUrl } from '@/lib/site'
 import appCss from '../styles.css?url'
 
 export const Route = createRootRoute({
@@ -31,7 +32,9 @@ export const Route = createRootRoute({
           "Head of Development @ African Digit Consulting. Je conçois des plateformes SaaS robustes pour l'Afrique francophone.",
       },
       { property: 'og:site_name', content: "Marcel DJEDJE-LI · Portfolio" },
-      { property: 'og:image', content: '/og.png' },
+      // Open Graph exige une URL absolue : un chemin relatif donne un aperçu
+      // vide sur LinkedIn, WhatsApp et Facebook.
+      { property: 'og:image', content: absoluteUrl('/og.png') },
       { property: 'og:image:type', content: 'image/png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
@@ -43,12 +46,13 @@ export const Route = createRootRoute({
         name: 'twitter:description',
         content: 'Head of Development @ ADC. Laravel, React, Next.js, TanStack. Klassci en prod.',
       },
-      { name: 'twitter:image', content: '/og.png' },
+      { name: 'twitter:image', content: absoluteUrl('/og.png') },
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
       { rel: 'icon', href: '/favicon.ico' },
       { rel: 'manifest', href: '/manifest.json' },
+      { rel: 'alternate', type: 'application/rss+xml', title: 'African Builder Notes', href: absoluteUrl('/notes/rss.xml') },
       // Fonts critiques du premier viewport (titre display + corps mono)
       { rel: 'preload', href: '/fonts/syne-800.woff2', as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
       { rel: 'preload', href: '/fonts/dm-mono-400.woff2', as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },

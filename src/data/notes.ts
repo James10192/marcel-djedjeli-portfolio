@@ -49,9 +49,6 @@ export type Note = PublishedNote | UpcomingNote
  */
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/marcel-djedje-li-099490235/'
 
-/** Origine publique du site, pour les URLs absolues (OG, partage, canonical). */
-export const SITE_URL = 'https://marcel-djedjeli-portfolio.vercel.app'
-
 export const notes: Note[] = [
   {
     slug: 'former-des-batisseurs',

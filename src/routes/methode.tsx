@@ -6,6 +6,7 @@ import { WhatsAppFab } from '@/components/whatsapp-fab'
 import { Reveal } from '@/components/primitives/reveal'
 import { Magnetic } from '@/components/primitives/magnetic'
 import { personal } from '@/data/personal'
+import { canonicalLink, ogUrlMeta } from '@/lib/site'
 
 const IROKO_REPO = 'https://github.com/James10192/iroko'
 const IROKO_SITE = 'https://iroko-site.vercel.app'
@@ -83,8 +84,9 @@ export const Route = createFileRoute('/methode')({
         content:
           "Cinq étapes, cinq livrables concrets. Une méthode publique et outillée, pas un discours commercial.",
       },
-      { property: 'og:image', content: '/og.png' },
+      ogUrlMeta('/methode'),
     ],
+    links: [canonicalLink('/methode')],
   }),
 })
 
