@@ -181,7 +181,7 @@ export function Services() {
         className="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
       >
         {SERVICES.map((s) => (
-          <div key={s.name} data-svc className="will-change-transform">
+          <div key={s.name} data-svc>
             <ServiceCard service={s} />
           </div>
         ))}

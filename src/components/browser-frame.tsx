@@ -52,6 +52,12 @@ export type BrowserFrameProps = {
   href?: string
   /** Passe la capture en chargement prioritaire (première image visible). */
   priority?: boolean
+  /**
+   * Remplit la hauteur du parent (flex) au lieu d'imposer le ratio : la
+   * capture est rognée par le haut plutôt que de déborder sur le contenu
+   * voisin quand l'espace est plus court que le ratio.
+   */
+  fill?: boolean
   className?: string
 }
 
@@ -63,6 +69,7 @@ export function BrowserFrame({
   caption,
   href,
   priority = false,
+  fill = false,
   className,
 }: BrowserFrameProps) {
   const [failed, setFailed] = useState(false)
@@ -72,7 +79,8 @@ export function BrowserFrame({
     <div
       className={cn(
         'overflow-hidden rounded-[14px] border border-line bg-ink2',
-        href && 'transition-colors group-hover:border-accent/50',
+        fill && 'flex min-h-0 flex-1 flex-col',
+        href && 'transition-colors group-hover/frame:border-accent/50',
       )}
     >
       {/* Barre de titre */}
@@ -92,7 +100,10 @@ export function BrowserFrame({
       </div>
 
       {/* Zone image, ratio figé */}
-      <div className="relative w-full bg-ink" style={{ aspectRatio: ratio }}>
+      <div
+        className={cn('relative w-full overflow-hidden bg-ink', fill && 'min-h-0 flex-1')}
+        style={fill ? undefined : { aspectRatio: ratio }}
+      >
         {showImage ? (
           <img
             src={src}
@@ -100,7 +111,7 @@ export function BrowserFrame({
             loading={priority ? 'eager' : 'lazy'}
             decoding="async"
             onError={() => setFailed(true)}
-            className="absolute inset-0 h-full w-full object-cover object-top"
+            className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-[var(--ease-out-expo)] motion-safe:group-hover/frame:scale-[1.04]"
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
@@ -116,9 +127,14 @@ export function BrowserFrame({
   )
 
   return (
-    <figure className={cn('m-0', className)}>
+    <figure className={cn('group/frame m-0', fill && 'flex flex-col', className)}>
       {href ? (
-        <a href={href} target="_blank" rel="noopener noreferrer" className="group block">
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={fill ? 'flex min-h-0 flex-1 flex-col' : 'block'}
+        >
           {frame}
         </a>
       ) : (

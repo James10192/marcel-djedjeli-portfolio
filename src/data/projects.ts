@@ -80,6 +80,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'smartlink',
+    shot: '/shots/smartlink.jpg',
     type: 'SaaS · Profil numérique',
     title: 'SmartLink',
     tagline: 'Votre carte de visite, en QR code dynamique.',

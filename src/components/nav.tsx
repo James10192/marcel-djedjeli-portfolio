@@ -122,8 +122,9 @@ export function Nav() {
             <li key={l.hash}>
               <a
                 href={hrefFor(l.hash)}
+                aria-current={onHome && activeSection === l.hash ? 'location' : undefined}
                 className={cn(
-                  'mono-caps whitespace-nowrap transition-colors duration-200',
+                  'nav-link mono-caps whitespace-nowrap transition-colors duration-200',
                   onHome && activeSection === l.hash
                     ? 'text-paper'
                     : 'text-muted hover:text-paper'
@@ -137,8 +138,8 @@ export function Nav() {
             <li key={r.to}>
               <Link
                 to={r.to}
-                className="mono-caps whitespace-nowrap text-muted transition-colors duration-200 hover:text-paper"
-                activeProps={{ className: 'mono-caps whitespace-nowrap text-paper' }}
+                className="nav-link mono-caps whitespace-nowrap text-muted transition-colors duration-200 hover:text-paper"
+                activeProps={{ className: 'nav-link mono-caps whitespace-nowrap text-paper', 'aria-current': 'page' }}
               >
                 {r.label}
               </Link>

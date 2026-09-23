@@ -38,11 +38,14 @@ type Placed = DiagramNode & { col: number; row: number; x: number; y: number }
 export function ArchDiagram({
   nodes,
   edges,
+  compact = false,
 }: {
   nodes: DiagramNode[]
   edges: DiagramEdge[]
+  /** Aperçu dans une carte : pas de largeur minimale ni de scroll horizontal. */
+  compact?: boolean
 }) {
-  const { placed, byId, width, height, cols } = useMemo(() => {
+  const { placed, byId, width, height } = useMemo(() => {
     // Regroupe par colonne (ordre fixé par type), empile par ligne dans la colonne.
     const colMap = new Map<number, DiagramNode[]>()
     for (const n of nodes) {
@@ -73,14 +76,14 @@ export function ArchDiagram({
     const idMap = new Map(placedArr.map((p) => [p.id, p]))
     const w = PAD_X * 2 + sortedCols.length * COL_W - (COL_W - BOX_W)
     const h = PAD_Y * 2 + maxRows * ROW_H - (ROW_H - BOX_H)
-    return { placed: placedArr, byId: idMap, width: w, height: h, cols: sortedCols.length }
+    return { placed: placedArr, byId: idMap, width: w, height: h }
   }, [nodes])
 
   return (
-    <div className="overflow-x-auto">
+    <div className={compact ? 'h-full w-full' : 'overflow-x-auto'}>
       <svg
         viewBox={`0 0 ${width} ${height}`}
-        className="h-auto w-full min-w-[560px]"
+        className={compact ? 'h-full max-h-full w-full' : 'h-auto w-full min-w-[560px]'}
         role="img"
         aria-label="Diagramme d'architecture"
       >
@@ -172,7 +175,6 @@ export function ArchDiagram({
           )
         })}
       </svg>
-      {cols > 0 ? null : null}
     </div>
   )
 }

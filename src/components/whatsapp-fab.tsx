@@ -11,8 +11,8 @@ const SCROLL_THRESHOLD = 600
  * Bouton WhatsApp flottant.
  *
  * · rendu dans le HTML SSR (le lien existe toujours dans le document) ;
- * · révélé après 600 px de défilement, masqué quand le pied de page est à
- *   l'écran pour ne jamais recouvrir ses informations sur mobile ;
+ * · révélé après 600 px de défilement, masqué quand la section contact ou le
+ *   pied de page est à l'écran : il y ferait doublon et les recouvrirait ;
  * · masqué = retiré de l'ordre de tabulation et de l'arbre d'accessibilité ;
  * · sans transition si l'utilisateur demande moins d'animations.
  */
@@ -23,10 +23,11 @@ export function WhatsAppFab() {
   useEffect(() => {
     setReduced(prefersReducedMotion())
 
-    let footerVisible = false
+    /** Zones où le bouton ferait doublon : contact (canaux directs) et pied de page. */
+    const zones = new Set<Element>()
     let scrolledPast = false
 
-    const sync = () => setVisible(scrolledPast && !footerVisible)
+    const sync = () => setVisible(scrolledPast && zones.size === 0)
 
     const onScroll = () => {
       scrolledPast = window.scrollY > SCROLL_THRESHOLD
@@ -36,21 +37,21 @@ export function WhatsAppFab() {
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
 
-    const footer = document.querySelector('footer')
-    const observer = footer
-      ? new IntersectionObserver(
-          ([entry]) => {
-            footerVisible = entry.isIntersecting
-            sync()
-          },
-          { rootMargin: '0px 0px -8px 0px' },
-        )
-      : null
-    if (footer && observer) observer.observe(footer)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) zones.add(entry.target)
+          else zones.delete(entry.target)
+        }
+        sync()
+      },
+      { rootMargin: '0px 0px -8px 0px' },
+    )
+    document.querySelectorAll('#contact, footer').forEach((el) => observer.observe(el))
 
     return () => {
       window.removeEventListener('scroll', onScroll)
-      observer?.disconnect()
+      observer.disconnect()
     }
   }, [])
 
@@ -62,7 +63,7 @@ export function WhatsAppFab() {
       aria-label="Écrire à Marcel sur WhatsApp"
       aria-hidden={visible ? undefined : true}
       tabIndex={visible ? undefined : -1}
-      className="fixed right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-line bg-ink2 text-accent shadow-[0_18px_40px_-18px_rgba(0,0,0,0.9)] outline-offset-4 transition-colors hover:border-accent hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent md:right-6"
+      className="fixed right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-line bg-ink2 text-accent shadow-[0_18px_40px_-18px_rgba(0,0,0,0.9)] outline-offset-4 transition-colors hover:border-accent hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent md:right-6 md:h-14 md:w-14"
       style={{
         bottom: 'calc(env(safe-area-inset-bottom, 0px) + 1rem)',
         opacity: visible ? 1 : 0,
