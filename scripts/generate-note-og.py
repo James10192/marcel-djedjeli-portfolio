@@ -20,6 +20,7 @@ SERIF = os.path.join(FONTS, 'instrument-serif-400-italic.ttf')
 NOTES = [
     ('former-des-batisseurs', '01', "On forme des développeurs. Mais forme-t-on des bâtisseurs ?"),
     ('le-code-n-est-pas-le-produit', '02', "Le code n'est pas le produit."),
+    ('la-souverainete-se-finance', '03', "La souveraineté numérique se finance."),
 ]
 
 def brackets(d, x0, y0, x1, y1, arm=34, t=5, color=LIME):

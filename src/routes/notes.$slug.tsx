@@ -96,7 +96,7 @@ function NotePage() {
               >
                 {episodeLabel(note.episode)}
               </span>
-              <h1 className="heading min-w-0 flex-1 text-[clamp(24px,5.5vw,50px)] [overflow-wrap:anywhere] [hyphens:auto]">
+              <h1 className="heading min-w-0 flex-1 text-[clamp(24px,5.5vw,50px)] [overflow-wrap:anywhere] [hyphens:auto] [text-wrap:balance] sm:[hyphens:manual]">
                 {note.title}
               </h1>
             </div>

@@ -1,6 +1,7 @@
 import type { Note, PublishedNote, UpcomingNote } from './types'
 import { formerDesBatisseurs } from './episodes/01-former-des-batisseurs'
 import { leCodeNestPasLeProduit } from './episodes/02-le-code-n-est-pas-le-produit'
+import { laSouveraineteSeFinance } from './episodes/03-la-souverainete-se-finance'
 import { upcomingNotes } from './upcoming'
 
 export * from './types'
@@ -10,7 +11,12 @@ export { episodeLabel, readingMinutes, formatNoteDate } from './format'
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/marcel-djedje-li-099490235/'
 
 /** La série complète, dans l'ordre des épisodes. */
-export const notes: Note[] = [formerDesBatisseurs, leCodeNestPasLeProduit, ...upcomingNotes].sort(
+export const notes: Note[] = [
+  formerDesBatisseurs,
+  leCodeNestPasLeProduit,
+  laSouveraineteSeFinance,
+  ...upcomingNotes,
+].sort(
   (a, b) => a.episode - b.episode,
 )
 

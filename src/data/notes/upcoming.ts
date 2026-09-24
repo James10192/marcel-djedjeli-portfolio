@@ -6,16 +6,6 @@ import type { UpcomingNote } from './types'
  */
 export const upcomingNotes: UpcomingNote[] = [
   {
-    slug: 'la-souverainete-se-finance',
-    episode: 3,
-    status: 'a-venir',
-    title: 'La souveraineté numérique se finance.',
-    thesis:
-      "L'autonomie numérique suppose des entreprises rentables, capables de financer des équipes, la recherche, la maintenance et les infrastructures dans la durée.",
-    audience:
-      "Fondateurs, décideurs publics et investisseurs qui parlent de souveraineté sans parler de modèle économique.",
-  },
-  {
     slug: 'hackathons-et-entreprises-durables',
     episode: 4,
     status: 'a-venir',
